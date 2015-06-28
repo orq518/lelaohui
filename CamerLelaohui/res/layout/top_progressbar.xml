@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="35dp"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:background="@color/color_white" >
+
+    <TextView
+        android:id="@+id/camera_state_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="@string/login_stuta_camer"
+        android:textColor="@color/color_green" />
+
+    <ProgressBar
+        android:id="@+id/camera_state_progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:visibility="gone" />
+
+</LinearLayout>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/titlebar"
+        layout="@layout/custom_titlebar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1.0"
+                    android:src="@drawable/my" />
+
+                <TextView
+                    android:id="@+id/my_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2.0"
+                    android:gravity="left"
+                    android:text="null"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_green"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/Change_Password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/layout_selecter"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="5.0"
+                    android:gravity="left"
+                    android:text="修改密码"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:src="@drawable/arrow" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_green"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/service_fee"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/layout_selecter"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="5.0"
+                    android:gravity="left"
+                    android:text="服务缴费"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:src="@drawable/arrow" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/service_fee_dis"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_green" />
+
+            <LinearLayout
+                android:id="@+id/view_Binding"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/layout_selecter"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="5.0"
+                    android:gravity="left"
+                    android:text="摄像头绑定"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:src="@drawable/arrow" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/appyl_bind_dis"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_green" />
+
+            <LinearLayout
+                android:id="@+id/appyl_bind"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/layout_selecter"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="5.0"
+                    android:gravity="left"
+                    android:text="探望申请"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:src="@drawable/arrow" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/bind_user_dis"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_green" />
+
+            <LinearLayout
+                android:id="@+id/bind_user"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/layout_selecter"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="5.0"
+                    android:gravity="left"
+                    android:text="申请用户管理"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:src="@drawable/arrow" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/manager_users_dis"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_green" />
+
+            <LinearLayout
+                android:id="@+id/bind_user_query"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/layout_selecter"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="5.0"
+                    android:gravity="left"
+                    android:text="申请状态查询"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:src="@drawable/arrow" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/bind_user_query_dis"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_green" />
+
+            <LinearLayout
+                android:id="@+id/remainder_days_query"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/layout_selecter"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="5.0"
+                    android:gravity="left"
+                    android:text="探望剩余天数查询"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:src="@drawable/arrow" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/remainder_days_query_dis"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_green" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

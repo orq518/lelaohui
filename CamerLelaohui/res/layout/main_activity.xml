@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/titlebar"
+        layout="@layout/custom_titlebar" />
+
+    <ImageView
+        android:id="@+id/iv_info_detail_pic"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/titlebar"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="1.0"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/test"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/iv_info_detail_pic"
+        android:layout_weight="1.5"
+        android:background="@color/orange"
+        android:orientation="vertical" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5.0" />
+
+        <LinearLayout
+            android:id="@+id/indicator_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

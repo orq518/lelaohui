@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lv_se">#ff00dd11</color>
+    <color name="touming_se">#00000000</color>
+    <color name="bai_se">#ffffffff</color>
+    <color name="hong_se">#FF0000</color>
+    <color name="hei_se">#ff000000</color>
+</resources>

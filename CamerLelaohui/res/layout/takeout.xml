@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bai_se"
+    android:orientation="vertical" >
+
+    <com.viewpagerindicator.TabPageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/base_action_bar_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/bai_se"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/breakfast"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/layout_selecter"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="早餐"
+                android:textColor="@android:color/black"
+                android:textSize="24dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_green" />
+
+            <TextView
+                android:id="@+id/lunch"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/layout_selecter"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="中餐"
+                android:textColor="@android:color/black"
+                android:textSize="24dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_green" />
+
+            <TextView
+                android:id="@+id/dinner"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/layout_selecter"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="晚餐"
+                android:textColor="@android:color/black"
+                android:textSize="24dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_green" />
+
+            <TextView
+                android:id="@+id/snacks"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/layout_selecter"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="加餐"
+                android:textColor="@android:color/black"
+                android:textSize="24dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_green" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@color/bg_color" >
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/custom_titlebar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            style="@style/height_wrap"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/phone_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:hint="管理员手机号码" />
+
+            <Button
+                android:id="@+id/btn_jf_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/background_task_btn_accept"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="查询"
+                android:textColor="@color/bai_se" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/visit_start_time"
+            style="@style/height_wrap"
+            android:orientation="horizontal" >
+
+            <TextView
+                style="@style/width_wrap"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="探视开始时间"
+                android:textColor="@android:color/black"
+                android:textSize="18dp" />
+
+            <Spinner
+                style="@style/width_wrap"
+                android:layout_weight="1.2"
+                android:entries="@array/start" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/visit_end_time"
+            style="@style/height_wrap"
+            android:orientation="horizontal" >
+
+            <TextView
+                style="@style/width_wrap"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="探视結束时间"
+                android:textColor="@android:color/black"
+                android:textSize="18dp" />
+
+            <Spinner
+                style="@style/width_wrap"
+                android:layout_weight="1.2"
+                android:entries="@array/end" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/height_wrap"
+            android:orientation="horizontal" >
+
+            <ListView
+                android:id="@+id/did_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" >
+            </ListView>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

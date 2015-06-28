@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        layout="@layout/custom_titlebar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/camera_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3.0"
+                    android:gravity="center"
+                    android:hint="摄像头编号" />
+
+                <Button
+                    android:id="@+id/search_did"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/background_task_btn_accept"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="搜索"
+                    android:textColor="@android:color/white"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+          <!--   <EditText
+                android:id="@+id/camera_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:hint="摄像头用户"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/camera_pws"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:hint="摄像头密码"
+                android:textSize="20dp" 
+                android:inputType="textPassword"/>
+ -->
+            <LinearLayout
+                android:id="@+id/visit_starttime"
+                style="@style/height_wrap"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/width_wrap"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:text="探视开始时间"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <Spinner
+                    android:id="@+id/visit_time"
+                    style="@style/width_wrap"
+                    android:layout_weight="1.2"
+                    android:entries="@array/start" />
+            </LinearLayout>
+            <LinearLayout
+                  android:id="@+id/visit_endtime"
+                style="@style/height_wrap"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/width_wrap"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:text="探视结束时间"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <Spinner
+                    android:id="@+id/visit_time"
+                    style="@style/width_wrap"
+                    android:layout_weight="1.2"
+                    android:entries="@array/end" />
+            </LinearLayout>
+           <ListView 
+                android:id="@+id/list_did"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+                
+            </ListView> 
+            <Button
+                android:id="@+id/btn_sure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/background_task_btn_accept"
+                android:paddingBottom="10dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingTop="10dp"
+                android:text="确定"
+                android:textColor="@android:color/white"
+                android:textSize="20dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

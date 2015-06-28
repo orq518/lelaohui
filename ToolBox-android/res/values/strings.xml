@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HappyOldMan-android</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="text_test">测试</string>
+    
+    <string name="pppp_status_connecting">正在连接</string>
+    <string name="pppp_status_connect_failed">连接失败</string>
+    <string name="pppp_status_disconnect">断线</string>
+    <string name="pppp_status_initialing">已连接, 正在初始化</string>
+    <string name="pppp_status_invalid_id">ID号无效</string>
+    <string name="pppp_status_online">在线</string>
+    <string name="device_not_on_line">摄像机不在线</string>
+    <string name="pppp_status_connect_timeout">连接超时</string>
+    <string name="pppp_status_pwd_error">密码错误</string>
+    <string name="pppp_status_unknown">未知状态</string>
+
+</resources>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp" >
+
+        <TextView
+            android:id="@+id/item_tile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+                   android:textColor="@color/color_black"
+            android:layout_marginLeft="8dp" />
+
+        <ImageView
+            android:id="@+id/item_arrow"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+                   android:textColor="@color/color_black"
+            android:src="@drawable/arrow" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/darker_gray"
+         android:layout_marginTop="5dp" />
+
+    <LinearLayout
+        android:id="@+id/expandView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout style="@style/row_layout" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="摄像头"
+                android:textColor="@color/color_black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/camreName"
+                android:layout_width="0dp"
+                       android:textColor="@color/color_black"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/row_layout" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="管理员"
+                android:textColor="@color/color_black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/admin"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                       android:textColor="@color/color_black"
+                android:layout_weight="1.0" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/row_layout" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="管理员手机号"
+                android:textColor="@color/color_black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                       android:textColor="@color/color_black"
+                android:layout_weight="1.0" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/row_layout" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="状态"
+                android:textColor="@color/color_black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                       android:textColor="@color/color_black"
+                android:layout_weight="1.0" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/row_layout" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="操作时间"
+                android:textColor="@color/color_black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                       android:textColor="@color/color_black"
+                android:layout_weight="1.0" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_green" />
+
+</LinearLayout>

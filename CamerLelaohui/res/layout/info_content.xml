@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical" 
+    android:background="@color/color_white">
+    
+  <!--   <LinearLayout
+        android:id="@+id/processvessel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" 
+        android:visibility="visible" >
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:indeterminate="false"
+            android:padding="2dip"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/progressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="数据加载中......"
+            android:textSize="@dimen/content_title_textSize" 
+            android:visibility="visible" />
+    </LinearLayout> -->
+    <include layout="@layout/custom_titlebar"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:scrollbars="none" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+            <View 
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/tv_info_detail_time"
+                />
+            <TextView
+                android:id="@+id/tv_info_detail_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_info_detail_pic"
+                android:lineSpacingExtra="2dp"
+                android:autoLink="web"
+                android:lineSpacingMultiplier="1"
+                android:padding="@dimen/padding_level2"
+                android:text=""
+                android:textSize="@dimen/font_size_normal" />
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:scrollbars="none" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical" 
+        >
+        <include
+            layout="@layout/custom_titlebar" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/enroll_layout_margin"
+            android:background="@android:color/white"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="@string/login_name"
+                android:textSize="@dimen/text_size_20dp" 
+                android:textColor="@android:color/black"/>
+
+            <EditText
+                android:id="@+id/userName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.0"
+                android:hint="@string/btn_enroll_edit"
+                android:inputType="text"
+                android:textSize="@dimen/text_size_20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/enroll_layout_margin"
+            android:background="@android:color/white"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="@string/user_pwd"
+                android:textSize="@dimen/text_size_20dp"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/userPwd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.0"
+                android:hint="@string/password_edit"
+                android:inputType="textPassword"
+                android:textSize="@dimen/text_size_20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/enroll_layout_margin"
+            android:background="@android:color/white"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="@string/user_phone"
+                android:textSize="@dimen/text_size_20dp" 
+                android:textColor="@android:color/black"/>
+
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.0"
+                android:hint="@string/user_phone_edit"
+                android:inputType="phone"
+                android:textSize="@dimen/text_size_20dp" />
+        </LinearLayout>
+
+       <!--  <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/enroll_layout_margin"
+            android:background="@android:color/white"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="@string/cameraCode"
+                android:textSize="@dimen/text_size_20dp" 
+                android:textColor="@android:color/black"/>
+
+            <EditText
+                android:id="@+id/cameraCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.0"
+                android:hint="@string/cameraCode_edit"
+                android:inputType="text"
+                android:textSize="@dimen/text_size_20dp" />
+        </LinearLayout>
+ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/enroll_layout_margin"
+            android:background="@android:color/white"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="@string/user_name_1"
+                android:textSize="@dimen/text_size_20dp"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/real_Name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.0"
+                android:hint="@string/user_name_edit_1"
+                android:inputType="text"
+                android:textSize="@dimen/text_size_20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/enroll_layout_margin"
+            android:background="@android:color/white"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="@string/gender_2"
+                android:textSize="@dimen/text_size_20dp" 
+                android:textColor="@android:color/black"/>
+
+            <RadioGroup
+                android:id="@+id/nursingType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.0"
+                android:orientation="horizontal" 
+                >
+
+                <RadioButton
+                    android:id="@+id/user_org"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:text="@string/organization_1"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_20dp" 
+                    />
+
+                <RadioButton
+                    android:id="@+id/user_home"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:checked="true"
+                    android:text="@string/home" 
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_20dp" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/enroll_layout_margin"
+            android:background="@android:color/white"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="@string/gender"
+                android:textSize="@dimen/text_size_20dp" 
+                android:textColor="@android:color/black"/>
+
+            <RadioGroup
+                android:id="@+id/gender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.0"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/male"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:checked="true"
+                    android:text="@string/man" 
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_20dp" />
+
+                <RadioButton
+                    android:id="@+id/female"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:text="@string/woman" 
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_20dp" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_login_btn_to_top"
+            android:orientation="horizontal" >
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btn_enroll_login"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@drawable/background_task_btn_accept"
+                android:text="@string/btn_determine"
+                android:textColor="@android:color/white" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

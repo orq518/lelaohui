@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical" >
+
+    <include layout="@layout/custom_titlebar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/shebei_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="@string/shexiangtouDID" />
+
+        <LinearLayout style="@style/row_layout" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="@string/shenqinguser"
+                android:textColor="@color/color_black"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/apply_Name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:hint="@string/shenqingname" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/row_layout" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="@string/dianhua"
+                android:textColor="@color/color_black"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/apply_phone"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:hint="@string/dianhuacode" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/remak_layout"
+            style="@style/row_layout" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="@string/reamrk"
+                android:textColor="@color/color_black"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/apply_remark"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:hint="@string/remark_hint" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/row_layout" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="@string/shenqingshijian"
+                android:textColor="@color/color_black"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/apply_time"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:hint="@string/shenqingshijian" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/row_layout" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="探视开始时间"
+                android:textColor="@color/color_black"
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/select_start_time"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:entries="@array/start" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/row_layout" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="探视结束时间"
+                android:textColor="@color/color_black"
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/select_end_time"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:entries="@array/end" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/row_layout"
+            android:layout_marginTop="20dp" >
+
+            <Button
+                android:id="@+id/apply_pass"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:text="同意绑定" />
+
+            <Button
+                android:id="@+id/apply_failure"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:text="解除绑定" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

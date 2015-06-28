@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@android:color/white">
+
+    <include layout="@layout/custom_titlebar" />
+
+    <ScrollView style="@style/height_wrap" 
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp">
+
+        <LinearLayout
+            style="@style/all_match"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                style="@style/height_wrap"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/camera_did"
+                    style="@style/width_0dp"
+                    android:layout_weight="3.0"
+                    android:gravity="center"
+                    android:hint="摄像头号码" />
+
+                <Button
+                    android:id="@+id/camera_search"
+                    style="@style/width_0dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/background_task_btn_accept"
+                    android:text="搜索"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/font_size_18dp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/camera_user"
+                style="@style/height_wrap"
+                android:hint="摄像头用户" 
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_10dp"/>
+            <EditText
+                android:id="@+id/camera_pwd"
+                style="@style/height_wrap"
+                android:hint="摄像头密码" 
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_10dp"/>
+            <LinearLayout 
+                style="@style/height_wrap"
+                android:layout_marginTop="@dimen/margin_40dp"
+                android:orientation="horizontal"
+                >
+                <View 
+                    style="@style/width_0dp"
+                    android:layout_weight="1.0"
+                    />
+                <Button 
+                    android:id="@+id/camera_ok"
+                    style="@style/width_0dp"
+                    android:layout_weight="2.0"
+                    android:text="确定 "
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/font_size_18dp"
+                    android:background="@drawable/background_task_btn_accept"
+                    />
+                <View 
+                    style="@style/width_0dp"
+                    android:layout_weight="1.0"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
