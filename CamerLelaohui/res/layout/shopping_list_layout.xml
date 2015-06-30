@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/buy_list_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:background="@color/help_button_view"
+    android:padding="5dp">
+    <TextView
+        android:id="@+id/totle_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="已经选购xx元"
+        android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/delete_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="全部删除"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_white"
+        android:layout_alignParentRight="true"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:background="@drawable/btn_back_selector"
+        android:textSize="14sp"/>
+
+    <ListView
+        android:id="@+id/food_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/totle_price"/>
+</RelativeLayout>

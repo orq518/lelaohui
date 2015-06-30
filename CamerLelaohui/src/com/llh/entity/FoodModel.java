@@ -42,4 +42,9 @@ public class FoodModel {
 	 */
 	public String remark;//	:	营养丰富
 
+	/**
+	 * 购买数量
+	 */
+	public int buyNum;
+
 }
