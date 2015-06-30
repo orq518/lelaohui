@@ -18,7 +18,6 @@
     <string name="btn_login">登录</string>
     <string name="btn_enroll">注册</string>
     <string name="btn_enroll_edit">请输入注册名称</string>
-    <string name="test_text">测试</string>
     <string name="btn_determine">确定</string>
     <string name="progress_text">数据加载中......</string>
     <string name="login_name">登录名称</string>
@@ -38,7 +37,6 @@
     <string name="login_stuta_camer_1">摄相机状态</string>
     <string name="btn_save">保存</string>
     <string name="enroll_login">注册</string>
-    <string name="btn_login">登录</string>
     <string name="tv_user_name">用户名:</string>
     <string name="et_user_name">请输入用户名</string>
     <string name="tv_user_password">密码:</string>
@@ -66,7 +64,8 @@
     <string name="disclaimer_conent">深圳市欧杰特科技有限公司保留本软件的所有权，盗版必究。</string>
     <string name="version_conent">V 0.0.0.1</string>
     <string name="contact_me">"公司网站: http://www.object-camera.com客服邮箱:
-		support@object-camera.com"</string>
+		support@object-camera.com"
+</string>
     <string name="more_about_disclaimer">软件声明</string>
     <string name="more_about_version">版本信息</string>
     <string name="more_about_contact">联系我们</string>
@@ -242,7 +241,8 @@
     <string name="date_center_ocean">(GMT-02:00)中大西洋</string>
     <string name="date_cape_verde_island">(GMT-01:00)佛得角群岛</string>
     <string name="date_greenwich">(GMT)格林威治平时,伦敦,里斯本,卡萨布兰卡</string>
-    <string name="date_brussels">(GMT+01:00)布鲁赛尔,巴黎,柏林,罗马,马德里,斯多哥尔摩, 贝尔格莱德, 布拉格</string>
+    <string name="date_brussels">(GMT+01:00)布鲁赛尔,巴黎,柏林,罗马,马德里,斯多哥尔摩, 贝尔格莱德, 布拉格
+</string>
     <string name="date_athens">(GMT +02:00) 雅典, 耶路撒冷, 开罗, 赫尔辛基</string>
     <string name="date_nairobi">(GMT +03:00) 内罗毕, 利雅得, 莫斯科</string>
     <string name="date_teheran">(GMT +03:30) 德黑兰</string>

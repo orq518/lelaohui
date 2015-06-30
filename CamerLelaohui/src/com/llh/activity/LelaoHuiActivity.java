@@ -21,7 +21,7 @@ public class LelaoHuiActivity extends BaseNetActivity {
 
 	@Override
 	protected void parserData(JSONObject response) {
-		LogTool.i("³É¹¦·µ»ØÊı¾İ:" + response.toString());
+		LogTool.i("æˆåŠŸè¿”å›æ•°æ®:" + response.toString());
 		try {
 			JSONObject obj = response.getJSONObject("result");
 			String code = obj.getString("code");
@@ -61,13 +61,13 @@ public class LelaoHuiActivity extends BaseNetActivity {
 		String str_ka_pwd = CommonUtils.getContentFromEditText(ka_pwd);
 		String str_jin_e = CommonUtils.getContentFromEditText(jin_e);
 		if (str_ka_id.equals("")) {
-			ToastTool.showText(this, "ÇëÊäÈë¿¨ºÅ");
+			ToastTool.showText(this, "è¯·è¾“å…¥å¡å·");
 		}
 		if (str_ka_pwd.equals("")) {
-			ToastTool.showText(this, "ÇëÊäÈëÃÜÂë");
+			ToastTool.showText(this, "è¯·è¾“å…¥å¯†ç ");
 		}
 		if (str_jin_e.equals("")) {
-			ToastTool.showText(this, "ÇëÊäÈë½ğ¶î");
+			ToastTool.showText(this, "è¯·è¾“å…¥é‡‘é¢");
 		}
 		LogTool.d("cardId" + str_ka_id);
 //		paran.putLong("cardId",Long.valueOf(str_ka_id));

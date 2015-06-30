@@ -39,7 +39,8 @@
     <application
         android:name="com.ipcamer.app.MyApplication"
         android:icon="@drawable/app"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
         <activity
             android:name=".AddCameraActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -84,8 +85,6 @@
         <activity android:name="com.llh.activity.CameraActivity" >
         </activity>
         <activity android:name="com.llh.activity.SnapshotAtivity" >
-        </activity>
-        <activity android:name="com.llh.activity.ImageActivity" >
         </activity>
         <activity android:name="com.llh.camera.activity.LoginAtivity" >
         </activity>

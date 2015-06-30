@@ -29,22 +29,22 @@ public class ImageActivity extends BaseActivity implements PlayInterface{
 	private ImageView imageView;
 	@ViewInject(id=R.id.btn_next1,click="onClick")
 	private Button btn_next;
-	/** «∑Ò≈ƒ’’*/
+	/**ÊòØÂê¶ÊãçÁÖß*/
 	private boolean isTakepic = true;
-	/** ”∆µ ˝æ› */
+	/**ËßÜÈ¢ëÊï∞ÊçÆ */
 	private byte[] videodata = null;
 	public int nVideoWidths = 0;
 	public int nVideoHeights = 0;
 	private Bitmap mBmp;
 	public void onClick(View v){
-		LogTool.d("œ¬“ª’≈");
+		LogTool.d("‰∏ã‰∏ÄÂº†");
 		progressView.setVisibility(View.VISIBLE);
 		isTakepic = true;
 	}
 	@Override
 	public void initView() {
 		BridgeService.setPlayInterface(this);
-		//∆Ù∂Ø¡˜
+		//ÂêØÂä®ÊµÅ
 		NativeCaller.StartPPPPLivestream(SystemValue.deviceId, 10);
 	}
 
@@ -74,17 +74,17 @@ public class ImageActivity extends BaseActivity implements PlayInterface{
 					lp.gravity = Gravity.CENTER;
 					bitmap = Bitmap.createScaledBitmap(mBmp, 320,
 							240, true);
-					
-					LogTool.d(" ˙∆¡");
-					
+
+					LogTool.d("Á´ñÂ±è");
+
 				} else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 					FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
 							width, height);
 					lp.gravity = Gravity.CENTER;
 					bitmap = Bitmap
 							.createScaledBitmap(mBmp, width, height, true);
-					LogTool.d("∫·∆¡");
-				}				
+					LogTool.d("Ê®™Â±è");
+				}
 				imageView.setImageBitmap(bitmap);
 				imageView.setVisibility(View.VISIBLE);
 				progressView.setVisibility(View.GONE);
@@ -93,13 +93,13 @@ public class ImageActivity extends BaseActivity implements PlayInterface{
 	};
 	@Override
 	public void callBackCameraParamNotify(String did, int resolution,
-			int brightness, int contrast, int hue, int saturation, int flip) {
-		
+										  int brightness, int contrast, int hue, int saturation, int flip) {
+
 	}
 
 	@Override
 	public void callBaceVideoData(byte[] videobuf, int h264Data, int len,
-			int width, int height) {
+								  int width, int height) {
 		videodata = videobuf;
 		nVideoWidths = width;
 		nVideoHeights = height;
@@ -117,25 +117,25 @@ public class ImageActivity extends BaseActivity implements PlayInterface{
 				imageHandler.sendMessage(msg);
 			}
 		}
-		
+
 	}
 
 	@Override
 	public void callBackMessageNotify(String did, int msgType, int param) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void callBackAudioData(byte[] pcm, int len) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void callBackH264Data(byte[] h264, int type, int size) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	@Override
 	protected void onDestroy() {

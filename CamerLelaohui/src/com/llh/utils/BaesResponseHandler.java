@@ -9,18 +9,18 @@ import com.tool.utils.LogTool;
 
 public class BaesResponseHandler implements ResponseHandler {
 
-	// 关闭
+	// 鍏抽棴
 	@Override
 	public void handleClosed() {
 		TransferClientNetworkImpl.getInstance().stop();
 	}
 
-	// 连接
+	// 杩炴帴
 	@Override
 	public void handleConnected() {
 		String strSn = String.format("%d", System.currentTimeMillis());
 		LogTool.i(strSn);
-		// 创建一个业务包
+		// 鍒涘缓涓�涓笟鍔″寘
 		TransferObject business = new TransferObject();
 
 		{
@@ -47,7 +47,7 @@ public class BaesResponseHandler implements ResponseHandler {
 
 	}
 
-	// 应答
+	// 搴旂瓟
 	@Override
 	public void handleResponse(TransferObject arg0) {
 

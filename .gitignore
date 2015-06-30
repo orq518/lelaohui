@@ -25,3 +25,13 @@ proguard/
 
 # Log Files
 *.log
+
+laolehui.git.iml
+ToolBox-android/ToolBox-android.iml
+librarys/librarys.iml
+librarys/.settings
+librarys/build
+ToolBox-android/.settings
+CamerLelaohui/.settings
+CamerLelaohui/CamerLelaohui.iml
+.idea

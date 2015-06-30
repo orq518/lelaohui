@@ -18,7 +18,7 @@ public class SearchWifiActivity extends BaseActivity implements WifiInterface{
 	WifiBean wifiBean;
 	@Override
 	public void initView() {
-		//-------------½ø¶ÈÌõ----------------
+		//-------------è¿›åº¦æ¡----------------
 		progressDialog = new ProgressDialog(this);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressDialog.setMessage(getString(R.string.wifi_getparams));
@@ -34,19 +34,19 @@ public class SearchWifiActivity extends BaseActivity implements WifiInterface{
 		// TODO Auto-generated method stub
 		return R.layout.search_wifi_layout;
 	}
-	//»Øµ÷wifi²ÎÊı
+	//å›è°ƒwifiå‚æ•°
 	@Override
 	public void callBackWifiParams(String did, int enable, String ssid,
-			int channel, int mode, int authtype, int encryp, int keyformat,
-			int defkey, String key1, String key2, String key3, String key4,
-			int key1_bits, int key2_bits, int key3_bits, int key4_bits,
-			String wpa_psk) {
+								   int channel, int mode, int authtype, int encryp, int keyformat,
+								   int defkey, String key1, String key2, String key3, String key4,
+								   int key1_bits, int key2_bits, int key3_bits, int key4_bits,
+								   String wpa_psk) {
 		wifiBean.setDid(did);
-		wifiBean.setEnable(1);// enableï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±Ò»ï¿½ï¿½ï¿½ï¿½1
+		wifiBean.setEnable(1);// enableé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·æ—¶ä¸€é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·1
 		wifiBean.setSsid(ssid);
 		wifiBean.setChannel(channel);
 		wifiBean.setMode(0);// 0
-		wifiBean.setAuthtype(authtype);// security ï¿½ï¿½--ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		wifiBean.setAuthtype(authtype);// security é”Ÿæ–¤æ‹·--é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·
 		wifiBean.setEncryp(0);// 0
 		wifiBean.setKeyformat(0);// 0
 		wifiBean.setDefkey(0);// 0
@@ -58,29 +58,29 @@ public class SearchWifiActivity extends BaseActivity implements WifiInterface{
 		wifiBean.setKey2_bits(0);// 0
 		wifiBean.setKey3_bits(0);// 0
 		wifiBean.setKey4_bits(0);// 0
-		wifiBean.setWpa_psk(wpa_psk);// ï¿½ï¿½ï¿½ï¿½
-		LogTool.i(" wifi²ÎÊı= "+wifiBean.toString());
-		
+		wifiBean.setWpa_psk(wpa_psk);// é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·
+		LogTool.i(" wifiå‚æ•°= "+wifiBean.toString());
+
 	}
-	//»Øµ÷wifiÉ¨Ãè½á¹û
+	//å›è°ƒwifiæ‰«æç»“æœ
 	@Override
 	public void callBackWifiScanResult(String did, String ssid, String mac,
-			int security, int dbm0, int dbm1, int mode, int channel, int bEnd) {
+									   int security, int dbm0, int dbm1, int mode, int channel, int bEnd) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	//»Øµ÷ÏµÍ³²ÎÊı½á¹û
+	//å›è°ƒç³»ç»Ÿå‚æ•°ç»“æœ
 	@Override
 	public void callBackSetSystemParamsResult(String did, int paramType,
-			int result) {
+											  int result) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	//»Øµ÷ĞÅÏ¢ÏûÏ¢Êı¾İ
+	//å›è°ƒä¿¡æ¯æ¶ˆæ¯æ•°æ®
 	@Override
 	public void callBackPPPPMsgNotifyData(String did, int type, int param) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

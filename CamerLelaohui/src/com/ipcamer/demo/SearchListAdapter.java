@@ -13,23 +13,23 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class SearchListAdapter extends BaseAdapter {
-	
+
 	@SuppressWarnings("unused")
-	private static final String LOG_TAG = "SearchListAdapter" ;	
-	
+	private static final String LOG_TAG = "SearchListAdapter" ;
+
 	private LayoutInflater listContainer = null;
 	@SuppressWarnings("unused")
 	private Context context = null;
 	private List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();;
-	
-	public final class SearchListItem{    
-	    public TextView devName;      
-	    public TextView devID;             
-	}    
-	
+
+	public final class SearchListItem{
+		public TextView devName;
+		public TextView devID;
+	}
+
 	public SearchListAdapter(Context ct){
 		context = ct;
-		listContainer = LayoutInflater.from(ct);   
+		listContainer = LayoutInflater.from(ct);
 	}
 
 	@Override
@@ -53,17 +53,17 @@ public class SearchListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		
-		SearchListItem  searchListItem = null; 		
+
+		SearchListItem  searchListItem = null;
 		if(convertView == null){
-			searchListItem = new SearchListItem();  
-			convertView = listContainer.inflate(R.layout.search_list_item, null);    
+			searchListItem = new SearchListItem();
+			convertView = listContainer.inflate(R.layout.search_list_item, null);
 			searchListItem.devName = (TextView)convertView.findViewById(R.id.searchDevName) ;
 			searchListItem.devID = (TextView)convertView.findViewById(R.id.searchDevID) ;
 			convertView.setTag(searchListItem);
 		}else{
 			searchListItem = (SearchListItem)convertView.getTag();
-		}		
+		}
 //		if(listItems.size()==1){
 //			convertView.setBackgroundResource(R.drawable.listitem_one_pressed_selector);
 //		}else if(position==0){
@@ -75,39 +75,39 @@ public class SearchListAdapter extends BaseAdapter {
 		convertView.setBackgroundResource(R.drawable.listitem_pressed_selector);
 		searchListItem.devName.setText((String)listItems.get(position).get(ContentCommon.STR_CAMERA_NAME));
 		searchListItem.devID.setText((String)listItems.get(position).get(ContentCommon.STR_CAMERA_ID));
-        
+
 		return convertView;
 	}
-	
+
 	/**
-	 * ÏòËÑË÷ÁĞ±íÖĞÌí¼ÓÉãÏñ»ú
+	 * å‘æœç´¢åˆ—è¡¨ä¸­æ·»åŠ æ‘„åƒæœº
 	 * @param mac
 	 * @param ipaddr
 	 * @param port
 	 */
 	public boolean AddCamera(String mac, String name, String did){
-		
-		//Èç¹ûÉãÏñ»úMACÖØ¸´£¬Ôò²»Ìí¼Óµ½ÁĞ±íÖĞ
+
+		//å¦‚æœæ‘„åƒæœºMACé‡å¤ï¼Œåˆ™ä¸æ·»åŠ åˆ°åˆ—è¡¨ä¸­
 		if(!CheckCameraInfo(mac)){
 			return false;
 		}
-		
-		Map<String, Object> map = new HashMap<String, Object>(); 
+
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(ContentCommon.STR_CAMERA_MAC, mac) ;
 		map.put(ContentCommon.STR_CAMERA_NAME, name);
-		map.put(ContentCommon.STR_CAMERA_ID, did);		
-		listItems.add(map) ;		
+		map.put(ContentCommon.STR_CAMERA_ID, did);
+		listItems.add(map) ;
 		return true;
 	}
 
 	/**
-	 * ¼ì²éÊÇ·ñÖØ¸´
+	 * æ£€æŸ¥æ˜¯å¦é‡å¤
 	 * @param mac
 	 * @return
 	 */
 	private boolean CheckCameraInfo(String mac) {
 		// TODO Auto-generated method stub
-		//±éÀúÁĞ±í£¬¼ì²éÊÇ·ñÓĞÏàÍ¬macµØÖ·µÄÉãÏñ»ú
+		//éå†åˆ—è¡¨ï¼Œæ£€æŸ¥æ˜¯å¦æœ‰ç›¸åŒmacåœ°å€çš„æ‘„åƒæœº
 		int size = listItems.size();
 		int i;
 		for(i = 0; i < size; i++){
@@ -124,12 +124,12 @@ public class SearchListAdapter extends BaseAdapter {
 		if(pos > listItems.size()){
 			return null;
 		}
-		
+
 		return listItems.get(pos);
 	}
-	
+
 	public void ClearAll(){
 		listItems.clear();
 	}
-	
+
 }
