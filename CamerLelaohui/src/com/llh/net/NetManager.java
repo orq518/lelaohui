@@ -29,9 +29,10 @@ import com.tool.utils.LogTool;
 public class NetManager {
 	private RequestQueue mQueue = null;
 
+	 public static final String Ip = "http://192.168.0.227:8080";
 //	 public static final String Ip = "http://192.168.5.19:8080";
 //	 public static final String Ip = "http://111.204.236.15:8081";
-	 public static final String Ip = "http://111.204.236.5:8081";
+//	 public static final String Ip = "http://111.204.236.5:8081";
 	private Context context = null;
 	/**
 	 * ���Ե�ַ
