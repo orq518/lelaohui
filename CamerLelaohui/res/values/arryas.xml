@@ -54,9 +54,9 @@
         <item>23:00</item>
     </string-array>
     <string-array name="order_food">
-        <item>今日餐品</item>
-        <item>明日餐品</item>
-        <item>后天餐品</item>
+        <item>今日</item>
+        <item>明日</item>
+        <item>后天</item>
     </string-array>
 
 </resources>

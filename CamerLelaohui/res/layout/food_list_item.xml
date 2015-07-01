@@ -17,7 +17,7 @@
         android:id="@+id/food_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/food_im"
         android:text="土豆丝"
         android:textColor="@color/color_black"
@@ -53,6 +53,7 @@
             android:layout_marginRight="3dp"
             android:gravity="center"
             android:text="10"
+            android:textColor="@color/color_black"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
         <ImageView
             android:id="@+id/food_add"

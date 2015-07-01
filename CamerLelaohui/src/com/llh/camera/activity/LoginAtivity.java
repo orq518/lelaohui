@@ -67,10 +67,10 @@ public class LoginAtivity extends BaseNetActivity{
 		switch (v.getId()) {
 		case R.id.btn_login:
 			LogTool.d("登录");
-			Intent intent = new Intent(LoginAtivity.this,MainActivity.class);
-			startActivity(intent);
-			SysValue.is_login = true;
-//			login();
+//			Intent intent = new Intent(LoginAtivity.this,MainActivity.class);
+//			startActivity(intent);
+//			SysValue.is_login = true;
+			login();
 			break;
 
 		case R.id.enroll_login:

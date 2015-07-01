@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -27,6 +29,7 @@ import com.llh.entity.DietByCateIdModel;
 import com.llh.entity.FoodModel;
 import com.llh.utils.Constant.CACHE_KEY;
 import com.llh.utils.OrderFoodInterface;
+import com.llh.view.ShoppingPopupWindow;
 import com.tool.Inject.ViewInject;
 import com.tool.utils.LogTool;
 import com.tool.utils.ToastTool;
@@ -120,6 +123,8 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
     ShoppingAdapter shoppingAdapter;
 
+    TextView food_num;
+    TextView totle_price;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,10 +139,11 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
     @Override
     public void initView() {
 
-//        reqData(TODAY_FOOD);
-
-        buy_list_Layout = (RelativeLayout) findViewById(R.id.buy_list_Layout);
-        buy_listView = (ListView) findViewById(R.id.food_listview);
+        reqData(TODAY_FOOD);
+        food_num = (TextView) findViewById(R.id.food_num);
+        buy_list_Layout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.shopping_list_layout, null);// (RelativeLayout) findViewById(R.id.buy_list_Layout);
+        buy_listView = (ListView) buy_list_Layout.findViewById(R.id.food_listview);
+        totle_price=(TextView) buy_list_Layout.findViewById(R.id.totle_price);
         shoppingAdapter = new ShoppingAdapter();
         buy_listView.setAdapter(shoppingAdapter);
         shoppingAdapter.registerCallBack(this);
@@ -191,6 +197,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
             }
         });
+        break_btn.setTextColor(getResources().getColor(R.color.color_white));
+        lunch_btn.setTextColor(getResources().getColor(R.color.color_black));
+        dinner_btn.setTextColor(getResources().getColor(R.color.color_black));
         break_btn.setSelected(true);
         break_btn.setClickable(false);
         lunch_btn.setSelected(false);
@@ -204,27 +213,38 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         shop_car_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (shopping_cart_List.size()>0){
-                    if (buy_list_Layout.isShown()){
-                        buy_list_Layout.setVisibility(View.GONE);
-                    }else{
-                        buy_list_Layout.setVisibility(View.VISIBLE);
-                    }
+                if (shopping_cart_List.size() > 0) {
 
-                }else{
-                    buy_list_Layout.setVisibility(View.GONE);
+                    float totlepeice = 0;
+                    for (int i = 0; i < shopping_cart_List.size(); i++) {
+                        FoodModel tempFoodModel = shopping_cart_List.get(i);
+                        totlepeice=totlepeice+Float.parseFloat(tempFoodModel.proPrice);
+                    }
+                    totle_price.setText("总金额："+totlepeice+"元");
+
+                    menuWindow = new ShoppingPopupWindow(OrderFooderActivity.this, buy_list_Layout);
+                    //显示窗口
+                    menuWindow.showAtLocation(OrderFooderActivity.this.findViewById(R.id.main_layout), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                    shoppingAdapter.setData(shopping_cart_List);
+//                    if (buy_list_Layout.isShown()){
+//                        buy_list_Layout.setVisibility(View.GONE);
+//                    }else{
+//                        buy_list_Layout.setVisibility(View.VISIBLE);
+//                        shoppingAdapter.setData(shopping_cart_List);
+//                    }
+                } else {
+//                    buy_list_Layout.setVisibility(View.GONE);
                 }
 
             }
         });
 
 
-
-
-
-        //测试的
-        addTestData();
+//        //测试的
+//        addTestData();
     }
+
+    ShoppingPopupWindow menuWindow;
 
     public void setLeftSelected(int position) {
 
@@ -241,7 +261,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                         .setVisibility(View.GONE);
             }
         }
-        if(foodType.size()==0){
+        if (foodType.size() == 0) {
             getFoodType();
         }
         curFoodType = foodType.get(position);
@@ -288,6 +308,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 finish();
                 break;
             case R.id.break_btn:
+                break_btn.setTextColor(getResources().getColor(R.color.color_white));
+                lunch_btn.setTextColor(getResources().getColor(R.color.color_black));
+                dinner_btn.setTextColor(getResources().getColor(R.color.color_black));
                 break_btn.setSelected(true);
                 break_btn.setClickable(false);
                 lunch_btn.setSelected(false);
@@ -298,6 +321,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 initRightListData("" + mealTime);
                 break;
             case R.id.lunch_btn:
+                lunch_btn .setTextColor(getResources().getColor(R.color.color_white));
+                break_btn.setTextColor(getResources().getColor(R.color.color_black));
+                dinner_btn.setTextColor(getResources().getColor(R.color.color_black));
                 break_btn.setSelected(false);
                 break_btn.setClickable(true);
                 lunch_btn.setSelected(true);
@@ -308,6 +334,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 initRightListData("" + mealTime);
                 break;
             case R.id.dinner_btn:
+                dinner_btn.setTextColor(getResources().getColor(R.color.color_white));
+                lunch_btn.setTextColor(getResources().getColor(R.color.color_black));
+                break_btn.setTextColor(getResources().getColor(R.color.color_black));
                 break_btn.setSelected(false);
                 break_btn.setClickable(true);
                 lunch_btn.setSelected(false);
@@ -317,7 +346,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 this.mealTime = 3;
                 initRightListData("" + mealTime);
                 break;
-            case R.id.shop_car_commit:
+            case R.id.shop_car_commit://选好了
+
+
                 break;
             default:
                 break;
@@ -338,6 +369,13 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             resultObj = response.getJSONObject("result");
             if (resultObj == null) {
                 ToastTool.showText(this, "数据错误");
+                return;
+            }
+            String code = resultObj.getString("code");
+            if(code!=null&&code.equals("0")){
+                ToastTool.showText(this, "数据错误,先加载测试数据");
+                //        //测试的
+        addTestData();
                 return;
             }
             Gson gson = new Gson();
@@ -390,19 +428,19 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
      */
     public ArrayList<FoodModel> sortFood(String cateName, String mealTime) {
         curFoodList.clear();
-        Log.d("ouou","##cateName:"+cateName +"  "+mealTime);
-        Log.d("ouou","##totleFoodList.size():"+totleFoodList.size());
+        Log.d("ouou", "##cateName:" + cateName + "  " + mealTime);
+        Log.d("ouou", "##totleFoodList.size():" + totleFoodList.size());
         for (int i = 0; i < totleFoodList.size(); i++) {
             FoodModel food = totleFoodList.get(i);
 
-            Log.d("ouou","%%cateName:"+food.cateName +"  "+food.mealTime);
+            Log.d("ouou", "%%cateName:" + food.cateName + "  " + food.mealTime);
 
             if (food.cateName.equals(cateName)
                     && food.mealTime.equals(mealTime)) {
                 curFoodList.add(food);
             }
         }
-        Log.d("ouou","##curFoodList.size():"+curFoodList.size());
+        Log.d("ouou", "##curFoodList.size():" + curFoodList.size());
         return curFoodList;
     }
 
@@ -422,26 +460,36 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                     shopping_cart_List.remove(i);
                 }
                 tempFoodModel.buyNum = foodModel.buyNum;
-                return;
+                break;
             }
         }
         if (!isAdded) {
             shopping_cart_List.add(foodModel);
         }
-
+        if (shopping_cart_List.size() > 0) {
+            shop_car_total_msg.setVisibility(View.INVISIBLE);
+        } else {
+            shop_car_total_msg.setVisibility(View.VISIBLE);
+        }
+        int num = 0;
+        for (int i = 0; i < shopping_cart_List.size(); i++) {
+            FoodModel tempFoodModel = shopping_cart_List.get(i);
+            Log.d("ouou","##tempFoodModel.buyNum:"+tempFoodModel.buyNum);
+            num=num+tempFoodModel.buyNum;
+        }
+        food_num.setText("" + num);
     }
 
 
-
-    public void addTestData(){
-        for(int i=0;i<14;i++){
-            FoodModel model=new FoodModel();
-            model.cateName="类别 "+i%3;
-            model.proId=""+i;
-            model.proName="土豆 "+i;
-            model.proPrice=i+"";
-            model.mealTime=""+(i%4+1);
-            model.remark="营养丰富";
+    public void addTestData() {
+        for (int i = 0; i < 14; i++) {
+            FoodModel model = new FoodModel();
+            model.cateName = "类别 " + i % 3;
+            model.proId = "" + i;
+            model.proName = "土豆 " + i;
+            model.proPrice = i + "";
+            model.mealTime = "" + (i % 4 + 1);
+            model.remark = "营养丰富";
             totleFoodList.add(model);
         }
         initLeftListData(curMealTime);

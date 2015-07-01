@@ -1,35 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/buy_list_Layout"
+<RelativeLayout android:id="@+id/buy_list_Layout"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
-                android:background="@color/help_button_view"
-    android:padding="5dp">
-    <TextView
-        android:id="@+id/totle_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="已经选购xx元"
-        android:textSize="14sp"/>
-    <TextView
-        android:id="@+id/delete_all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="全部删除"
-        android:gravity="center_vertical"
-        android:textColor="@color/color_white"
-        android:layout_alignParentRight="true"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingRight="20dp"
-        android:paddingLeft="20dp"
-        android:background="@drawable/btn_back_selector"
-        android:textSize="14sp"/>
+                android:background="@color/color_white"
+                android:padding="5dp">
+    <RelativeLayout android:id="@+id/top_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp">
+        <TextView
+            android:id="@+id/totle_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="已经选购xx元"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/delete_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_back_selector"
+            android:gravity="center_vertical"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:text="全部删除"
+            android:textColor="@color/color_white"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+    <View
+        android:id="@+id/line"
+        android:layout_width="fill_parent" android:layout_height="0.2dp"
+        android:layout_below="@id/top_layout"
+        android:background="@color/grgray"/>
 
     <ListView
         android:id="@+id/food_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/totle_price"/>
+        android:layout_below="@id/line"/>
 </RelativeLayout>

@@ -54,9 +54,10 @@ public class ShoppingAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			convertView.setTag(holder);// 绑定ViewHolder对象
 			holder.food_name = (TextView) convertView.findViewById(R.id.food_name);
-			holder.food_price = (TextView) convertView.findViewById(R.id.food_price);
-			holder.food_im = (ImageView) convertView.findViewById(R.id.food_im);
-			holder.food_add = (ImageView) convertView.findViewById(R.id.food_add);
+			holder.food_price = (TextView) convertView.findViewById(R.id.tv_price);
+			holder.food_num = (TextView) convertView.findViewById(R.id.tv_num);
+			holder.im_reduce = (ImageView) convertView.findViewById(R.id.im_reduce);
+			holder.food_add = (ImageView) convertView.findViewById(R.id.im_add);
 		}else {
 			holder = (ViewHolder) convertView.getTag();// 取出ViewHolder对象
 		}
@@ -96,7 +97,6 @@ public class ShoppingAdapter extends BaseAdapter {
 		TextView food_name;
 		TextView food_price;
 		TextView food_num;
-		ImageView food_im;
 		ImageView food_add;
 		ImageView im_reduce;
 	}
