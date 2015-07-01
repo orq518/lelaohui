@@ -127,7 +127,7 @@ public class LoginAtivity extends BaseNetActivity{
 		}
 
 	}
-	private void enroll(){
+	private void  enroll(){
 		Intent intent = new Intent(LoginAtivity.this,EnrollPhoneActivity.class);
 		startActivityForResult(intent, 100);
 	}
