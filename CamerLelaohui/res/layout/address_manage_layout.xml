@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/titlebar"
+        layout="@layout/custom_titlebar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  android:paddingTop="5dp"
+                  android:text="收件人"
+                  android:textSize="14sp"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                  android:layout_weight="0.4"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  android:paddingTop="5dp"
+                  android:text="地址"
+                  android:textSize="14sp"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:gravity="center"
+                  android:paddingBottom="5dp"
+                  android:paddingTop="5dp"
+                  android:text="操作"
+                  android:textSize="14sp"/>
+
+    </LinearLayout>
+    <ExpandableListView
+        android:id="@+id/address_list"
+        android:layout_width="fill_parent" android:layout_height="fill_parent">
+    </ExpandableListView>
+</LinearLayout>

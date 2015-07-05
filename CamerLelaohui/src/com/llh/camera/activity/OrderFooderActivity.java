@@ -1,5 +1,7 @@
 package com.llh.camera.activity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +9,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -17,7 +21,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.ipcamer.demo.R;
@@ -25,21 +31,33 @@ import com.llh.adapter.FoodAdapter;
 import com.llh.adapter.OrderFoodTypeAdapter;
 import com.llh.adapter.ShoppingAdapter;
 import com.llh.base.BaseNetActivity;
+import com.llh.entity.DeliveryAddressModel;
 import com.llh.entity.DietByCateIdModel;
 import com.llh.entity.FoodModel;
+import com.llh.net.SysVar;
+import com.llh.utils.Constant;
 import com.llh.utils.Constant.CACHE_KEY;
 import com.llh.utils.OrderFoodInterface;
+import com.llh.view.ActionItem;
 import com.llh.view.ShoppingPopupWindow;
+import com.llh.view.TitlePopup;
 import com.tool.Inject.ViewInject;
 import com.tool.utils.LogTool;
 import com.tool.utils.ToastTool;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
-public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInterface {
+import javax.json.Json;
+
+public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInterface, OnClickListener {
 
     private boolean isScroll = true;
 
@@ -125,10 +143,49 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
     TextView food_num;
     TextView totle_price;
+    /**
+     * 订餐的地址ID
+     */
+    String addId;
+    // 定义标题栏弹窗按钮
+    private TitlePopup titlePopup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    /**
+     * 初始化弹出框数据
+     */
+    private void initPopData() {
+        // 给标题栏弹窗添加子类
+
+//        titlePopup.addAction(new ActionItem(this, "我的账余", 0));
+//        titlePopup.addAction(new ActionItem(this, "我的退款", 0));
+        titlePopup.addAction(new ActionItem(this, "我的地址", R.drawable.ic_edit_camera));
+        titlePopup.addAction(new ActionItem(this, "我的订单", R.drawable.ic_edit_camera));
+        titlePopup
+                .setItemOnClickListener(new TitlePopup.OnItemOnClickListener() {
+                    @Override
+                    public void onItemClick(ActionItem item, int position) {
+                        switch (position) {
+                            case 0://我的地址
+                                Intent intent = new Intent(OrderFooderActivity.this, AddressAtivity.class);
+                                startActivityForResult(intent, GETADDRESS);
+                                break;
+                            case 1:// 我的订单
+                                ToastTool.showText(OrderFooderActivity.this,"暂无订单");
+//                Intent intent = new Intent(this, AddressAtivity.class);
+//                startActivityForResult(intent, GETADDRESS);
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                });
     }
 
     @Override
@@ -140,14 +197,19 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
     public void initView() {
 
         reqData(TODAY_FOOD);
+
         food_num = (TextView) findViewById(R.id.food_num);
         buy_list_Layout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.shopping_list_layout, null);// (RelativeLayout) findViewById(R.id.buy_list_Layout);
         buy_listView = (ListView) buy_list_Layout.findViewById(R.id.food_listview);
-        totle_price=(TextView) buy_list_Layout.findViewById(R.id.totle_price);
+        totle_price = (TextView) buy_list_Layout.findViewById(R.id.totle_price);
         shoppingAdapter = new ShoppingAdapter();
         buy_listView.setAdapter(shoppingAdapter);
         shoppingAdapter.registerCallBack(this);
         titlebar_text.setText("订餐");
+        Button right_btn = (Button) findViewById(R.id.right_btn);
+        right_btn.setText("我的");
+        right_btn.setOnClickListener(this);
+        right_btn.setVisibility(View.VISIBLE);
         leftListAdapter = new OrderFoodTypeAdapter();
         left_listView.setAdapter(leftListAdapter);
 
@@ -210,17 +272,17 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         /**
          * 购物栏数量
          */
-        shop_car_layout.setOnClickListener(new View.OnClickListener() {
+        shop_car_layout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (shopping_cart_List.size() > 0) {
 
-                    float totlepeice = 0;
-                    for (int i = 0; i < shopping_cart_List.size(); i++) {
-                        FoodModel tempFoodModel = shopping_cart_List.get(i);
-                        totlepeice=totlepeice+Float.parseFloat(tempFoodModel.proPrice);
-                    }
-                    totle_price.setText("总金额："+totlepeice+"元");
+//                    float totlepeice = 0;
+//                    for (int i = 0; i < shopping_cart_List.size(); i++) {
+//                        FoodModel tempFoodModel = shopping_cart_List.get(i);
+//                        totlepeice = totlepeice + Float.parseFloat(tempFoodModel.proPrice);
+//                    }
+//                    totle_price.setText("总金额：" + totlepeice + "元");
 
                     menuWindow = new ShoppingPopupWindow(OrderFooderActivity.this, buy_list_Layout);
                     //显示窗口
@@ -292,15 +354,6 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         foodAdapter.setData(data);
     }
 
-    private void reqData(String isScope) {
-        Bundle b = new Bundle();
-        b.putString("isScope", isScope);
-        // b.putString("mealTime", BREAK_FOOD);
-        // b.putString("merchantId", "cb0fa542-8d0f-43c9-acda-cda7890bae75");
-        b.putString("serial", isScope);
-        reqData("/data/getDietByCateId.json", b);
-    }
-
 
     public void onClick(View v) {
         switch (v.getId()) {
@@ -321,7 +374,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 initRightListData("" + mealTime);
                 break;
             case R.id.lunch_btn:
-                lunch_btn .setTextColor(getResources().getColor(R.color.color_white));
+                lunch_btn.setTextColor(getResources().getColor(R.color.color_white));
                 break_btn.setTextColor(getResources().getColor(R.color.color_black));
                 dinner_btn.setTextColor(getResources().getColor(R.color.color_black));
                 break_btn.setSelected(false);
@@ -347,22 +400,127 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 initRightListData("" + mealTime);
                 break;
             case R.id.shop_car_commit://选好了
-
-
+//                Intent intent = new Intent(this, AddressAtivity.class);
+//                startActivityForResult(intent, GETADDRESS);
+////                startActivity(new );
+                createOrder();
                 break;
+            case R.id.right_btn:
+
+                if (titlePopup == null) {
+                    titlePopup = new TitlePopup(this,
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                    initPopData();
+                }
+                titlePopup.show(v);
+                break;
+
             default:
                 break;
         }
     }
 
-    @Override
+    final int GETADDRESS = 1011;
+
+    private void reqData(String isScope) {
+        Bundle b = new Bundle();
+        b.putString("isScope", isScope);
+        // b.putString("mealTime", BREAK_FOOD);
+        // b.putString("merchantId", "cb0fa542-8d0f-43c9-acda-cda7890bae75");
+        b.putString("serial", isScope);
+        reqData("/data/getDietByCateId.json", b, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dialog.dismiss();
+                parserGetDietData(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+                dataError(error);
+            }
+        }, this, false);
+    }
+
+    /**
+     * 创建件订单
+     */
+    public void createOrder() {
+
+        try{
+            if (shopping_cart_List.size() == 0) {
+                Toast.makeText(this, "您还未选择餐品", Toast.LENGTH_SHORT).show();
+                return;
+            }
+//        userId
+//                merchantId
+//        isDistr(20150601新增)
+//        addId(20150601新增)
+//        channel(2015060新增)
+//        isScope(20150602新增)
+//        mealtime(0602新增)
+            Map<String, Object> map = SysVar.getInstance(this).getUserInfo();
+            String userId = (String) map.get("userId");
+            String merchantId = (String) map.get("merchantId");
+            Bundle param = new Bundle();
+            param.putString("userId", userId);
+            param.putString("merchantId", merchantId);
+            param.putString("isDistr", "1");
+            param.putString("addId", "179");
+            param.putString("channel", "1");
+            param.putString("isScope", isScope);
+            param.putString("mealtime", curMealTime);
+
+
+
+
+
+            JSONArray jsonArray = new JSONArray();
+            JSONObject jb = new JSONObject();
+            for (int i = 0; i < shopping_cart_List.size(); i++) {
+                FoodModel foodModel = shopping_cart_List.get(i);
+                jb.put("proId", foodModel.proId);
+                jb.put("proNum", "" + foodModel.buyNum);
+                jb.put("supplierId", foodModel.supplierId);
+                jb.put("mealType", foodModel.mealType);
+                jsonArray.put(jb);
+            }
+
+            Log.d("ouou", "jsonArray.toString():" + jsonArray.toString());
+
+            param.putString("list", jsonArray.toString());
+            reqData("/data/placeDiet.json", param, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    dialog.dismiss();
+                    parserCreatOrder(response);
+//                parserGetDietData(response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    dialog.dismiss();
+                    dataError(error);
+                }
+            }, this, false);
+
+        }catch(Exception e){}
+
+    }
+
     protected void dataError(VolleyError error) {
         LogTool.e(error.toString());
 
     }
 
-    @Override
-    protected void parserData(JSONObject response) {
+    /**
+     * 获取餐饮的列表
+     *
+     * @param response
+     */
+    protected void parserCreatOrder(JSONObject response) {
         Log.d("ouou", "response:" + response);
         JSONObject resultObj;
         try {
@@ -372,10 +530,39 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 return;
             }
             String code = resultObj.getString("code");
-            if(code!=null&&code.equals("0")){
-                ToastTool.showText(this, "数据错误,先加载测试数据");
-                //        //测试的
-        addTestData();
+            Log.d("ouou", "code:" + code);
+            if (!Constant.RESPONSE_CODE.SUCCESS_CODE.equals(code)) {
+                ToastTool.showText(this, resultObj.getString("msg"));
+                return;
+            }
+            Gson gson = new Gson();
+//            foodModel = gson.fromJson(resultObj.toString(),
+//                    DietByCateIdModel.class);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 获取餐饮的列表
+     *
+     * @param response
+     */
+    protected void parserGetDietData(JSONObject response) {
+        Log.d("ouou", "response:" + response);
+        JSONObject resultObj;
+        try {
+            resultObj = response.getJSONObject("result");
+            if (resultObj == null) {
+                ToastTool.showText(this, "数据错误");
+                return;
+            }
+            String code = resultObj.getString("code");
+            if (!Constant.RESPONSE_CODE.SUCCESS_CODE.equals(code)) {
+                ToastTool.showText(this, resultObj.getString("msg"));
                 return;
             }
             Gson gson = new Gson();
@@ -446,7 +633,6 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
     @Override
     public void callBack() {
-
     }
 
     @Override
@@ -466,18 +652,28 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         if (!isAdded) {
             shopping_cart_List.add(foodModel);
         }
-        if (shopping_cart_List.size() > 0) {
-            shop_car_total_msg.setVisibility(View.INVISIBLE);
-        } else {
-            shop_car_total_msg.setVisibility(View.VISIBLE);
-        }
+
         int num = 0;
         for (int i = 0; i < shopping_cart_List.size(); i++) {
             FoodModel tempFoodModel = shopping_cart_List.get(i);
-            Log.d("ouou","##tempFoodModel.buyNum:"+tempFoodModel.buyNum);
-            num=num+tempFoodModel.buyNum;
+            Log.d("ouou", "##tempFoodModel.buyNum:" + tempFoodModel.buyNum);
+            num = num + tempFoodModel.buyNum;
         }
         food_num.setText("" + num);
+
+        if (shopping_cart_List.size() > 0) {
+            float totlepeice = 0;
+            for (int i = 0; i < shopping_cart_List.size(); i++) {
+                FoodModel tempFoodModel = shopping_cart_List.get(i);
+                totlepeice = totlepeice + Float.parseFloat(tempFoodModel.proPrice) * tempFoodModel.buyNum;
+            }
+            shop_car_total_msg.setText("总金额：" + totlepeice + "元");
+        } else {
+            shop_car_total_msg.setVisibility(View.VISIBLE);
+            shop_car_total_msg.setText("您的购物车是空的");
+        }
+
+
     }
 
 
@@ -493,5 +689,25 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             totleFoodList.add(model);
         }
         initLeftListData(curMealTime);
+    }
+
+    @Override
+    protected void parserData(JSONObject response) {
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //resultCode就是在B页面中返回时传的parama，可以根据需求做相应的处理
+        if (requestCode == GETADDRESS && resultCode == RESULT_OK && data != null) {
+            Serializable ob = data.getSerializableExtra("address");
+            if (ob != null) {
+                DeliveryAddressModel address = (DeliveryAddressModel) ob;
+                addId = address.id;
+            }
+
+        }
     }
 }

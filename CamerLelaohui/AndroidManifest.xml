@@ -146,6 +146,10 @@
         </activity>
         <activity android:name="com.llh.camera.activity.OrderFooderActivity" >
         </activity>
+        <activity android:name="com.llh.camera.activity.AddressAtivity" >
+        </activity>
+        <activity android:name="com.llh.camera.activity.AddAddressAtivity" >
+        </activity>
     </application>
 
 </manifest>

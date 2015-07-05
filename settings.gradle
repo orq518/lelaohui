@@ -1,3 +1,4 @@
 include ':CamerLelaohui'
 include ':ToolBox-android'
 include ':librarys'
+include ':MaterialDesignLibrary'

@@ -1,15 +1,12 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':librarys')
-    compile project(':ToolBox-android')
-    compile project(':MaterialDesignLibrary')
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "23.0.0 rc2"
+    compileSdkVersion 10
+    buildToolsVersion "22.0.1"
 
     sourceSets {
         main {
