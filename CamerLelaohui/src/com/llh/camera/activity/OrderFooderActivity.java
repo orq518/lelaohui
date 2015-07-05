@@ -620,7 +620,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         for (int i = 0; i < totleFoodList.size(); i++) {
             FoodModel food = totleFoodList.get(i);
 
-            Log.d("ouou", "%%cateName:" + food.cateName + "  " + food.mealTime);
+//            Log.d("ouou", "%%cateName:" + food.cateName + "  " + food.mealTime);
 
             if (food.cateName.equals(cateName)
                     && food.mealTime.equals(mealTime)) {
