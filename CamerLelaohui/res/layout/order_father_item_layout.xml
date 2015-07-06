@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal">
+    <TextView
+        android:id="@+id/order_num"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:singleLine="true"
+        android:text="123131223131"
+        android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/goods"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:singleLine="true"
+        android:text="套餐A"
+        android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:singleLine="true"
+        android:text="100元"
+        android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:singleLine="true"
+        android:text="2015-1-1"
+        android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/food"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:singleLine="true"
+        android:text="早餐"
+        android:textSize="14sp"/>
+</LinearLayout>
+

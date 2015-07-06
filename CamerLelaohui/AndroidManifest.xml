@@ -150,6 +150,10 @@
         </activity>
         <activity android:name="com.llh.camera.activity.AddAddressAtivity" >
         </activity>
+        <activity android:name="com.llh.camera.activity.OrderQueryAtivity" >
+        </activity>
+
+
     </application>
 
 </manifest>

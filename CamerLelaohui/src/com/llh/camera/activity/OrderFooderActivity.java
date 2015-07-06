@@ -50,6 +50,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -176,9 +177,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                                 startActivityForResult(intent, GETADDRESS);
                                 break;
                             case 1:// 我的订单
-                                ToastTool.showText(OrderFooderActivity.this,"暂无订单");
-//                Intent intent = new Intent(this, AddressAtivity.class);
-//                startActivityForResult(intent, GETADDRESS);
+//                                ToastTool.showText(OrderFooderActivity.this,"暂无订单");
+                                intent = new Intent(OrderFooderActivity.this, OrderQueryAtivity.class);
+                                startActivity(intent);
                                 break;
 
                             default:
@@ -350,7 +351,16 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
     }
 
     private void initRightListData(String mealTime) {
+        curMealTime = "" + this.mealTime;
         ArrayList<FoodModel> data = sortFood(curFoodType, mealTime);
+        for (int i = 0; i < shopping_cart_List.size(); i++) {
+            FoodModel foodModel = shopping_cart_List.get(i);
+            if (!foodModel.mealTime.equals(curMealTime)) {
+                shopping_cart_List.remove(i);
+                i--;
+            }
+
+        }
         foodAdapter.setData(data);
     }
 
@@ -449,37 +459,30 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
      */
     public void createOrder() {
 
-        try{
+        try {
             if (shopping_cart_List.size() == 0) {
                 Toast.makeText(this, "您还未选择餐品", Toast.LENGTH_SHORT).show();
                 return;
             }
 //        userId
-//                merchantId
+//        merchantId
 //        isDistr(20150601新增)
 //        addId(20150601新增)
 //        channel(2015060新增)
 //        isScope(20150602新增)
 //        mealtime(0602新增)
-            Map<String, Object> map = SysVar.getInstance(this).getUserInfo();
-            String userId = (String) map.get("userId");
-            String merchantId = (String) map.get("merchantId");
             Bundle param = new Bundle();
-            param.putString("userId", userId);
-            param.putString("merchantId", merchantId);
             param.putString("isDistr", "1");
             param.putString("addId", "179");
             param.putString("channel", "1");
             param.putString("isScope", isScope);
-            param.putString("mealtime", curMealTime);
-
-
-
+            param.putString("mealTime", curMealTime);
 
 
             JSONArray jsonArray = new JSONArray();
-            JSONObject jb = new JSONObject();
+
             for (int i = 0; i < shopping_cart_List.size(); i++) {
+                JSONObject jb = new JSONObject();
                 FoodModel foodModel = shopping_cart_List.get(i);
                 jb.put("proId", foodModel.proId);
                 jb.put("proNum", "" + foodModel.buyNum);
@@ -489,8 +492,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             }
 
             Log.d("ouou", "jsonArray.toString():" + jsonArray.toString());
-
-            param.putString("list", jsonArray.toString());
+            param.putString("list", URLEncoder.encode(jsonArray.toString(), "UTF-8"));
             reqData("/data/placeDiet.json", param, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -506,7 +508,8 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 }
             }, this, false);
 
-        }catch(Exception e){}
+        } catch (Exception e) {
+        }
 
     }
 
@@ -516,7 +519,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
     }
 
     /**
-     * 获取餐饮的列表
+     * 订餐返回解析
      *
      * @param response
      */
@@ -534,10 +537,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             if (!Constant.RESPONSE_CODE.SUCCESS_CODE.equals(code)) {
                 ToastTool.showText(this, resultObj.getString("msg"));
                 return;
+            } else {
+                ToastTool.showText(this, resultObj.getString("msg"));
             }
-            Gson gson = new Gson();
-//            foodModel = gson.fromJson(resultObj.toString(),
-//                    DietByCateIdModel.class);
 
 
         } catch (JSONException e) {
@@ -677,19 +679,19 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
     }
 
 
-    public void addTestData() {
-        for (int i = 0; i < 14; i++) {
-            FoodModel model = new FoodModel();
-            model.cateName = "类别 " + i % 3;
-            model.proId = "" + i;
-            model.proName = "土豆 " + i;
-            model.proPrice = i + "";
-            model.mealTime = "" + (i % 4 + 1);
-            model.remark = "营养丰富";
-            totleFoodList.add(model);
-        }
-        initLeftListData(curMealTime);
-    }
+//    public void addTestData() {
+//        for (int i = 0; i < 14; i++) {
+//            FoodModel model = new FoodModel();
+//            model.cateName = "类别 " + i % 3;
+//            model.proId = "" + i;
+//            model.proName = "土豆 " + i;
+//            model.proPrice = i + "";
+//            model.mealTime = "" + (i % 4 + 1);
+//            model.remark = "营养丰富";
+//            totleFoodList.add(model);
+//        }
+//        initLeftListData(curMealTime);
+//    }
 
     @Override
     protected void parserData(JSONObject response) {

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:background="@color/status_view"
+              android:padding="10dp"
+              android:text="订单明细"/>
+    <ImageView android:layout_width="50dp" android:layout_height="50dp"
+               android:src="@drawable/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/order_num"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:background="@color/color_divider"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:text="订单号：xxx"/>
+    <TextView
+        android:id="@+id/goods"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:background="@color/color_divider"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:text="商   品："/>
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:background="@color/color_divider"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:text="金   额："/>
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:background="@color/color_divider"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:text="日   期："/>
+</LinearLayout>
