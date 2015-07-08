@@ -45,20 +45,24 @@ public class AddAddressAtivity extends BaseNetActivity implements View.OnClickLi
     private ImageButton left_btn;
 
     TextView titlebar_text;
-    MaterialEditText name, phone, address, post;
+    MaterialEditText name, phone,phoneNew, address, post;
     Button commit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+    @Override
+    public int setLayout() {
+        return R.layout.add_address_layout;
+    }
     @Override
     public void initView() {
         titlebar_text = (TextView) findViewById(R.id.titlebar_text);
         titlebar_text.setText("新增地址");
         name = (MaterialEditText) findViewById(R.id.name);
         phone = (MaterialEditText) findViewById(R.id.phone);
+        phoneNew=(MaterialEditText) findViewById(R.id.phone);
         address = (MaterialEditText) findViewById(R.id.address);
         post = (MaterialEditText) findViewById(R.id.post);
         commit = (Button) findViewById(R.id.commit);
@@ -77,7 +81,7 @@ public class AddAddressAtivity extends BaseNetActivity implements View.OnClickLi
             param.putString("merchantId", merchantId);
             param.putString("realName", URLEncoder.encode(name.getText().toString(), "UTF-8"));
             param.putString("mobile", URLEncoder.encode(phone.getText().toString(), "UTF-8"));
-            param.putString("phone", URLEncoder.encode(phone.getText().toString(), "UTF-8"));
+            param.putString("phoneNew", URLEncoder.encode(phoneNew.getText().toString(), "UTF-8"));
             param.putString("code", URLEncoder.encode(post.getText().toString(), "UTF-8"));
             param.putString("deliveryAddress", URLEncoder.encode(address.getText().toString(), "UTF-8"));
             param.putString("operator", "0");
@@ -121,10 +125,7 @@ public class AddAddressAtivity extends BaseNetActivity implements View.OnClickLi
         return true;
     }
 
-    @Override
-    public int setLayout() {
-        return R.layout.add_address_layout;
-    }
+
 
     public void onClick(View v) {
         switch (v.getId()) {

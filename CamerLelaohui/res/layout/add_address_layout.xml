@@ -25,6 +25,14 @@
         android:layout_marginTop="10dp"
         android:hint="请输入电话"/>
     <com.yh.materialdesign.edittext.MaterialEditText
+        android:id="@+id/phoneNew"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="请输入座机"/>
+    <com.yh.materialdesign.edittext.MaterialEditText
         android:id="@+id/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

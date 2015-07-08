@@ -414,7 +414,7 @@ public class utils {
 						.getSystemService(Context.STORAGE_SERVICE);
 				/************** StorageManager的方法 ***********************/
 				Method getVolumeList = StorageManager.class.getMethod(
-						"getVolumeList", null);
+						 "getVolumeList", null);
 				Method getVolumeState = StorageManager.class.getMethod(
 						"getVolumeState", String.class);
 

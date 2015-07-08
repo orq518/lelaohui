@@ -279,6 +279,7 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
                 groupHolder = new GroupHolder();
                 groupHolder.name = (TextView) convertView.findViewById(R.id.name);
                 groupHolder.address = (TextView) convertView.findViewById(R.id.address);
+                groupHolder.operate = (Button) convertView.findViewById(R.id.operate);
                 convertView.setTag(groupHolder);
             } else {
                 groupHolder = (GroupHolder) convertView.getTag();
@@ -290,6 +291,13 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
             }
             groupHolder.name.setText(name);
             groupHolder.address.setText(addressModel.deliveryAddress);
+//
+            if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
+                groupHolder.operate.setVisibility(View.INVISIBLE);
+            }else{
+                groupHolder.operate.setVisibility(View.VISIBLE);
+                groupHolder.operate.setText("设为默认");
+            }
             return convertView;
         }
 
@@ -319,6 +327,7 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
     class GroupHolder {
         public TextView name;
         public TextView address;
+        public Button operate;
     }
 
 }
