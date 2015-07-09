@@ -7,6 +7,7 @@ public class WapDietInfoModel extends BaseModel {
 
     public String proId;//
     public String proName;//	String		单品(套餐)d
+    public String remark;//	String		描述
     public String merchantId;//
     public String mealTime;//	Integer		餐饮时间
     public String proPrice;//	String		供应商id

@@ -2,6 +2,7 @@ package com.llh.camera.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -21,7 +23,11 @@ import com.llh.entity.DeliveryAddressListModel;
 import com.llh.entity.DeliveryAddressModel;
 import com.llh.entity.OrderListModel;
 import com.llh.entity.OrderModel;
+import com.llh.entity.WapDietInfoModel;
+import com.llh.net.NetManager;
 import com.llh.utils.Constant.RESPONSE_CODE;
+import com.llh.utils.ImageManager;
+import com.llh.utils.utils;
 import com.tool.Inject.ViewInject;
 import com.tool.utils.LogTool;
 import com.tool.utils.ToastTool;
@@ -165,7 +171,7 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
 
         @Override
         public int getChildrenCount(int groupPosition) {
-            return 1;
+            return group_list.get(groupPosition).wapDietInfoList.size();
         }
 
         @Override
@@ -175,7 +181,7 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
 
         @Override
         public Object getChild(int groupPosition, int childPosition) {
-            return group_list.get(groupPosition);
+            return group_list.get(groupPosition).wapDietInfoList;
         }
 
         @Override
@@ -222,7 +228,7 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
             }
 
             groupHolder.amount.setText(orderListModel.proPrice);
-            groupHolder.date.setText(orderListModel.wapDietInfoList.get(0).addTime);
+            groupHolder.date.setText(orderListModel.addTime);
             //1(早餐),2(午餐),3(晚餐),4(夜加餐)
             if(orderListModel.mealTime.equals("1")){
                 groupHolder.food.setText("早餐");
@@ -239,23 +245,54 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
         @Override
         public View getChildView(int groupPosition, int childPosition,
                                  boolean isLastChild, View convertView, ViewGroup parent) {
+
+            Log.d("","");
             convertView = (View) getLayoutInflater().from(context).inflate(
                     R.layout.order_expand_item_layout, null);
-            TextView order_num = (TextView) convertView.findViewById(R.id.order_num);
-            TextView goods = (TextView) convertView.findViewById(R.id.goods);
-            TextView amount = (TextView) convertView.findViewById(R.id.amount);
-            TextView date = (TextView) convertView.findViewById(R.id.date);
+            TextView mealTime = (TextView) convertView.findViewById(R.id.mealTime);
+            TextView proName = (TextView) convertView.findViewById(R.id.proName);
+            TextView remark = (TextView) convertView.findViewById(R.id.remark);
+            TextView proPrice = (TextView) convertView.findViewById(R.id.proPrice);
+            TextView proNum = (TextView) convertView.findViewById(R.id.proNum);
+
+            ImageView image= (ImageView) convertView.findViewById(R.id.image);
+            WapDietInfoModel orderListModel=group_list.get(groupPosition).wapDietInfoList.get(childPosition);
+
+            proName.setText("餐名："+orderListModel.proName);
+            remark.setText("描述："+orderListModel.remark);
+            proPrice.setText("价格："+orderListModel.proPrice+"元");
+            proNum.setText("数量："+orderListModel.proNum);
+
+
+            //1(早餐),2(午餐),3(晚餐),4(夜加餐)
+            if(orderListModel.mealTime.equals("1")){
+                mealTime.setText("早餐");
+            }else if(orderListModel.mealTime.equals("2")){
+                mealTime.setText("午餐");
+            }else if(orderListModel.mealTime.equals("3")){
+                mealTime.setText("晚餐");
+            }else if(orderListModel.mealTime.equals("4")){
+                mealTime.setText("夜加餐");
+            }
+            if(!utils.isEmpty(orderListModel.imgUrl)){
+                ImageManager.getInstance(OrderQueryAtivity.this).getBitmap(NetManager.Ip+orderListModel.imgUrl, new ImageManager.ImageCallBack(){
+                    @Override
+                    public void loadImage(ImageView imageView, Bitmap bitmap) {
+                        if (bitmap != null && imageView != null) {
+                            imageView.setImageBitmap(bitmap);
+                            imageView
+                                    .setScaleType(ImageView.ScaleType.FIT_XY);
+                        }else{
+                            imageView.setImageResource(R.drawable.waimai);
+                        }
+                    }
+                },image);
+            }else{
+                image.setImageResource(R.drawable.waimai);
+            }
 
 
 
-//            public String proName;//	Integer		餐饮时间段
-//            public String merchantId;//	String		单品(套餐)d
-//            public String mealTime;//	Integer		餐饮时间
-//            public String proPrice;//	String		供应商id
-//            public String imgUrl;//	Integer		图片
-//            public String mealType;//	int	（0单品1，套餐）	套餐/单品
-//            public String proNum;//	Int		产品数量
-//            public String addTime;//	String		下单时间
             return convertView;
         }
 

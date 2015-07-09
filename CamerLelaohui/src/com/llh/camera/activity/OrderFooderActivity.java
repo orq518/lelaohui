@@ -227,7 +227,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             }
 
         });
-        foodAdapter = new FoodAdapter();
+        foodAdapter = new FoodAdapter(OrderFooderActivity.this);
         right_listview.setAdapter(foodAdapter);
         foodAdapter.registerCallBack(this);
 

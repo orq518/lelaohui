@@ -5,9 +5,15 @@ import java.util.HashMap;
 
 import com.ipcamer.app.MyApplication;
 import com.ipcamer.demo.R;
+import com.llh.camera.activity.OrderQueryAtivity;
 import com.llh.entity.FoodModel;
+import com.llh.net.NetManager;
+import com.llh.utils.ImageManager;
 import com.llh.utils.OrderFoodInterface;
+import com.llh.utils.utils;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +26,11 @@ public class FoodAdapter extends BaseAdapter {
     private ArrayList<FoodModel> array = new ArrayList<FoodModel>();
     private LayoutInflater inflater;
     OrderFoodInterface orderFoodInterface;
+    Context context;
 
-    public FoodAdapter() {
+    public FoodAdapter(Context context) {
         inflater = LayoutInflater.from(MyApplication.getMyApplication());
+        this.context = context;
     }
 
     public void setData(ArrayList<FoodModel> data) {
@@ -76,7 +84,7 @@ public class FoodAdapter extends BaseAdapter {
             public void onClick(View v) {
                 foodModel.buyNum++;
                 notifyDataSetChanged();
-                if(orderFoodInterface!=null){
+                if (orderFoodInterface != null) {
                     orderFoodInterface.refreshShoppingList(foodModel);
                 }
             }
@@ -89,12 +97,27 @@ public class FoodAdapter extends BaseAdapter {
                     foodModel.buyNum = 0;
                 }
                 notifyDataSetChanged();
-                if(orderFoodInterface!=null){
+                if (orderFoodInterface != null) {
                     orderFoodInterface.refreshShoppingList(foodModel);
                 }
             }
         });
-
+        if (!utils.isEmpty(foodModel.proPic)) {
+            ImageManager.getInstance(context).getBitmap(NetManager.Ip+foodModel.proPic, new ImageManager.ImageCallBack() {
+                @Override
+                public void loadImage(ImageView imageView, Bitmap bitmap) {
+                    if (bitmap != null && imageView != null) {
+                        imageView.setImageBitmap(bitmap);
+                        imageView
+                                .setScaleType(ImageView.ScaleType.FIT_XY);
+                    } else {
+                        imageView.setImageResource(R.drawable.waimai);
+                    }
+                }
+            }, holder.food_im);
+        } else {
+            holder.food_im.setImageResource(R.drawable.waimai);
+        }
         return convertView;
     }
 
