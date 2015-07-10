@@ -22,7 +22,10 @@ import com.llh.entity.DeliveryAddressListModel;
 import com.llh.entity.DeliveryAddressModel;
 import com.llh.entity.DietByCateIdModel;
 import com.llh.net.SysVar;
+import com.llh.utils.Constant;
 import com.llh.utils.Constant.RESPONSE_CODE;
+import com.llh.utils.DataTools;
+import com.llh.utils.SharedPreferenceUtil;
 import com.tool.Inject.ViewInject;
 import com.tool.utils.LogTool;
 import com.tool.utils.ToastTool;
@@ -30,8 +33,10 @@ import com.tool.utils.ToastTool;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,10 +51,16 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
 
     TextView titlebar_text;
     Button right_btn;
+    /**
+     * 是否来自创建订单
+     */
+    boolean isFromCreatOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isFromCreatOrder = getIntent().getBooleanExtra("isFromCreatOrder", false);
+        Logout.d("isFromCreatOrder:" + isFromCreatOrder);
     }
 
     @Override
@@ -284,19 +295,43 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
             } else {
                 groupHolder = (GroupHolder) convertView.getTag();
             }
-            DeliveryAddressModel addressModel = group_list.get(groupPosition);
+            final DeliveryAddressModel addressModel = group_list.get(groupPosition);
             String name = addressModel.realName;
             if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
                 name = name + "(默认)";
             }
             groupHolder.name.setText(name);
             groupHolder.address.setText(addressModel.deliveryAddress);
-//
-            if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
-                groupHolder.operate.setVisibility(View.INVISIBLE);
-            }else{
+            Logout.d("##isFromCreatOrder:" + isFromCreatOrder);
+            if (isFromCreatOrder) {
+                Logout.d("##1111:");
                 groupHolder.operate.setVisibility(View.VISIBLE);
-                groupHolder.operate.setText("设为默认");
+                groupHolder.operate.setText("选择");
+                groupHolder.operate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.putExtra("addressModel", addressModel);
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                    }
+                });
+            } else {
+                Logout.d("##222:");
+
+                if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
+                    groupHolder.operate.setVisibility(View.INVISIBLE);
+                } else {
+                    groupHolder.operate.setVisibility(View.VISIBLE);
+                    groupHolder.operate.setText("设为默认");
+                }
+                groupHolder.operate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        setDefaultAddress(addressModel);
+                    }
+                });
             }
             return convertView;
         }
@@ -322,6 +357,7 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
             return true;
         }
 
+
     }
 
     class GroupHolder {
@@ -329,5 +365,61 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
         public TextView address;
         public Button operate;
     }
+
+    /**
+     * 设置默认地址
+     */
+    public void setDefaultAddress(final DeliveryAddressModel addressModel) {
+
+        try {
+            Bundle param = new Bundle();
+            param.putString("realName", URLEncoder.encode(addressModel.realName, "UTF-8"));
+            param.putString("mobile", URLEncoder.encode(addressModel.mobile, "UTF-8"));
+            param.putString("phoneNew", URLEncoder.encode(addressModel.phone, "UTF-8"));
+            param.putString("id", URLEncoder.encode(addressModel.id, "UTF-8"));
+            if (addressModel.code != null) {
+                param.putString("code", URLEncoder.encode(addressModel.code, "UTF-8"));
+            }
+            param.putString("deliveryAddress", URLEncoder.encode(addressModel.deliveryAddress, "UTF-8"));
+            param.putString("operator", "1");//更新
+
+            reqData("/data/createDeliveryAdd.json", param, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    dialog.dismiss();
+                    JSONObject obj = null;
+                    try {
+                        obj = response.getJSONObject("result");
+                        String code = obj.getString("code");
+                        if (!RESPONSE_CODE.SUCCESS_CODE.equals(code)) {
+                            ToastTool.showText(AddressAtivity.this, obj.getString("msg"));
+
+//                                HashMap<String, Object> dataMap=DataTools.readData(AddressAtivity.this);
+//                                dataMap.put(Constant.DEFAUIT_ADDRESS,addressModel);
+//                                DataTools.writeData(AddressAtivity.this,dataMap);
+
+
+                            return;
+                        } else {
+                            ToastTool.showText(AddressAtivity.this, obj.getString("msg"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    dialog.dismiss();
+                    dataError(error);
+                }
+            }, this, false);
+        } catch (Exception e) {
+            Logout.d("e:" + e);
+        }
+    }
+
 
 }

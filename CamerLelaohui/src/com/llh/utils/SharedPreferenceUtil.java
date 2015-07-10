@@ -1,5 +1,6 @@
 package com.llh.utils;
 
+import java.util.Objects;
 import java.util.Set;
 
 import android.annotation.SuppressLint;
@@ -57,5 +58,41 @@ public class SharedPreferenceUtil {
 			return sp;
 		}
 		return sp;
+	}
+	/**
+	 * 设置参数
+	 */
+	public static String getString(Context context,String name,String defaultString){
+		sp = getSpInstance(context);
+		return sp.getString(name,defaultString);
+
+	}
+	/*
+	* 设置参数
+	*/
+	public static boolean getBoolean(Context context,String name,boolean defaultBoolean){
+		sp = getSpInstance(context);
+		return sp.getBoolean(name,defaultBoolean);
+
+	}
+	/**
+	 * 设置参数
+	 */
+	public static void saveString(Context context,String name,String objects){
+		sp = getSpInstance(context);
+		Editor editor = sp.edit();
+		editor.putString(name,objects);
+		editor.commit();
+
+	}
+	/*
+	* 设置参数
+	*/
+	public static void saveBoolean(Context context,String name,boolean objects){
+		sp = getSpInstance(context);
+		Editor editor = sp.edit();
+		editor.putBoolean(name, objects);
+		editor.commit();
+
 	}
 }

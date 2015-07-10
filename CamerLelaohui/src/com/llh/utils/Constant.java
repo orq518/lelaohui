@@ -1,7 +1,14 @@
 package com.llh.utils;
 
 public class Constant {
+	/**
+	 * 默认地址   还得和username拼接
+	 */
+	public static final String DEFAUIT_ADDRESS = "defaultAddress";
+
+
 	public static final class REQ_ACTION {
+
 		public static final String INFORMATION_LIST = "/data/getConsultListTop.json";
 		public static final String INFO_CONTENT= "/data/showContent.json";
 		public static final String BIND_CAMERA = "/data/bindCamera.json";

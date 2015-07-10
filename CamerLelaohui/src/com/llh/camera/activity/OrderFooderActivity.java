@@ -37,7 +37,10 @@ import com.llh.entity.FoodModel;
 import com.llh.net.SysVar;
 import com.llh.utils.Constant;
 import com.llh.utils.Constant.CACHE_KEY;
+import com.llh.utils.DataTools;
 import com.llh.utils.OrderFoodInterface;
+import com.llh.utils.SharedPreferenceUtil;
+import com.llh.utils.utils;
 import com.llh.view.ActionItem;
 import com.llh.view.ShoppingPopupWindow;
 import com.llh.view.TitlePopup;
@@ -142,8 +145,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
     ShoppingAdapter shoppingAdapter;
 
-    TextView food_num;
+    TextView food_num, address;
     TextView totle_price;
+    Button commit_button;
     /**
      * 订餐的地址ID
      */
@@ -167,6 +171,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 //        titlePopup.addAction(new ActionItem(this, "我的退款", 0));
         titlePopup.addAction(new ActionItem(this, "我的地址", R.drawable.ic_edit_camera));
         titlePopup.addAction(new ActionItem(this, "我的订单", R.drawable.ic_edit_camera));
+
         titlePopup
                 .setItemOnClickListener(new TitlePopup.OnItemOnClickListener() {
                     @Override
@@ -201,6 +206,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
         food_num = (TextView) findViewById(R.id.food_num);
         buy_list_Layout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.shopping_list_layout, null);// (RelativeLayout) findViewById(R.id.buy_list_Layout);
+        commit_button = (Button) buy_list_Layout.findViewById(R.id.commit_button);
+        commit_button.setOnClickListener(this);
+        address = (TextView) buy_list_Layout.findViewById(R.id.address);
         buy_listView = (ListView) buy_list_Layout.findViewById(R.id.food_listview);
         totle_price = (TextView) buy_list_Layout.findViewById(R.id.totle_price);
         shoppingAdapter = new ShoppingAdapter();
@@ -276,28 +284,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         shop_car_layout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (shopping_cart_List.size() > 0) {
-
-//                    float totlepeice = 0;
-//                    for (int i = 0; i < shopping_cart_List.size(); i++) {
-//                        FoodModel tempFoodModel = shopping_cart_List.get(i);
-//                        totlepeice = totlepeice + Float.parseFloat(tempFoodModel.proPrice);
-//                    }
-//                    totle_price.setText("总金额：" + totlepeice + "元");
-
-                    menuWindow = new ShoppingPopupWindow(OrderFooderActivity.this, buy_list_Layout);
-                    //显示窗口
-                    menuWindow.showAtLocation(OrderFooderActivity.this.findViewById(R.id.main_layout), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
-                    shoppingAdapter.setData(shopping_cart_List);
-//                    if (buy_list_Layout.isShown()){
-//                        buy_list_Layout.setVisibility(View.GONE);
-//                    }else{
-//                        buy_list_Layout.setVisibility(View.VISIBLE);
-//                        shoppingAdapter.setData(shopping_cart_List);
-//                    }
-                } else {
-//                    buy_list_Layout.setVisibility(View.GONE);
-                }
+                showShopListPoP();
 
             }
         });
@@ -305,6 +292,20 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
 //        //测试的
 //        addTestData();
+    }
+
+    public void showShopListPoP() {
+        if(addressModel!=null) {
+            address.setText("地址："+addressModel.deliveryAddress);
+        }else{
+            address.setText("无地址");
+        }
+        if (shopping_cart_List.size() > 0) {
+            menuWindow = new ShoppingPopupWindow(OrderFooderActivity.this, buy_list_Layout);
+            //显示窗口
+            menuWindow.showAtLocation(OrderFooderActivity.this.findViewById(R.id.main_layout), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+            shoppingAdapter.setData(shopping_cart_List);
+        }
     }
 
     ShoppingPopupWindow menuWindow;
@@ -367,6 +368,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.commit_button:
+                createOrder();
+                break;
             case R.id.left_btn:
                 finish();
                 break;
@@ -410,10 +414,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 initRightListData("" + mealTime);
                 break;
             case R.id.shop_car_commit://选好了
-//                Intent intent = new Intent(this, AddressAtivity.class);
-//                startActivityForResult(intent, GETADDRESS);
-////                startActivity(new );
-                createOrder();
+                showShopListPoP();
                 break;
             case R.id.right_btn:
 
@@ -458,22 +459,34 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
      * 创建件订单
      */
     public void createOrder() {
-
+        Logout.d("创建订单");
         try {
             if (shopping_cart_List.size() == 0) {
                 Toast.makeText(this, "您还未选择餐品", Toast.LENGTH_SHORT).show();
                 return;
             }
-//        userId
-//        merchantId
-//        isDistr(20150601新增)
-//        addId(20150601新增)
-//        channel(2015060新增)
-//        isScope(20150602新增)
-//        mealtime(0602新增)
+
+//            HashMap<String, Object> dataMap= DataTools.readData(this);
+//            DeliveryAddressModel addressModel=null;
+//            if(dataMap.get(Constant.DEFAUIT_ADDRESS)!=null){
+//                 addressModel= (DeliveryAddressModel) dataMap.get(Constant.DEFAUIT_ADDRESS);
+//            }
+//
+//            if (addressModel==null) {//没有默认地址
+//                Intent intent = new Intent(OrderFooderActivity.this, AddressAtivity.class);
+//                startActivityForResult(intent, GETADDRESS);
+//                return;
+//            }
+            if (addressModel == null) {
+                Intent intent = new Intent(OrderFooderActivity.this, AddressAtivity.class);
+                intent.putExtra("isFromCreatOrder", true);
+                startActivityForResult(intent, GETADDRESS);
+                return;
+            }
+
             Bundle param = new Bundle();
             param.putString("isDistr", "1");
-            param.putString("addId", "179");
+            param.putString("addId", addressModel.id);
             param.putString("channel", "1");
             param.putString("isScope", isScope);
             param.putString("mealTime", curMealTime);
@@ -698,16 +711,17 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
     }
 
+    DeliveryAddressModel addressModel;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //resultCode就是在B页面中返回时传的parama，可以根据需求做相应的处理
         if (requestCode == GETADDRESS && resultCode == RESULT_OK && data != null) {
-            Serializable ob = data.getSerializableExtra("address");
+            Serializable ob = data.getSerializableExtra("addressModel");
             if (ob != null) {
-                DeliveryAddressModel address = (DeliveryAddressModel) ob;
-                addId = address.id;
+                addressModel = (DeliveryAddressModel) ob;
+                addId = addressModel.id;
             }
 
         }
