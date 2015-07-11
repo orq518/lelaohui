@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="str_recorder_normal">按住说话</string>
+    <string name="str_recorder_recording">松开结束</string>
+    <string name="str_recorder_want_cancel">松开手指，取消发送</string>
     <string name="net_info">当前网络不可用，请您设置网络</string>
     <string name="tanshishijian">探视时间</string>
     <string name="shenqingshijian">申请时间</string>

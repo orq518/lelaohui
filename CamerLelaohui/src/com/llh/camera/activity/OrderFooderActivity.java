@@ -146,12 +146,12 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
     ShoppingAdapter shoppingAdapter;
 
     TextView food_num, address;
-    TextView totle_price;
+    TextView totle_price,delete_all;
     Button commit_button;
-    /**
-     * 订餐的地址ID
-     */
-    String addId;
+//    /**
+//     * 订餐的地址ID
+//     */
+//    String addId;
     // 定义标题栏弹窗按钮
     private TitlePopup titlePopup;
 
@@ -207,7 +207,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         food_num = (TextView) findViewById(R.id.food_num);
         buy_list_Layout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.shopping_list_layout, null);// (RelativeLayout) findViewById(R.id.buy_list_Layout);
         commit_button = (Button) buy_list_Layout.findViewById(R.id.commit_button);
+        delete_all= (TextView) buy_list_Layout.findViewById(R.id.delete_all);
         commit_button.setOnClickListener(this);
+        delete_all.setOnClickListener(this);
         address = (TextView) buy_list_Layout.findViewById(R.id.address);
         buy_listView = (ListView) buy_list_Layout.findViewById(R.id.food_listview);
         totle_price = (TextView) buy_list_Layout.findViewById(R.id.totle_price);
@@ -294,12 +296,20 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 //        addTestData();
     }
 
-    public void showShopListPoP() {
+    public void refreshShopButton(){
         if(addressModel!=null) {
-            address.setText("地址："+addressModel.deliveryAddress);
+            address.setText("地址："+addressModel.deliveryAddress+"\n电话："+addressModel.mobile);
+            commit_button.setText("提交订单");
         }else{
             address.setText("无地址");
+            commit_button.setText("选择地址");
         }
+    }
+    public void showShopListPoP() {
+
+
+        refreshShopButton();
+
         if (shopping_cart_List.size() > 0) {
             menuWindow = new ShoppingPopupWindow(OrderFooderActivity.this, buy_list_Layout);
             //显示窗口
@@ -368,6 +378,13 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.delete_all:
+                shopping_cart_List.clear();
+                shoppingAdapter.notifyDataSetChanged();
+                menuWindow.dismiss();
+                refreshShoppingList(null);
+                break;
             case R.id.commit_button:
                 createOrder();
                 break;
@@ -552,6 +569,12 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 return;
             } else {
                 ToastTool.showText(this, resultObj.getString("msg"));
+                shopping_cart_List.clear();
+                if(menuWindow!=null){
+                    menuWindow.dismiss();
+                }
+                shoppingAdapter.notifyDataSetChanged();
+                refreshShoppingList(null);
             }
 
 
@@ -664,7 +687,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 break;
             }
         }
-        if (!isAdded) {
+        if (!isAdded&&foodModel!=null) {
             shopping_cart_List.add(foodModel);
         }
 
@@ -721,7 +744,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             Serializable ob = data.getSerializableExtra("addressModel");
             if (ob != null) {
                 addressModel = (DeliveryAddressModel) ob;
-                addId = addressModel.id;
+                refreshShopButton();
             }
 
         }

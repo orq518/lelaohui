@@ -82,7 +82,7 @@ public class AddAddressAtivity extends BaseNetActivity implements View.OnClickLi
             param.putString("realName", URLEncoder.encode(name.getText().toString(), "UTF-8"));
             param.putString("mobile", URLEncoder.encode(phone.getText().toString(), "UTF-8"));
             param.putString("phoneNew", URLEncoder.encode(phoneNew.getText().toString(), "UTF-8"));
-            param.putString("code", URLEncoder.encode(post.getText().toString(), "UTF-8"));
+//            param.putString("code", URLEncoder.encode(post.getText().toString(), "UTF-8"));
             param.putString("deliveryAddress", URLEncoder.encode(address.getText().toString(), "UTF-8"));
             param.putString("operator", "0");
 

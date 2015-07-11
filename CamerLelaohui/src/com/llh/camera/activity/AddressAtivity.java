@@ -77,34 +77,17 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
     }
 
     public void getAddress() {
-//        //获取默认的地址
-//        Map<String, Object> map = SysVar.getInstance(this).getUserInfo();
-//        String userId = (String) map.get("userId");
-//        Bundle param = new Bundle();
-////        param.putString("userId", userId);
-//        reqData("/data/getDefaultDeliveryAdd.json", param, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                dialog.dismiss();
-//                parserAddressData(response);
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                dialog.dismiss();
-//                dataError(error);
-//            }
-//        }, this, false);
-        //获取地址列表
-//        Map<String, Object> map = SysVar.getInstance(this).getUserInfo();
-//        String userId = (String) map.get("userId");
+        //获取默认的地址
+        Map<String, Object> map = SysVar.getInstance(this).getUserInfo();
+        String userId = (String) map.get("userId");
         Bundle param = new Bundle();
-//        param.putString("userId", userId);
-        reqData("/data/getDeliveryAddList.json", param, new Response.Listener<JSONObject>() {
+        param.putString("userId", userId);
+
+        reqData("/data/getDefaultDeliveryAdd.json", param, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 dialog.dismiss();
-                parserAddressListData(response);
+                parserAddressData(response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -113,6 +96,20 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
                 dataError(error);
             }
         }, this, false);
+
+//        reqData("/data/getDeliveryAddList.json", param, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                dialog.dismiss();
+//                parserAddressListData(response);
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                dialog.dismiss();
+//                dataError(error);
+//            }
+//        }, this, false);
     }
 
     @Override

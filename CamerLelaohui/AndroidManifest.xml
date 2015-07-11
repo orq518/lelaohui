@@ -152,7 +152,8 @@
         </activity>
         <activity android:name="com.llh.camera.activity.OrderQueryAtivity" >
         </activity>
-
+        <activity android:name="com.llh.chat.MainActivity" >
+        </activity>
 
     </application>
 
