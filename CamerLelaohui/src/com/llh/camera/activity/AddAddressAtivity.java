@@ -47,7 +47,7 @@ public class AddAddressAtivity extends BaseNetActivity implements View.OnClickLi
     TextView titlebar_text;
     MaterialEditText name, phone,phoneNew, address, post;
     Button commit;
-
+    DeliveryAddressModel addressModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +59,25 @@ public class AddAddressAtivity extends BaseNetActivity implements View.OnClickLi
     @Override
     public void initView() {
         titlebar_text = (TextView) findViewById(R.id.titlebar_text);
-        titlebar_text.setText("新增地址");
         name = (MaterialEditText) findViewById(R.id.name);
         phone = (MaterialEditText) findViewById(R.id.phone);
         phoneNew=(MaterialEditText) findViewById(R.id.phone);
         address = (MaterialEditText) findViewById(R.id.address);
         post = (MaterialEditText) findViewById(R.id.post);
+        if(getIntent().getSerializableExtra("addressModel")!=null) {
+            addressModel = (DeliveryAddressModel) getIntent().getSerializableExtra("addressModel");
+            titlebar_text.setText("编辑地址");
+            name.setText(addressModel.realName);
+            phone.setText(addressModel.mobile);
+            address.setText(addressModel.deliveryAddress);
+            if(addressModel.code!=null) {
+                post.setText(addressModel.code);
+            }
+        }else{
+            titlebar_text.setText("新增地址");
+        }
+
+
         commit = (Button) findViewById(R.id.commit);
         commit.setOnClickListener(this);
 
@@ -79,13 +92,19 @@ public class AddAddressAtivity extends BaseNetActivity implements View.OnClickLi
             Bundle param = new Bundle();
             param.putString("userId", userId);
             param.putString("merchantId", merchantId);
+            if(addressModel!=null){
+                param.putString("id",addressModel.id );
+            }
             param.putString("realName", URLEncoder.encode(name.getText().toString(), "UTF-8"));
             param.putString("mobile", URLEncoder.encode(phone.getText().toString(), "UTF-8"));
             param.putString("phoneNew", URLEncoder.encode(phoneNew.getText().toString(), "UTF-8"));
 //            param.putString("code", URLEncoder.encode(post.getText().toString(), "UTF-8"));
             param.putString("deliveryAddress", URLEncoder.encode(address.getText().toString(), "UTF-8"));
-            param.putString("operator", "0");
-
+            if(addressModel!=null) {
+                param.putString("operator", "1");
+            }else{
+                param.putString("operator", "0");
+            }
             reqData("/data/createDeliveryAdd.json", param, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -165,6 +184,9 @@ public class AddAddressAtivity extends BaseNetActivity implements View.OnClickLi
                 return;
             }else{
                 ToastTool.showText(AddAddressAtivity.this, obj.getString("msg"));
+                if(addressModel!=null) {
+                    setResult(RESULT_OK);
+                }
                 finish();
             }
 //

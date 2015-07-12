@@ -254,6 +254,12 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
             TextView remark = (TextView) convertView.findViewById(R.id.remark);
             TextView proPrice = (TextView) convertView.findViewById(R.id.proPrice);
             TextView proNum = (TextView) convertView.findViewById(R.id.proNum);
+            TextView title = (TextView) convertView.findViewById(R.id.title);
+            if(childPosition==0){
+                title.setVisibility(View.VISIBLE);
+            }else{
+                title.setVisibility(View.GONE);
+            }
 
             ImageView image= (ImageView) convertView.findViewById(R.id.image);
             WapDietInfoModel orderListModel=group_list.get(groupPosition).wapDietInfoList.get(childPosition);
@@ -275,18 +281,18 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
                 mealTime.setText("夜加餐");
             }
             if(!utils.isEmpty(orderListModel.imgUrl)){
-                ImageManager.getInstance(OrderQueryAtivity.this).getBitmap(NetManager.Ip+orderListModel.imgUrl, new ImageManager.ImageCallBack(){
+                ImageManager.getInstance(OrderQueryAtivity.this).getBitmap(NetManager.Ip + orderListModel.imgUrl, new ImageManager.ImageCallBack() {
                     @Override
                     public void loadImage(ImageView imageView, Bitmap bitmap) {
                         if (bitmap != null && imageView != null) {
                             imageView.setImageBitmap(bitmap);
                             imageView
                                     .setScaleType(ImageView.ScaleType.FIT_XY);
-                        }else{
+                        } else {
                             imageView.setImageResource(R.drawable.waimai);
                         }
                     }
-                },image);
+                }, image);
             }else{
                 image.setImageResource(R.drawable.waimai);
             }
@@ -309,6 +315,7 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
         public TextView amount;
         public TextView date;
         public TextView food;
+        public TextView title;
     }
 
 }

@@ -34,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,6 +75,7 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
         addressList = (ExpandableListView) findViewById(R.id.address_list);
         adapter = new MyExpandableListViewAdapter(this);
         addressList.setAdapter(adapter);
+
     }
 
     public void getAddress() {
@@ -139,11 +141,7 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-        super.onActivityResult(arg0, arg1, arg2);
 
-    }
 
     private void enroll() {
 
@@ -316,19 +314,27 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
             } else {
                 Logout.d("##222:");
 
-                if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
+//                if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
+//                    groupHolder.operate.setVisibility(View.VISIBLE);
+//                    groupHolder.operate.setText("编辑");
+//                    groupHolder.operate.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            editDefaultAddress(addressModel);
+//                        }
+//                    });
+//                } else {
                     groupHolder.operate.setVisibility(View.INVISIBLE);
-                } else {
-                    groupHolder.operate.setVisibility(View.VISIBLE);
-                    groupHolder.operate.setText("设为默认");
-                }
-                groupHolder.operate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+//                    groupHolder.operate.setText("设为默认");
+//                    groupHolder.operate.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//
+//                            setDefaultAddress(addressModel);
+//                        }
+//                    });
+//                }
 
-                        setDefaultAddress(addressModel);
-                    }
-                });
             }
             return convertView;
         }
@@ -343,9 +349,9 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
             TextView address = (TextView) convertView.findViewById(R.id.address);
             TextView postnum = (TextView) convertView.findViewById(R.id.postnum);
             DeliveryAddressModel addressModel = group_list.get(groupPosition);
-            name.setText(addressModel.realName);
-            phonenum.setText(addressModel.mobile);
-            address.setText(addressModel.deliveryAddress);
+            name.setText("姓名：" + addressModel.realName);
+            phonenum.setText("电话：" + addressModel.mobile);
+            address.setText("地址：" + addressModel.deliveryAddress);
             return convertView;
         }
 
@@ -418,5 +424,26 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * 编辑地址
+     */
+    public void editDefaultAddress(final DeliveryAddressModel addressModel) {
 
+        try {
+            Intent intent = new Intent(this,AddAddressAtivity.class);
+            intent.putExtra("addressModel", addressModel);
+            startActivityForResult(intent, 1100);
+        } catch (Exception e) {
+            Logout.d("e:" + e);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+        super.onActivityResult(arg0, arg1, arg2);
+        //resultCode就是在B页面中返回时传的parama，可以根据需求做相应的处理
+//        if (arg0 == 1100 && arg1 == RESULT_OK && arg2 != null) {
+//            getAddress();
+//        }
+    }
 }

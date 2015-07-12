@@ -222,7 +222,8 @@ public class MainActivity extends BaseNetActivity{
 			if(code.equals("2")){
 				JSONObject rs = result.getJSONObject("rs");
 				SystemValue.deviceId= rs.getString("businessCode");
-				LogTool.i("摄像头编码 = "+SystemValue.deviceName);
+				Logout.d("摄像头deviceName = " + SystemValue.deviceName);
+				Logout.d("摄像头devicePass = " + SystemValue.devicePass);
 				SystemValue.deviceName = "admin";
 				SystemValue.devicePass = "888888";
 			}
