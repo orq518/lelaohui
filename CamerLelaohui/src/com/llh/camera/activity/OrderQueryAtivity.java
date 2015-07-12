@@ -212,33 +212,73 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
                 groupHolder.amount = (TextView) convertView.findViewById(R.id.amount);
                 groupHolder.date = (TextView) convertView.findViewById(R.id.date);
                 groupHolder.food = (TextView) convertView.findViewById(R.id.food);
+                groupHolder.order_status = (TextView) convertView.findViewById(R.id.order_status);
+                groupHolder.btn_cancel = (Button) convertView.findViewById(R.id.btn_cancel);
+
                 convertView.setTag(groupHolder);
             } else {
                 groupHolder = (GroupHolder) convertView.getTag();
             }
-            OrderListModel orderListModel=group_list.get(groupPosition);
+            final OrderListModel orderListModel = group_list.get(groupPosition);
+
+            if (orderListModel.payStatus != null && orderListModel.payStatus.equals("0")) {
+                groupHolder.order_status.setText("支付状态：未支付");
+            } else if (orderListModel.payStatus != null && orderListModel.payStatus.equals("1")) {
+                groupHolder.order_status.setText("支付状态：已支付");
+            } else {
+                groupHolder.order_status.setText("");
+            }
+            if (orderListModel.cancel != null && orderListModel.cancel.equals("0")) {
+                groupHolder.btn_cancel.setVisibility(View.GONE);
+                groupHolder.btn_cancel.setText("支付状态：未支付");
+                groupHolder.btn_cancel.setOnClickListener(null);
+            } else if (orderListModel.cancel != null && orderListModel.cancel.equals("1")) {
+                groupHolder.btn_cancel.setVisibility(View.VISIBLE);
+                groupHolder.btn_cancel.setClickable(true);
+                groupHolder.btn_cancel.setText("取消");
+                groupHolder.btn_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cancelOrder(orderListModel);
+
+                    }
+                });
+            } else if (orderListModel.cancel != null && orderListModel.cancel.equals("2")) {
+                groupHolder.btn_cancel.setVisibility(View.VISIBLE);
+                groupHolder.btn_cancel.setClickable(false);
+                groupHolder.btn_cancel.setText("已取消");
+                groupHolder.btn_cancel.setOnClickListener(null);
+            } else {
+                groupHolder.btn_cancel.setVisibility(View.GONE);
+                groupHolder.btn_cancel.setText("");
+                groupHolder.btn_cancel.setOnClickListener(null);
+            }
+
+
             groupHolder.order_num.setText(orderListModel.orderCode);
 //            0 单品 1 套餐 2 混合
-            if(orderListModel.mealType.equals("0")){
+            if (orderListModel.mealType.equals("0")) {
                 groupHolder.goods.setText("单品");
-            }else if(orderListModel.mealType.equals("1")){
+            } else if (orderListModel.mealType.equals("1")) {
                 groupHolder.goods.setText("套餐");
-            }else if(orderListModel.mealType.equals("2")){
+            } else if (orderListModel.mealType.equals("2")) {
                 groupHolder.goods.setText("混合");
             }
 
             groupHolder.amount.setText(orderListModel.proPrice);
             groupHolder.date.setText(orderListModel.addTime);
             //1(早餐),2(午餐),3(晚餐),4(夜加餐)
-            if(orderListModel.mealTime.equals("1")){
+            if (orderListModel.mealTime.equals("1")) {
                 groupHolder.food.setText("早餐");
-            }else if(orderListModel.mealTime.equals("2")){
+            } else if (orderListModel.mealTime.equals("2")) {
                 groupHolder.food.setText("午餐");
-            }else if(orderListModel.mealTime.equals("3")){
+            } else if (orderListModel.mealTime.equals("3")) {
                 groupHolder.food.setText("晚餐");
-            }else if(orderListModel.mealTime.equals("4")){
+            } else if (orderListModel.mealTime.equals("4")) {
                 groupHolder.food.setText("夜加餐");
             }
+
+
             return convertView;
         }
 
@@ -246,7 +286,7 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
         public View getChildView(int groupPosition, int childPosition,
                                  boolean isLastChild, View convertView, ViewGroup parent) {
 
-            Log.d("","");
+            Log.d("", "");
             convertView = (View) getLayoutInflater().from(context).inflate(
                     R.layout.order_expand_item_layout, null);
             TextView mealTime = (TextView) convertView.findViewById(R.id.mealTime);
@@ -255,32 +295,32 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
             TextView proPrice = (TextView) convertView.findViewById(R.id.proPrice);
             TextView proNum = (TextView) convertView.findViewById(R.id.proNum);
             TextView title = (TextView) convertView.findViewById(R.id.title);
-            if(childPosition==0){
+            if (childPosition == 0) {
                 title.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 title.setVisibility(View.GONE);
             }
 
-            ImageView image= (ImageView) convertView.findViewById(R.id.image);
-            WapDietInfoModel orderListModel=group_list.get(groupPosition).wapDietInfoList.get(childPosition);
+            ImageView image = (ImageView) convertView.findViewById(R.id.image);
+            WapDietInfoModel orderListModel = group_list.get(groupPosition).wapDietInfoList.get(childPosition);
 
-            proName.setText("餐名："+orderListModel.proName);
-            remark.setText("描述："+orderListModel.remark);
-            proPrice.setText("价格："+orderListModel.proPrice+"元");
-            proNum.setText("数量："+orderListModel.proNum);
+            proName.setText("餐名：" + orderListModel.proName);
+            remark.setText("描述：" + orderListModel.remark);
+            proPrice.setText("价格：" + orderListModel.proPrice + "元");
+            proNum.setText("数量：" + orderListModel.proNum);
 
 
             //1(早餐),2(午餐),3(晚餐),4(夜加餐)
-            if(orderListModel.mealTime.equals("1")){
+            if (orderListModel.mealTime.equals("1")) {
                 mealTime.setText("早餐");
-            }else if(orderListModel.mealTime.equals("2")){
+            } else if (orderListModel.mealTime.equals("2")) {
                 mealTime.setText("午餐");
-            }else if(orderListModel.mealTime.equals("3")){
+            } else if (orderListModel.mealTime.equals("3")) {
                 mealTime.setText("晚餐");
-            }else if(orderListModel.mealTime.equals("4")){
+            } else if (orderListModel.mealTime.equals("4")) {
                 mealTime.setText("夜加餐");
             }
-            if(!utils.isEmpty(orderListModel.imgUrl)){
+            if (!utils.isEmpty(orderListModel.imgUrl)) {
                 ImageManager.getInstance(OrderQueryAtivity.this).getBitmap(NetManager.Ip + orderListModel.imgUrl, new ImageManager.ImageCallBack() {
                     @Override
                     public void loadImage(ImageView imageView, Bitmap bitmap) {
@@ -293,10 +333,9 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
                         }
                     }
                 }, image);
-            }else{
+            } else {
                 image.setImageResource(R.drawable.waimai);
             }
-
 
 
             return convertView;
@@ -316,6 +355,39 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
         public TextView date;
         public TextView food;
         public TextView title;
+        public Button btn_cancel;
+        public TextView order_status;
+
+
     }
 
+    /**
+     * 取消订单
+     */
+    public void cancelOrder(OrderListModel orderListModel) {
+
+        Bundle param = new Bundle();
+        param.putString("serial ", "0");
+        reqData("/data/ cancelOrder.json", param, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dialog.dismiss();
+                Log.d("ouou", "response:" + response);
+                try {
+                    JSONObject obj = response.getJSONObject("result");
+                    String code = obj.getString("code");
+                    ToastTool.showText(OrderQueryAtivity.this, obj.getString("msg"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+                dataError(error);
+            }
+        }, this, false);
+    }
 }

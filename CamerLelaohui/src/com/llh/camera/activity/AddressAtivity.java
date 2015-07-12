@@ -142,7 +142,6 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
     }
 
 
-
     private void enroll() {
 
     }
@@ -292,9 +291,9 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
             }
             final DeliveryAddressModel addressModel = group_list.get(groupPosition);
             String name = addressModel.realName;
-            if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
-                name = name + "(默认)";
-            }
+//            if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
+//                name = name + "(默认)";
+//            }
             groupHolder.name.setText(name);
             groupHolder.address.setText(addressModel.deliveryAddress);
             Logout.d("##isFromCreatOrder:" + isFromCreatOrder);
@@ -313,27 +312,33 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
                 });
             } else {
                 Logout.d("##222:");
-
-//                if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
-//                    groupHolder.operate.setVisibility(View.VISIBLE);
-//                    groupHolder.operate.setText("编辑");
-//                    groupHolder.operate.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            editDefaultAddress(addressModel);
-//                        }
-//                    });
-//                } else {
+                if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
+                    groupHolder.operate.setVisibility(View.VISIBLE);
+                    groupHolder.operate.setText("默认");
+                    groupHolder.operate.setClickable(false);
+                } else {
                     groupHolder.operate.setVisibility(View.INVISIBLE);
-//                    groupHolder.operate.setText("设为默认");
-//                    groupHolder.operate.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//
-//                            setDefaultAddress(addressModel);
-//                        }
-//                    });
-//                }
+                }
+////                if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
+////                    groupHolder.operate.setVisibility(View.VISIBLE);
+////                    groupHolder.operate.setText("编辑");
+////                    groupHolder.operate.setOnClickListener(new View.OnClickListener() {
+////                        @Override
+////                        public void onClick(View v) {
+////                            editDefaultAddress(addressModel);
+////                        }
+////                    });
+////                } else {
+//                    groupHolder.operate.setVisibility(View.INVISIBLE);
+////                    groupHolder.operate.setText("设为默认");
+////                    groupHolder.operate.setOnClickListener(new View.OnClickListener() {
+////                        @Override
+////                        public void onClick(View v) {
+////
+////                            setDefaultAddress(addressModel);
+////                        }
+////                    });
+////                }
 
             }
             return convertView;
@@ -430,7 +435,7 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
     public void editDefaultAddress(final DeliveryAddressModel addressModel) {
 
         try {
-            Intent intent = new Intent(this,AddAddressAtivity.class);
+            Intent intent = new Intent(this, AddAddressAtivity.class);
             intent.putExtra("addressModel", addressModel);
             startActivityForResult(intent, 1100);
         } catch (Exception e) {
