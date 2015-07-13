@@ -61,6 +61,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipcamer.demo.BridgeService.PlayInterface;
+import com.llh.camera.activity.Logout;
 
 public class PlayActivity extends Activity implements OnTouchListener,
 		OnGestureListener, OnClickListener, PlayInterface,CustomAudioRecorder.AudioRecordResult {
@@ -148,10 +149,6 @@ public class PlayActivity extends Activity implements OnTouchListener,
 	//送话器
 	private CustomAudioRecorder customAudioRecorder;
 
-	@Override
-	public void AudioRecordData(byte[] data, int len) {
-
-	}
 
 	class MyBrodCast extends BroadcastReceiver {
 
@@ -1469,5 +1466,15 @@ public class PlayActivity extends Activity implements OnTouchListener,
 	public void callBackH264Data(byte[] h264, int type, int size) {
 		Log.d("tag", "CallBack_H264Data" + " type:" + type + " size:" + size);
 	}
-
+	//对讲数据
+	@Override
+	public void AudioRecordData(byte[] data, int len) {
+		// TODO Auto-generated method stub
+		Logout.d("@###AudioRecordData:"+len);
+		Logout.d("@###AudioRecor----bAudioRecordStart:"+bAudioRecordStart);
+		if (bAudioRecordStart && len > 0) {
+			Logout.d("@###AudioRe--strDID:"+strDID);
+			NativeCaller.PPPPTalkAudioData(strDID, data, len);
+		}
+	}
 }
