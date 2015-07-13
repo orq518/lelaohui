@@ -280,7 +280,13 @@
             android:layout_weight="1"
             android:background="@drawable/ptz_takepic_selector"
             android:src="@drawable/ptz_audio_off" />
-
+        <ImageButton
+            android:id="@+id/ptz_talk"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@drawable/ptz_takepic_selector"
+            android:src="@drawable/ptz_microphone_off" />
         <ImageButton
             android:id="@+id/ptz_brightness"
             android:layout_width="45dp"

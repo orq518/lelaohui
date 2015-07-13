@@ -63,7 +63,7 @@ import android.widget.Toast;
 import com.ipcamer.demo.BridgeService.PlayInterface;
 
 public class PlayActivity extends Activity implements OnTouchListener,
-		OnGestureListener, OnClickListener, PlayInterface {
+		OnGestureListener, OnClickListener, PlayInterface,CustomAudioRecorder.AudioRecordResult {
 
 	private static final String LOG_TAG = "PlayActivity";
 	private static final int FULLSCREEN = 0;
@@ -126,12 +126,14 @@ public class PlayActivity extends Activity implements OnTouchListener,
 	private boolean isShowtoping = false;
 	private ImageView vidoeView;
 	private ImageView videoViewStandard;
-	private ImageButton ptzAudio;
+	private ImageButton ptzAudio,ptztalk;
 	private ImageButton ptzPlayMode;
 	private Button ptzResolutoin;
 	private Animation showAnim;
 	private boolean isTakepic = true;
 	private boolean isMcriophone = false;
+	private boolean isTalking = false;//是否在说话
+	private boolean bAudioRecordStart = false;
 	private boolean isExit = false;
 	private PopupWindow resolutionPopWindow;
 	private Animation dismissAnim;
@@ -143,6 +145,13 @@ public class PlayActivity extends Activity implements OnTouchListener,
 	private BitmapDrawable drawable = null;
 	// private LinkedList<byte[]> bs = null;
 	private MyBrodCast brodCast = null;
+	//送话器
+	private CustomAudioRecorder customAudioRecorder;
+
+	@Override
+	public void AudioRecordData(byte[] data, int len) {
+
+	}
 
 	class MyBrodCast extends BroadcastReceiver {
 
@@ -163,7 +172,7 @@ public class PlayActivity extends Activity implements OnTouchListener,
 			switch (msg.what) {
 
 			case 1004:
-				Toast.makeText(PlayActivity.this, "相机断线", 0).show();
+				Toast.makeText(PlayActivity.this, "相机断线", Toast.LENGTH_SHORT).show();
 				PlayActivity.this.finish();
 				break;
 			default:
@@ -206,7 +215,7 @@ public class PlayActivity extends Activity implements OnTouchListener,
 					timeOne = date.getSeconds();
 					timeTag = 1;
 					Toast.makeText(PlayActivity.this, R.string.main_show_back,
-							0).show();
+							Toast.LENGTH_SHORT).show();
 				} else if (timeTag == 1) {
 					PlayActivity.this.finish();
 					// timeTwo = date.getSeconds();
@@ -282,7 +291,7 @@ public class PlayActivity extends Activity implements OnTouchListener,
 	}
 
 	private void showToast(int i) {
-		Toast.makeText(PlayActivity.this, i, 0).show();
+		Toast.makeText(PlayActivity.this, i, Toast.LENGTH_SHORT).show();
 
 	}
 
@@ -593,7 +602,8 @@ public class PlayActivity extends Activity implements OnTouchListener,
 		InitParams();
 		AudioBuffer = new CustomBuffer();
 		audioPlayer = new AudioPlayer(AudioBuffer);
-		// myvideoRecorder = new CustomVideoRecord(this, strDID);
+		customAudioRecorder=new CustomAudioRecorder(this);
+//		 myvideoRecorder = new CustomVideoRecord(this, strDID);
 		BridgeService.setPlayInterface(this);
 		playHolder = playSurface.getHolder();
 		playHolder.setFormat(PixelFormat.RGB_565);
@@ -683,6 +693,7 @@ public class PlayActivity extends Activity implements OnTouchListener,
 		ptzHoriTour2 = (ImageButton) findViewById(R.id.ptz_hori_tour);
 		ptzVertTour2 = (ImageButton) findViewById(R.id.ptz_vert_tour);
 		ptzAudio = (ImageButton) findViewById(R.id.ptz_audio);
+		ptztalk=(ImageButton) findViewById(R.id.ptz_talk);
 		ImageButton ptzBrightness = (ImageButton) findViewById(R.id.ptz_brightness);
 		ImageButton ptzContrast = (ImageButton) findViewById(R.id.ptz_contrast);
 		ptzResolutoin = (Button) findViewById(R.id.ptz_resoluti);
@@ -694,6 +705,7 @@ public class PlayActivity extends Activity implements OnTouchListener,
 		ptzHoriTour2.setOnClickListener(this);
 		ptzVertTour2.setOnClickListener(this);
 		ptzAudio.setOnClickListener(this);
+		ptztalk.setOnClickListener(this);
 		ptzBrightness.setOnClickListener(this);
 		ptzContrast.setOnClickListener(this);
 		ptzResolutoin.setOnClickListener(this);
@@ -1052,16 +1064,31 @@ public class PlayActivity extends Activity implements OnTouchListener,
 				if (bAudioStart) {
 					Log.d("tag", "没有声音");
 					bAudioStart = false;
+					isTalking = false;
 					ptzAudio.setImageResource(R.drawable.ptz_audio_off);
 					StopAudio();
+
 				} else {
 					Log.d("tag", "有声音");
+					isTalking = true;
 					bAudioStart = true;
 					ptzAudio.setImageResource(R.drawable.ptz_audio_on);
 					StartAudio();
 				}
+			} else {
+				isMcriophone = false;
+				bAudioRecordStart = false;
+				ptztalk.setImageResource(R.drawable.ptz_microphone_off);
+				StopTalk();
+				isTalking = true;
+				bAudioStart = true;
+				ptzAudio.setImageResource(R.drawable.ptz_audio_on);
+				StartAudio();
 			}
 			break;
+		case R.id.ptz_talk://对讲
+				goMicroPhone();
+				break;
 		case R.id.ptz_brightness:
 			if (mPopupWindowProgress != null
 					&& mPopupWindowProgress.isShowing()) {
@@ -1153,6 +1180,56 @@ public class PlayActivity extends Activity implements OnTouchListener,
 		}
 	}
 
+	/*
+	* * 对讲
+      */
+	private void goMicroPhone()
+	{
+		dismissBrightAndContrastProgress();
+		if (!isTalking)
+		{
+			if (bAudioRecordStart)
+			{
+				Log.d("tag", "停止说话");
+				isMcriophone = false;
+				bAudioRecordStart = false;
+				ptztalk.setImageResource(R.drawable.ptz_microphone_off);
+				StopTalk();
+			} else {
+				Log.d("info", "开始说话");
+				isMcriophone = true;
+				bAudioRecordStart = true;
+				ptztalk.setImageResource(R.drawable.ptz_microphone_on);
+				StartTalk();
+			}
+		} else {
+			isTalking = false;
+			bAudioStart = false;
+			ptzAudio.setImageResource(R.drawable.ptz_audio_off);
+			StopAudio();
+			isMcriophone = true;
+			bAudioRecordStart = true;
+			ptztalk.setImageResource(R.drawable.ptz_microphone_on);
+			StartTalk();
+		}
+
+	}
+	//讲话
+	private void StartTalk() {
+		if (customAudioRecorder != null) {
+			Log.i("info", "startTalk");
+			customAudioRecorder.StartRecord();
+			NativeCaller.PPPPStartTalk(strDID);
+		}
+	}
+	//停止讲话
+	private void StopTalk() {
+		if (customAudioRecorder != null) {
+			Log.i("info", "stopTalk");
+			customAudioRecorder.StopRecord();
+			NativeCaller.PPPPStopTalk(strDID);
+		}
+	}
 	private void dismissBrightAndContrastProgress() {
 		if (mPopupWindowProgress != null && mPopupWindowProgress.isShowing()) {
 			mPopupWindowProgress.dismiss();
