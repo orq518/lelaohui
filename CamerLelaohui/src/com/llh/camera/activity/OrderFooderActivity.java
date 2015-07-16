@@ -1,7 +1,7 @@
 package com.llh.camera.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +17,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -34,15 +35,15 @@ import com.llh.base.BaseNetActivity;
 import com.llh.entity.DeliveryAddressModel;
 import com.llh.entity.DietByCateIdModel;
 import com.llh.entity.FoodModel;
-import com.llh.net.SysVar;
+import com.llh.entity.WapDietInfoModel;
+import com.llh.net.NetManager;
 import com.llh.utils.Constant;
 import com.llh.utils.Constant.CACHE_KEY;
-import com.llh.utils.DataTools;
+import com.llh.utils.ImageManager;
 import com.llh.utils.OrderFoodInterface;
-import com.llh.utils.SharedPreferenceUtil;
 import com.llh.utils.utils;
 import com.llh.view.ActionItem;
-import com.llh.view.ShoppingPopupWindow;
+import com.llh.view.MyPopupWindow;
 import com.llh.view.TitlePopup;
 import com.tool.Inject.ViewInject;
 import com.tool.utils.LogTool;
@@ -55,11 +56,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-import javax.json.Json;
 
 public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInterface, OnClickListener {
 
@@ -202,7 +198,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
     @Override
     public void initView() {
 
-        reqData(TODAY_FOOD);
+//        reqData(TODAY_FOOD);
 
         food_num = (TextView) findViewById(R.id.food_num);
         buy_list_Layout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.shopping_list_layout, null);// (RelativeLayout) findViewById(R.id.buy_list_Layout);
@@ -233,7 +229,6 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 isScroll = false;
                 setLeftSelected(position);
 
-
             }
 
         });
@@ -262,12 +257,21 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 }
                 // Log.d("ouou", "setOnItemSelectedListener");
                 // initLeftListData("" + mealTime);
+                reqData(isScope);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
 
+            }
+        });
+
+        right_listview.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showDetailPOP(curFoodList.get(position));
+//                getFoodDetaile(curFoodList.get(position));
             }
         });
         break_btn.setTextColor(getResources().getColor(R.color.color_white));
@@ -305,20 +309,75 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             commit_button.setText("选择地址");
         }
     }
+
+    MyPopupWindow foodDetailPOP;
+
+    public void showDetailPOP(FoodModel foodModel){
+
+        LinearLayout foodDetailLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.food_detail_layout, null);
+        TextView mealTime = (TextView) foodDetailLayout.findViewById(R.id.mealTime);
+        TextView proName = (TextView) foodDetailLayout.findViewById(R.id.proName);
+        TextView remark = (TextView) foodDetailLayout.findViewById(R.id.remark);
+        TextView proPrice = (TextView) foodDetailLayout.findViewById(R.id.proPrice);
+        ImageView image = (ImageView) foodDetailLayout.findViewById(R.id.image);
+
+        proName.setText("餐名：" + foodModel.proName);
+        remark.setText("描述：" + foodModel.remark);
+        proPrice.setText("价格：" + foodModel.proPrice + "元");
+
+
+        //1(早餐),2(午餐),3(晚餐),4(夜加餐)
+        if (foodModel.mealTime.equals("1")) {
+            mealTime.setText("早餐");
+        } else if (foodModel.mealTime.equals("2")) {
+            mealTime.setText("午餐");
+        } else if (foodModel.mealTime.equals("3")) {
+            mealTime.setText("晚餐");
+        } else if (foodModel.mealTime.equals("4")) {
+            mealTime.setText("夜加餐");
+        }
+        if (!utils.isEmpty(foodModel.proPic)) {
+            ImageManager.getInstance(this).getBitmap(NetManager.Ip + foodModel.proPic, new ImageManager.ImageCallBack() {
+                @Override
+                public void loadImage(ImageView imageView, Bitmap bitmap) {
+                    if (bitmap != null && imageView != null) {
+                        imageView.setImageBitmap(bitmap);
+                        imageView
+                                .setScaleType(ImageView.ScaleType.FIT_XY);
+                    } else {
+                        imageView.setImageResource(R.drawable.waimai);
+                    }
+                }
+            }, image);
+        } else {
+            image.setImageResource(R.drawable.waimai);
+        }
+
+        foodDetailPOP = new MyPopupWindow(OrderFooderActivity.this, foodDetailLayout,1);
+        //显示窗口
+//        foodDetailPOP.showAtLocation(OrderFooderActivity.this.findViewById(R.id.main_layout), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+        foodDetailPOP.showAtLocation(OrderFooderActivity.this.findViewById(R.id.main_layout), Gravity.CENTER, 0, 0);
+
+
+    }
+
     public void showShopListPoP() {
 
 
         refreshShopButton();
 
         if (shopping_cart_List.size() > 0) {
-            menuWindow = new ShoppingPopupWindow(OrderFooderActivity.this, buy_list_Layout);
+            shoppingPopupWindow = new MyPopupWindow(OrderFooderActivity.this, buy_list_Layout);
             //显示窗口
-            menuWindow.showAtLocation(OrderFooderActivity.this.findViewById(R.id.main_layout), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+            shoppingPopupWindow.showAtLocation(OrderFooderActivity.this.findViewById(R.id.main_layout), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
             shoppingAdapter.setData(shopping_cart_List);
         }
     }
 
-    ShoppingPopupWindow menuWindow;
+    /**
+     * 购物车的popwindow
+     */
+    MyPopupWindow shoppingPopupWindow;
 
     public void setLeftSelected(int position) {
 
@@ -382,7 +441,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             case R.id.delete_all:
                 shopping_cart_List.clear();
                 shoppingAdapter.notifyDataSetChanged();
-                menuWindow.dismiss();
+                shoppingPopupWindow.dismiss();
                 refreshShoppingList(null);
                 break;
             case R.id.commit_button:
@@ -472,6 +531,23 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         }, this, false);
     }
 
+    private void getFoodDetaile(FoodModel foodModel) {
+        Bundle b = new Bundle();
+//        b.putString("packId", foodModel.proId);
+//        reqData("/data/getPackInfo.json", b, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                dialog.dismiss();
+//                Logout.d("###response:"+response);
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                dialog.dismiss();
+//                dataError(error);
+//            }
+//        }, this, false);
+    }
     /**
      * 创建件订单
      */
@@ -570,8 +646,8 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             } else {
                 ToastTool.showText(this, resultObj.getString("msg"));
                 shopping_cart_List.clear();
-                if(menuWindow!=null){
-                    menuWindow.dismiss();
+                if(shoppingPopupWindow !=null){
+                    shoppingPopupWindow.dismiss();
                 }
                 shoppingAdapter.notifyDataSetChanged();
                 refreshShoppingList(null);
@@ -653,8 +729,8 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
      */
     public ArrayList<FoodModel> sortFood(String cateName, String mealTime) {
         curFoodList.clear();
-        Log.d("ouou", "##cateName:" + cateName + "  " + mealTime);
-        Log.d("ouou", "##totleFoodList.size():" + totleFoodList.size());
+//        Log.d("ouou", "##cateName:" + cateName + "  " + mealTime);
+//        Log.d("ouou", "##totleFoodList.size():" + totleFoodList.size());
         for (int i = 0; i < totleFoodList.size(); i++) {
             FoodModel food = totleFoodList.get(i);
 

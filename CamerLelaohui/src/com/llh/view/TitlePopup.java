@@ -51,8 +51,8 @@ public class TitlePopup extends PopupWindow {
 	private ListView mListView;
 	
 	//定义弹窗子类项列表
-	private ArrayList<ActionItem> mActionItems = new ArrayList<ActionItem>();			
-	
+	private ArrayList<ActionItem> mActionItems = new ArrayList<ActionItem>();
+
 	public TitlePopup(Context context){
 		//设置布局的参数
 		this(context, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);

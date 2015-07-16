@@ -23,7 +23,9 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:hint="请输入电话"/>
+        android:phoneNumber="true"
+        android:maxLength="11"
+        android:hint="请输入手机号"/>
     <com.yh.materialdesign.edittext.MaterialEditText
         android:id="@+id/phoneNew"
         android:layout_width="match_parent"
@@ -31,6 +33,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:phoneNumber="true"
+        android:maxLength="11"
         android:hint="请输入座机"/>
     <com.yh.materialdesign.edittext.MaterialEditText
         android:id="@+id/address"

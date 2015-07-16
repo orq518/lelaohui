@@ -7,7 +7,7 @@ import java.util.List;
  * The author ou on 2015/7/6.
  */
 public class OrderListModel extends BaseModel {
-
+    public String  orderId;//	String		订单号
     public String  orderCode;//	String		订单流水号
     public String  merchantId;//	String		连锁中心id
     public String  mealTime	;//Integer		餐饮标记

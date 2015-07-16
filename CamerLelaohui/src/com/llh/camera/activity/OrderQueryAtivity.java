@@ -21,6 +21,7 @@ import com.ipcamer.demo.R;
 import com.llh.base.BaseNetActivity;
 import com.llh.entity.DeliveryAddressListModel;
 import com.llh.entity.DeliveryAddressModel;
+import com.llh.entity.FoodModel;
 import com.llh.entity.OrderListModel;
 import com.llh.entity.OrderModel;
 import com.llh.entity.WapDietInfoModel;
@@ -32,9 +33,11 @@ import com.tool.Inject.ViewInject;
 import com.tool.utils.LogTool;
 import com.tool.utils.ToastTool;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +64,8 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
     public int setLayout() {
         return R.layout.order_querry_layout;
     }
+
+    String serial;
 
     @Override
     public void initView() {
@@ -125,6 +130,7 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
         try {
             JSONObject obj = response.getJSONObject("result");
             String code = obj.getString("code");
+            serial = obj.getString("serial");
             if (!RESPONSE_CODE.SUCCESS_CODE.equals(code)) {
                 ToastTool.showText(OrderQueryAtivity.this, obj.getString("msg"));
                 return;
@@ -364,11 +370,25 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
     /**
      * 取消订单
      */
-    public void cancelOrder(OrderListModel orderListModel) {
+    public void cancelOrder(final OrderListModel orderListModel) {
 
         Bundle param = new Bundle();
-        param.putString("serial ", "0");
-        reqData("/data/ cancelOrder.json", param, new Response.Listener<JSONObject>() {
+
+//        JSONArray jsonArray = new JSONArray();
+//        try {
+//            JSONObject jb = new JSONObject();
+////            jb.put("orderId", orderListModel.orderCode);
+//            jb.put("orderCode", "35532694342058990");
+//            jsonArray.put(jb);
+//            param.putString("list", URLEncoder.encode(jsonArray.toString(), "UTF-8"));
+//            Log.d("ouou", "jsonArray.toString():" + jsonArray.toString());
+//
+//
+//        } catch (Exception e) {
+//        }
+        param.putString("orderId", orderListModel.orderId);
+        param.putString("serial", serial);
+        reqData("/data/cancelDietOrder.json", param, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 dialog.dismiss();
@@ -377,6 +397,15 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
                     JSONObject obj = response.getJSONObject("result");
                     String code = obj.getString("code");
                     ToastTool.showText(OrderQueryAtivity.this, obj.getString("msg"));
+
+                    if (RESPONSE_CODE.SUCCESS_CODE.equals(code)) {
+//                        group_list.remove(orderListModel);
+//                        adapter.notifyDataSetChanged();
+                        querryorder();
+                        return;
+                    }
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

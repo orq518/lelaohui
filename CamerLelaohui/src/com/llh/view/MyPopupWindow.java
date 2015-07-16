@@ -18,12 +18,12 @@ import com.ipcamer.demo.R;
  * The author ou on 2015/6/30.
  */
 
-public class ShoppingPopupWindow extends PopupWindow {
+public class MyPopupWindow extends PopupWindow {
 
 
     private View mMenuView;
 
-    public ShoppingPopupWindow(Activity context,View view) {
+    public MyPopupWindow(Activity context, View view) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -44,5 +44,25 @@ public class ShoppingPopupWindow extends PopupWindow {
         this.setBackgroundDrawable(dw);
 
     }
+    public MyPopupWindow(Activity context, View view,int type) {
+        super(context);
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mMenuView =view;
+        //设置SelectPicPopupWindow的View
+        this.setContentView(mMenuView);
+        //设置SelectPicPopupWindow弹出窗体的宽
+        this.setWidth(LayoutParams.WRAP_CONTENT);
+//        //设置SelectPicPopupWindow弹出窗体的高
+        this.setHeight(LayoutParams.WRAP_CONTENT);
+        //设置SelectPicPopupWindow弹出窗体可点击
+        this.setFocusable(true);
+        //设置SelectPicPopupWindow弹出窗体动画效果
+        this.setAnimationStyle(R.style.AnimBottom);
+        //实例化一个ColorDrawable颜色为半透明
+        ColorDrawable dw = new ColorDrawable(0xffffffff);
+        //设置SelectPicPopupWindow弹出窗体的背景
+        this.setBackgroundDrawable(dw);
 
+    }
 }

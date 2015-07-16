@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_divider"
+              android:orientation="vertical">
+
+    <TextView android:id="@+id/title" android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/status_view"
+              android:padding="10dp" android:text="餐品详情"/>
+    <RelativeLayout android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="50dp" android:layout_height="50dp"
+            android:src="@drawable/ic_launcher"/>
+        <TextView
+            android:id="@+id/proName"
+            android:layout_width="fill_parent" android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/image"
+            android:background="@color/color_divider"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="商品名"/>
+        <TextView
+            android:id="@+id/proPrice"
+            android:layout_width="fill_parent" android:layout_height="wrap_content"
+            android:layout_below="@id/proName"
+            android:layout_toRightOf="@id/image"
+            android:background="@color/color_divider"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="金额"/>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/mealTime"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:background="@color/color_divider"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:text="餐饮时间"/>
+
+    <TextView
+        android:id="@+id/remark"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:background="@color/color_divider"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:text="商品描述"/>
+
+</LinearLayout>

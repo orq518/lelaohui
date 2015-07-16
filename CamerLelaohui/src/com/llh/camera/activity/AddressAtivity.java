@@ -80,30 +80,13 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
 
     public void getAddress() {
         //获取默认的地址
-        Map<String, Object> map = SysVar.getInstance(this).getUserInfo();
-        String userId = (String) map.get("userId");
         Bundle param = new Bundle();
-        param.putString("userId", userId);
 
-        reqData("/data/getDefaultDeliveryAdd.json", param, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                dialog.dismiss();
-                parserAddressData(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                dataError(error);
-            }
-        }, this, false);
-
-//        reqData("/data/getDeliveryAddList.json", param, new Response.Listener<JSONObject>() {
+//        reqData("/data/getDefaultDeliveryAdd.json", param, new Response.Listener<JSONObject>() {
 //            @Override
 //            public void onResponse(JSONObject response) {
 //                dialog.dismiss();
-//                parserAddressListData(response);
+//                parserAddressData(response);
 //            }
 //        }, new Response.ErrorListener() {
 //            @Override
@@ -112,6 +95,20 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
 //                dataError(error);
 //            }
 //        }, this, false);
+
+        reqData("/data/getDeliveryAddList.json", param, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dialog.dismiss();
+                parserAddressListData(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+                dataError(error);
+            }
+        }, this, false);
     }
 
     @Override
@@ -311,34 +308,38 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
                     }
                 });
             } else {
-                Logout.d("##222:");
+//                Logout.d("##222:");
+//                if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
+//                    groupHolder.operate.setVisibility(View.VISIBLE);
+//                    groupHolder.operate.setText("默认");
+//                    groupHolder.operate.setClickable(false);
+//                } else {
+//                    groupHolder.operate.setVisibility(View.INVISIBLE);
+//                }
                 if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
                     groupHolder.operate.setVisibility(View.VISIBLE);
                     groupHolder.operate.setText("默认");
                     groupHolder.operate.setClickable(false);
                 } else {
-                    groupHolder.operate.setVisibility(View.INVISIBLE);
+                    groupHolder.operate.setVisibility(View.VISIBLE);
+                    groupHolder.operate.setText("设为默认");
+                    groupHolder.operate.setClickable(true);
+                    groupHolder.operate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            setDefaultAddress(addressModel);
+                        }
+                    });
                 }
-////                if (addressModel.isCurrAdd != null && addressModel.isCurrAdd.equals("1")) {
-////                    groupHolder.operate.setVisibility(View.VISIBLE);
-////                    groupHolder.operate.setText("编辑");
-////                    groupHolder.operate.setOnClickListener(new View.OnClickListener() {
-////                        @Override
-////                        public void onClick(View v) {
-////                            editDefaultAddress(addressModel);
-////                        }
-////                    });
-////                } else {
-//                    groupHolder.operate.setVisibility(View.INVISIBLE);
-////                    groupHolder.operate.setText("设为默认");
-////                    groupHolder.operate.setOnClickListener(new View.OnClickListener() {
-////                        @Override
-////                        public void onClick(View v) {
-////
-////                            setDefaultAddress(addressModel);
-////                        }
-////                    });
-////                }
+
+//                groupHolder.operate.setVisibility(View.VISIBLE);
+//                groupHolder.operate.setText("编辑");
+//                groupHolder.operate.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        editDefaultAddress(addressModel);
+//                    }
+//                });
 
             }
             return convertView;
@@ -347,13 +348,33 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
         @Override
         public View getChildView(int groupPosition, int childPosition,
                                  boolean isLastChild, View convertView, ViewGroup parent) {
+
+
+            final DeliveryAddressModel addressModel = group_list.get(groupPosition);
+
             convertView = (View) getLayoutInflater().from(context).inflate(
                     R.layout.address_expand_item_layout, null);
             TextView name = (TextView) convertView.findViewById(R.id.name);
             TextView phonenum = (TextView) convertView.findViewById(R.id.phonenum);
             TextView address = (TextView) convertView.findViewById(R.id.address);
             TextView postnum = (TextView) convertView.findViewById(R.id.postnum);
-            DeliveryAddressModel addressModel = group_list.get(groupPosition);
+
+            Button edit = (Button) convertView.findViewById(R.id.edit);
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    editDefaultAddress(addressModel);
+                }
+            });
+            Button delete = (Button) convertView.findViewById(R.id.delete);
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteAddress(addressModel);
+                }
+            });
+
             name.setText("姓名：" + addressModel.realName);
             phonenum.setText("电话：" + addressModel.mobile);
             address.setText("地址：" + addressModel.deliveryAddress);
@@ -405,7 +426,7 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
 //                                HashMap<String, Object> dataMap=DataTools.readData(AddressAtivity.this);
 //                                dataMap.put(Constant.DEFAUIT_ADDRESS,addressModel);
 //                                DataTools.writeData(AddressAtivity.this,dataMap);
-
+                            getAddress();
 
                             return;
                         } else {
@@ -442,7 +463,41 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
             Logout.d("e:" + e);
         }
     }
+    public void deleteAddress(DeliveryAddressModel addressModel) {
+        try {
+            Bundle param = new Bundle();
+            if(addressModel!=null) {
+                param.putString("id",addressModel.id );
+                param.putString("operator", "2");
+                reqData("/data/createDeliveryAdd.json", param, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        dialog.dismiss();
+                        Log.d("ouou", "response:" + response);
+                        try {
+                            JSONObject obj = response.getJSONObject("result");
+                            String code = obj.getString("code");
+                            if (RESPONSE_CODE.SUCCESS_CODE.equals(code)) {
+                                ToastTool.showText(AddressAtivity.this, obj.getString("msg"));
+                                getAddress();
+                                return;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
+                        dataError(error);
+                    }
+                }, this, false);
+            }
 
+        } catch (Exception e) {
+        }
+    }
     @Override
     protected void onActivityResult(int arg0, int arg1, Intent arg2) {
         super.onActivityResult(arg0, arg1, arg2);

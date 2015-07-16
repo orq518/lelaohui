@@ -90,8 +90,8 @@ public class AddAddressAtivity extends BaseNetActivity implements View.OnClickLi
             String userId = (String) map.get("userId");
             String merchantId = (String) map.get("merchantId");
             Bundle param = new Bundle();
-            param.putString("userId", userId);
-            param.putString("merchantId", merchantId);
+//            param.putString("userId", userId);
+//            param.putString("merchantId", merchantId);
             if(addressModel!=null){
                 param.putString("id",addressModel.id );
             }
