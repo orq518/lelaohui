@@ -134,7 +134,7 @@ public class MainActivity extends BaseNetActivity{
 					exitIntent = new Intent(MainActivity.this,HuoDongActivity.class);
 					break;
 				case 1:// 资讯
-					//exitIntent = new Intent(MainActivity.this,ZeXunActivity.class);
+					exitIntent = new Intent(MainActivity.this,NewsAtivity.class);
 					break;
 				case 2:// 探望
 					exitIntent = new Intent(MainActivity.this,VisitMainActivity.class);

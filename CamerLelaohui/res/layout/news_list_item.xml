@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/color_white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/news_im"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:src="@drawable/waimai"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/food_im"
+        android:text="土豆丝"
+        android:textColor="@color/color_black"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/subTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/food_name"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/food_im"
+        android:text="¥xx元"
+        android:textColor="@color/color_black"
+        android:textSize="14sp"/>
+
+
+</RelativeLayout>

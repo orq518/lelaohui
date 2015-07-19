@@ -154,7 +154,8 @@
         </activity>
         <activity android:name="com.llh.chat.MainActivity" >
         </activity>
-
+        <activity android:name="com.llh.camera.activity.NewsAtivity" >
+        </activity>
     </application>
 
 </manifest>
