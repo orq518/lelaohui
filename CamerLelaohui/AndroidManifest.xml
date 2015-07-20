@@ -156,6 +156,8 @@
         </activity>
         <activity android:name="com.llh.camera.activity.NewsAtivity" >
         </activity>
+        <activity android:name="com.llh.camera.activity.NewsDetailAtivity" >
+        </activity>
     </application>
 
 </manifest>

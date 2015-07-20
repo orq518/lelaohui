@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
@@ -46,11 +47,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsAtivity extends BaseNetActivity implements View.OnClickListener {
-    @ViewInject(id = R.id.left_btn, click = "onClick")
     List<NewsListModel> newlist = new ArrayList<NewsListModel>();
     NewsAdapter newsAdapter;
     ListView listView;
     TextView titlebar_text;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +61,18 @@ public class NewsAtivity extends BaseNetActivity implements View.OnClickListener
     public void initView() {
         titlebar_text = (TextView) findViewById(R.id.titlebar_text);
         titlebar_text.setText("资讯");
-        listView= (ListView) findViewById(R.id.listview);
-        newsAdapter=new NewsAdapter(this);
+        findViewById(R.id.left_btn).setOnClickListener(this);
+        listView = (ListView) findViewById(R.id.listview);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent= new Intent(NewsAtivity.this, NewsDetailAtivity.class);
+                intent.putExtra("newsmodel",newlist.get(position));
+                startActivity(intent);
+
+            }
+        });
+        newsAdapter = new NewsAdapter(this);
         listView.setAdapter(newsAdapter);
         getNewsList();
     }
@@ -70,9 +81,9 @@ public class NewsAtivity extends BaseNetActivity implements View.OnClickListener
 
 
         Bundle param = new Bundle();
-		param.putString("cateId", "61");
-		param.putString("page", "1");
-		param.putString("pageSize", "20");
+        param.putString("cateId", "61");
+        param.putString("page", "1");
+        param.putString("pageSize", "20");
 
         reqData("/data/nms/getNewsList.json", param, new Response.Listener<JSONObject>() {
             @Override
@@ -142,11 +153,15 @@ public class NewsAtivity extends BaseNetActivity implements View.OnClickListener
 //                ToastTool.showText(NewsAtivity.this, obj.getString("msg"));
 //                return;
 //            }
+            if(!"1".equals(code)){
+               ToastTool.showText(NewsAtivity.this, obj.getString("msg"));
+                return;
+            }
             Gson gson = new Gson();
             NewModel newlistModel = gson.fromJson(obj.toString(),
                     NewModel.class);
-            Logout.d("##newlistModel.rs:"+newlistModel.rs);
-            Logout.d("##newlistModel.rs:"+newlistModel.rs.size());
+            Logout.d("##newlistModel.rs:" + newlistModel.rs);
+            Logout.d("##newlistModel.rs:" + newlistModel.rs.size());
             newlist.clear();
             newlist.addAll(newlistModel.rs);
             newsAdapter.setData((ArrayList<NewsListModel>) newlist);
@@ -156,7 +171,6 @@ public class NewsAtivity extends BaseNetActivity implements View.OnClickListener
         }
 
     }
-
 
 
     @Override
@@ -201,7 +215,7 @@ public class NewsAtivity extends BaseNetActivity implements View.OnClickListener
         @Override
         public int getCount() {
 
-            Logout.d("array.size():"+array.size());
+            Logout.d("array.size():" + array.size());
             return array.size();
         }
 
@@ -222,12 +236,12 @@ public class NewsAtivity extends BaseNetActivity implements View.OnClickListener
                 convertView = inflater.inflate(R.layout.news_list_item, null);
                 holder = new ViewHolder();
                 convertView.setTag(holder);// 绑定ViewHolder对象
-                holder.title= (TextView) convertView.findViewById(R.id.title);
-                holder.subTitle= (TextView) convertView.findViewById(R.id.subTitle);
+                holder.title = (TextView) convertView.findViewById(R.id.title);
+                holder.subTitle = (TextView) convertView.findViewById(R.id.subTitle);
             } else {
                 holder = (ViewHolder) convertView.getTag();// 取出ViewHolder对象
             }
-            NewsListModel model=array.get(position);
+            NewsListModel model = array.get(position);
             holder.title.setText(model.title);
             holder.subTitle.setText(model.subTitle);
             return convertView;
