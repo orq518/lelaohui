@@ -420,7 +420,7 @@ public class AddressAtivity extends BaseNetActivity implements View.OnClickListe
                     try {
                         obj = response.getJSONObject("result");
                         String code = obj.getString("code");
-                        if (!RESPONSE_CODE.SUCCESS_CODE.equals(code)) {
+                        if (RESPONSE_CODE.SUCCESS_CODE.equals(code)) {
                             ToastTool.showText(AddressAtivity.this, obj.getString("msg"));
 
 //                                HashMap<String, Object> dataMap=DataTools.readData(AddressAtivity.this);

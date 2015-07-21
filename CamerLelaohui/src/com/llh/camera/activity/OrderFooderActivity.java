@@ -781,7 +781,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 FoodModel tempFoodModel = shopping_cart_List.get(i);
                 totlepeice = totlepeice + Float.parseFloat(tempFoodModel.proPrice) * tempFoodModel.buyNum;
             }
-            shop_car_total_msg.setText("总金额：" + totlepeice + "元");
+            double d = totlepeice;
+            String result = String.format("%.2f",d);
+            shop_car_total_msg.setText("总金额：" + result + "元");
         } else {
             shop_car_total_msg.setVisibility(View.VISIBLE);
             shop_car_total_msg.setText("您的购物车是空的");
