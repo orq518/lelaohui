@@ -758,6 +758,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 isAdded = true;
                 if (foodModel.buyNum <= 0) {
                     shopping_cart_List.remove(i);
+                    i--;
                 }
                 tempFoodModel.buyNum = foodModel.buyNum;
                 break;
@@ -784,12 +785,14 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             double d = totlepeice;
             String result = String.format("%.2f",d);
             shop_car_total_msg.setText("总金额：" + result + "元");
+            totle_price.setText("总金额：" + result + "元");
         } else {
             shop_car_total_msg.setVisibility(View.VISIBLE);
             shop_car_total_msg.setText("您的购物车是空的");
+            totle_price.setText("总金额：0元");
         }
 
-
+        shoppingAdapter.setData(shopping_cart_List);
     }
 
 
