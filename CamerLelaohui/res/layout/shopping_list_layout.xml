@@ -57,10 +57,29 @@
             android:text="地址:"
             android:textColor="@color/color_black"
             android:textSize="14sp"/>
-        <Button
-            android:id="@+id/commit_button"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="提交订单"/>
+        <RelativeLayout android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/commit_button"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="提交订单"/>
+            <Button
+                android:id="@+id/change_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="5dp"
+                android:text="更换地址"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/color_black"
+                android:textSize="14sp"/>
+        </RelativeLayout>
+
     </LinearLayout>
     <ListView
         android:id="@+id/food_listview"

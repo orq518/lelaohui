@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -32,6 +33,7 @@ import com.llh.adapter.FoodAdapter;
 import com.llh.adapter.OrderFoodTypeAdapter;
 import com.llh.adapter.ShoppingAdapter;
 import com.llh.base.BaseNetActivity;
+import com.llh.entity.DeliveryAddressListModel;
 import com.llh.entity.DeliveryAddressModel;
 import com.llh.entity.DietByCateIdModel;
 import com.llh.entity.FoodModel;
@@ -55,7 +57,11 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInterface, OnClickListener {
 
@@ -142,9 +148,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
     ShoppingAdapter shoppingAdapter;
 
     TextView food_num, address;
-    TextView totle_price,delete_all;
-    Button commit_button;
-//    /**
+    TextView totle_price, delete_all;
+    Button commit_button, change_address;
+    //    /**
 //     * 订餐的地址ID
 //     */
 //    String addId;
@@ -197,14 +203,16 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
     @Override
     public void initView() {
-
+        getDate();
 //        reqData(TODAY_FOOD);
 
         food_num = (TextView) findViewById(R.id.food_num);
         buy_list_Layout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.shopping_list_layout, null);// (RelativeLayout) findViewById(R.id.buy_list_Layout);
         commit_button = (Button) buy_list_Layout.findViewById(R.id.commit_button);
-        delete_all= (TextView) buy_list_Layout.findViewById(R.id.delete_all);
+        change_address = (Button) buy_list_Layout.findViewById(R.id.change_address);
+        delete_all = (TextView) buy_list_Layout.findViewById(R.id.delete_all);
         commit_button.setOnClickListener(this);
+        change_address.setOnClickListener(this);
         delete_all.setOnClickListener(this);
         address = (TextView) buy_list_Layout.findViewById(R.id.address);
         buy_listView = (ListView) buy_list_Layout.findViewById(R.id.food_listview);
@@ -235,6 +243,15 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         foodAdapter = new FoodAdapter(OrderFooderActivity.this);
         right_listview.setAdapter(foodAdapter);
         foodAdapter.registerCallBack(this);
+
+        //将可选内容与ArrayAdapter连接
+        ArrayAdapter  typeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dateStringArray);
+
+        //设置下拉列表的风格
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //将adapter添加到m_Spinner中
+        spnner.setAdapter(typeAdapter);
+
 
         spnner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -294,17 +311,17 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
             }
         });
-
-
+        //获取默认地址
+        getDefaultDeliveryAdd();
 //        //测试的
 //        addTestData();
     }
 
-    public void refreshShopButton(){
-        if(addressModel!=null) {
-            address.setText("地址："+addressModel.deliveryAddress+"\n电话："+addressModel.mobile);
+    public void refreshShopButton() {
+        if (addressModel != null) {
+            address.setText("默认地址：" + addressModel.deliveryAddress + "\n电话：" + addressModel.mobile);
             commit_button.setText("提交订单");
-        }else{
+        } else {
             address.setText("无地址");
             commit_button.setText("选择地址");
         }
@@ -312,7 +329,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
     MyPopupWindow foodDetailPOP;
 
-    public void showDetailPOP(FoodModel foodModel){
+    public void showDetailPOP(FoodModel foodModel) {
 
         LinearLayout foodDetailLayout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.food_detail_layout, null);
         TextView mealTime = (TextView) foodDetailLayout.findViewById(R.id.mealTime);
@@ -353,7 +370,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             image.setImageResource(R.drawable.waimai);
         }
 
-        foodDetailPOP = new MyPopupWindow(OrderFooderActivity.this, foodDetailLayout,1);
+        foodDetailPOP = new MyPopupWindow(OrderFooderActivity.this, foodDetailLayout, 1);
         //显示窗口
 //        foodDetailPOP.showAtLocation(OrderFooderActivity.this.findViewById(R.id.main_layout), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
         foodDetailPOP.showAtLocation(OrderFooderActivity.this.findViewById(R.id.main_layout), Gravity.CENTER, 0, 0);
@@ -434,9 +451,45 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         foodAdapter.setData(data);
     }
 
+    String[] dateStringArray = new String[3];
+
+    public void getDate() {
+        Date date = new Date();//取时间
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(calendar.DATE, 0);//
+        date = calendar.getTime(); //这个时间就是日期往后推一天的结果
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(date);
+        dateStringArray[0] = "今日:"+dateString;
+        date = new Date();//取时间
+        calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(calendar.DATE, 1);//把日期往后增加一天.整数往后推,负数往前移动
+        date = calendar.getTime(); //这个时间就是日期往后推一天的结果
+        formatter = new SimpleDateFormat("yyyy-MM-dd");
+        dateString = formatter.format(date);
+        dateStringArray[1] = "明日:"+dateString;
+
+        date = new Date();//取时间
+        calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(calendar.DATE, 2);//把日期往后增加2天.整数往后推,负数往前移动
+        date = calendar.getTime(); //这个时间就是日期往后推一天的结果
+        formatter = new SimpleDateFormat("yyyy-MM-dd");
+        dateString = formatter.format(date);
+        dateStringArray[2] = "后日:"+dateString;
+
+
+    }
 
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.change_address:
+                Intent intent = new Intent(OrderFooderActivity.this, AddressAtivity.class);
+                intent.putExtra("isFromCreatOrder", true);
+                startActivityForResult(intent, GETADDRESS);
+                break;
 
             case R.id.delete_all:
                 shopping_cart_List.clear();
@@ -548,6 +601,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 //            }
 //        }, this, false);
     }
+
     /**
      * 创建件订单
      */
@@ -646,7 +700,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             } else {
                 ToastTool.showText(this, resultObj.getString("msg"));
                 shopping_cart_List.clear();
-                if(shoppingPopupWindow !=null){
+                if (shoppingPopupWindow != null) {
                     shoppingPopupWindow.dismiss();
                 }
                 shoppingAdapter.notifyDataSetChanged();
@@ -764,7 +818,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 break;
             }
         }
-        if (!isAdded&&foodModel!=null) {
+        if (!isAdded && foodModel != null) {
             shopping_cart_List.add(foodModel);
         }
 
@@ -783,7 +837,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 totlepeice = totlepeice + Float.parseFloat(tempFoodModel.proPrice) * tempFoodModel.buyNum;
             }
             double d = totlepeice;
-            String result = String.format("%.2f",d);
+            String result = String.format("%.2f", d);
             shop_car_total_msg.setText("总金额：" + result + "元");
             totle_price.setText("总金额：" + result + "元");
         } else {
@@ -812,6 +866,56 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
     @Override
     protected void parserData(JSONObject response) {
+
+    }
+
+    public void getDefaultDeliveryAdd() {
+        //获取默认的地址
+        Bundle param = new Bundle();
+
+        reqData("/data/getDefaultDeliveryAdd.json", param, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+//                dialog.dismiss();
+                parserDefaultDeliveryAdd(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                dialog.dismiss();
+                dataError(error);
+            }
+        }, this, false, false);
+
+    }
+
+    /**
+     * 获取地址列表
+     *
+     * @param response
+     */
+    protected void parserDefaultDeliveryAdd(JSONObject response) {
+        Log.d("ouou", "response:" + response);
+        try {
+            JSONObject obj = response.getJSONObject("result");
+            String code = obj.getString("code");
+            if (!Constant.RESPONSE_CODE.SUCCESS_CODE.equals(code)) {
+                ToastTool.showText(OrderFooderActivity.this, obj.getString("msg"));
+                return;
+            }
+            Gson gson = new Gson();
+            DeliveryAddressListModel addressListModel = gson.fromJson(obj.toString(),
+                    DeliveryAddressListModel.class);
+
+            Log.d("ouou", "DietByCateIdModel:" + addressListModel.rs.size());
+
+            if (addressListModel.rs != null && addressListModel.rs.size() > 0) {
+                addressModel = addressListModel.rs.get(0);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 

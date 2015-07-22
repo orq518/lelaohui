@@ -42,7 +42,24 @@ public abstract class BaseNetActivity extends BaseActivity {
         netManager.reqData(action, param, responseListener, errorListener,
                 tag, isServcice);
     }
-
+    /**
+     * 另一种联网方式  by ou
+     * @param action
+     * @param param
+     * @param responseListener
+     * @param errorListener
+     * @param tag
+     * @param isServcice
+     */
+    protected void reqData(String action, Bundle param,
+                           Response.Listener<JSONObject> responseListener,
+                           Response.ErrorListener errorListener, Object tag, boolean isServcice,boolean isShowDialog) {
+        if(isShowDialog) {
+            dialog = CustomProgress.show(this, "正在努力加载中.....", true, null);
+        }
+        netManager.reqData(action, param, responseListener, errorListener,
+                tag, isServcice);
+    }
     private Response.ErrorListener errorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
@@ -52,7 +69,10 @@ public abstract class BaseNetActivity extends BaseActivity {
     private Response.Listener<JSONObject> responseListener = new Response.Listener<JSONObject>() {
         @Override
         public void onResponse(JSONObject response) {
-            dialog.dismiss();
+            if (dialog!=null){
+                dialog.dismiss();
+            }
+
             parserData(response);
         }
     };
