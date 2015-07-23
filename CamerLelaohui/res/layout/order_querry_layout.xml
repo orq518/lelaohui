@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:orientation="vertical">
 
     <include
         android:id="@+id/titlebar"
@@ -11,21 +11,14 @@
         android:layout_height="wrap_content"/>
     <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
-                  android:paddingLeft="20dp"
-                  android:orientation="horizontal">
+                  android:orientation="horizontal"
+                  android:paddingLeft="20dp">
         <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
                   android:layout_weight="1"
                   android:gravity="center"
                   android:paddingBottom="5dp"
                   android:paddingTop="5dp"
-                  android:text="订单号"
-                  android:textSize="14sp"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:gravity="center"
-                  android:paddingBottom="5dp"
-                  android:paddingTop="5dp"
-                  android:text="商品"
+                  android:text="商品名"
                   android:textSize="14sp"/>
         <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
                   android:layout_weight="1"
@@ -39,16 +32,13 @@
                   android:gravity="center"
                   android:paddingBottom="5dp"
                   android:paddingTop="5dp"
-                  android:text="日期"
-                  android:textSize="14sp"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:gravity="center"
-                  android:paddingBottom="5dp"
-                  android:paddingTop="5dp"
                   android:text="类型"
                   android:textSize="14sp"/>
     </LinearLayout>
+    <View android:layout_width="fill_parent"
+          android:layout_height="1dp"
+          android:background="@color/color_black"
+        />
     <ExpandableListView
         android:id="@+id/address_list"
         android:layout_width="fill_parent" android:layout_height="fill_parent">

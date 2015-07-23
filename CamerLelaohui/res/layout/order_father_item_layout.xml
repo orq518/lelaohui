@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:orientation="vertical"
               android:paddingLeft="35dp">
     <LinearLayout
@@ -10,16 +10,7 @@
         android:orientation="horizontal"
         android:paddingBottom="5dp"
         android:paddingTop="5dp">
-        <TextView
-            android:id="@+id/order_num"
-            android:layout_width="fill_parent" android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:singleLine="true"
-            android:text="123131223131"
-            android:textSize="15sp"/>
+
         <TextView
             android:id="@+id/goods"
             android:layout_width="fill_parent" android:layout_height="wrap_content"
@@ -40,16 +31,7 @@
             android:singleLine="true"
             android:text="100元"
             android:textSize="15sp"/>
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="fill_parent" android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:singleLine="true"
-            android:text="2015-1-1"
-            android:textSize="15sp"/>
+
         <TextView
             android:id="@+id/food"
             android:layout_width="fill_parent" android:layout_height="wrap_content"
@@ -64,16 +46,50 @@
     <RelativeLayout android:layout_width="fill_parent"
                     android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/pick_food_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:singleLine="true"
+            android:text="取餐日期"
+            android:textSize="15sp"/>
+        <TextView
+            android:id="@+id/order_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:layout_below="@id/pick_food_time"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:singleLine="true"
+            android:text="订单号"
+            android:textSize="15sp"/>
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/order_num"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:singleLine="true"
+            android:text="订单日期"
+            android:textSize="15sp"/>
+        <TextView
             android:id="@+id/order_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_below="@id/date"
             android:text="订单状态"/>
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_below="@id/order_num"
             android:focusable="false"
             android:text="取消"/>
     </RelativeLayout>

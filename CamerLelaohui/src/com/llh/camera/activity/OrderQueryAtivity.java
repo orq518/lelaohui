@@ -220,7 +220,7 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
                 groupHolder.food = (TextView) convertView.findViewById(R.id.food);
                 groupHolder.order_status = (TextView) convertView.findViewById(R.id.order_status);
                 groupHolder.btn_cancel = (Button) convertView.findViewById(R.id.btn_cancel);
-
+                groupHolder.pick_food_time = (Button) convertView.findViewById(R.id.pick_food_time);
                 convertView.setTag(groupHolder);
             } else {
                 groupHolder = (GroupHolder) convertView.getTag();
@@ -259,9 +259,15 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
                 groupHolder.btn_cancel.setText("");
                 groupHolder.btn_cancel.setOnClickListener(null);
             }
+            if(orderListModel.execTime!=null){
+                groupHolder.pick_food_time.setVisibility(View.VISIBLE);
+                groupHolder.pick_food_time.setText("取餐日期:"+orderListModel.execTime);
+            }else{
+                groupHolder.pick_food_time.setVisibility(View.GONE);
+            }
 
 
-            groupHolder.order_num.setText(orderListModel.orderCode);
+            groupHolder.order_num.setText("订单号:"+orderListModel.orderCode);
 //            0 单品 1 套餐 2 混合
             if (orderListModel.mealType.equals("0")) {
                 groupHolder.goods.setText("单品");
@@ -272,7 +278,7 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
             }
 
             groupHolder.amount.setText(orderListModel.proPrice);
-            groupHolder.date.setText(orderListModel.addTime);
+            groupHolder.date.setText("日期:"+orderListModel.addTime);
             //1(早餐),2(午餐),3(晚餐),4(夜加餐)
             if (orderListModel.mealTime.equals("1")) {
                 groupHolder.food.setText("早餐");
@@ -362,8 +368,8 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
         public TextView food;
         public TextView title;
         public Button btn_cancel;
+        public TextView pick_food_time;
         public TextView order_status;
-
 
     }
 

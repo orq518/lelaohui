@@ -27,13 +27,18 @@ public class FoodAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     OrderFoodInterface orderFoodInterface;
     Context context;
+    private final static String TODAY_FOOD = "0";
+    private final static String TOMORROW_FOOD = "1";
+    private final static String POSTNATAL_FOOD = "2";
+    private String isScope = TODAY_FOOD;
 
     public FoodAdapter(Context context) {
         inflater = LayoutInflater.from(MyApplication.getMyApplication());
         this.context = context;
     }
 
-    public void setData(ArrayList<FoodModel> data) {
+    public void setData(ArrayList<FoodModel> data, String isScope) {
+        this.isScope = isScope;
         array.clear();
         array.addAll(data);
         this.notifyDataSetChanged();
@@ -82,6 +87,12 @@ public class FoodAdapter extends BaseAdapter {
         holder.food_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if (isScope.equals(TODAY_FOOD) ) {
+//                    if(foodModel.mealTime.equals("1")&&){
+//                        return;
+//                    }
+//
+//                }
                 foodModel.buyNum++;
                 notifyDataSetChanged();
                 if (orderFoodInterface != null) {
@@ -103,7 +114,7 @@ public class FoodAdapter extends BaseAdapter {
             }
         });
         if (!utils.isEmpty(foodModel.proPic)) {
-            ImageManager.getInstance(context).getBitmap(NetManager.Ip+foodModel.proPic, new ImageManager.ImageCallBack() {
+            ImageManager.getInstance(context).getBitmap(NetManager.Ip + foodModel.proPic, new ImageManager.ImageCallBack() {
                 @Override
                 public void loadImage(ImageView imageView, Bitmap bitmap) {
                     if (bitmap != null && imageView != null) {

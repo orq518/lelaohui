@@ -90,9 +90,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
     @ViewInject(id = R.id.msg_toast)
     private ImageView msg_toast;
 
-    private final static String TODAY_FOOD = "0";
-    private final static String TOMORROW_FOOD = "1";
-    private final static String POSTNATAL_FOOD = "2";
+
 
     private final static String BREAK_FOOD = "1";
     private final static String LUNCH_FOOD = "2";
@@ -106,6 +104,10 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
     FoodAdapter foodAdapter;
     private int mealTime = 0;
     private String cacheKey = CACHE_KEY.FOOT_TODAY_KEY;
+
+    private final static String TODAY_FOOD = "0";
+    private final static String TOMORROW_FOOD = "1";
+    private final static String POSTNATAL_FOOD = "2";
     private String isScope = TODAY_FOOD;
 
     /**
@@ -245,7 +247,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         foodAdapter.registerCallBack(this);
 
         //将可选内容与ArrayAdapter连接
-        ArrayAdapter  typeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dateStringArray);
+        ArrayAdapter typeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dateStringArray);
 
         //设置下拉列表的风格
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -433,22 +435,22 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
 
         ArrayList<FoodModel> data = sortFood(foodType.get(0), mealTime);
-        foodAdapter.setData(data);
+        foodAdapter.setData(data,isScope);
 
     }
 
     private void initRightListData(String mealTime) {
         curMealTime = "" + this.mealTime;
         ArrayList<FoodModel> data = sortFood(curFoodType, mealTime);
-        for (int i = 0; i < shopping_cart_List.size(); i++) {
-            FoodModel foodModel = shopping_cart_List.get(i);
-            if (!foodModel.mealTime.equals(curMealTime)) {
-                shopping_cart_List.remove(i);
-                i--;
-            }
-
-        }
-        foodAdapter.setData(data);
+//        for (int i = 0; i < shopping_cart_List.size(); i++) {
+//            FoodModel foodModel = shopping_cart_List.get(i);
+//            if (!foodModel.mealTime.equals(curMealTime)) {
+//                shopping_cart_List.remove(i);
+//                i--;
+//            }
+//
+//        }
+        foodAdapter.setData(data,isScope);
     }
 
     String[] dateStringArray = new String[3];
@@ -461,7 +463,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         date = calendar.getTime(); //这个时间就是日期往后推一天的结果
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(date);
-        dateStringArray[0] = "今日:"+dateString;
+        dateStringArray[0] = "今日:" + dateString;
         date = new Date();//取时间
         calendar = new GregorianCalendar();
         calendar.setTime(date);
@@ -469,7 +471,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         date = calendar.getTime(); //这个时间就是日期往后推一天的结果
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         dateString = formatter.format(date);
-        dateStringArray[1] = "明日:"+dateString;
+        dateStringArray[1] = "明日:" + dateString;
 
         date = new Date();//取时间
         calendar = new GregorianCalendar();
@@ -478,7 +480,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         date = calendar.getTime(); //这个时间就是日期往后推一天的结果
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         dateString = formatter.format(date);
-        dateStringArray[2] = "后日:"+dateString;
+        dateStringArray[2] = "后日:" + dateString;
 
 
     }
@@ -498,7 +500,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 refreshShoppingList(null);
                 break;
             case R.id.commit_button:
-                createOrder();
+                createOrderSort();
                 break;
             case R.id.left_btn:
                 finish();
@@ -602,10 +604,56 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 //        }, this, false);
     }
 
+
+    public void createOrderSort() {
+        ArrayList<ArrayList<FoodModel>> foodTimeList = new ArrayList<ArrayList<FoodModel>>();
+        for (int i = 0; i < shopping_cart_List.size(); i++) {
+            FoodModel foodModel = shopping_cart_List.get(i);
+            if (foodTimeList.size() == 0) {
+                ArrayList<FoodModel> foodTypeList = new ArrayList<FoodModel>();
+                foodTypeList.add(foodModel);
+                foodTimeList.add(foodTypeList);
+            } else {
+                boolean isHave = false;
+                for (int j = 0; j < foodTimeList.size(); j++) {
+                    ArrayList<FoodModel> typeList = foodTimeList.get(j);
+                    if (foodModel.mealTime.equals(typeList.get(0).mealTime)) {
+                        typeList.add(foodModel);
+                        isHave = true;
+                        break;
+                    }
+                }
+                if (!isHave) {
+                    ArrayList<FoodModel> foodTypeList = new ArrayList<FoodModel>();
+                    foodTypeList.add(foodModel);
+                    foodTimeList.add(foodTypeList);
+                }
+            }
+
+        }
+        for (int i = 0; i < foodTimeList.size(); i++) {
+            ArrayList<FoodModel> shopping_List = foodTimeList.get(i);
+            if (shopping_List.size() > 0) {
+                if (i == shopping_List.size() - 1) {
+                    createOrder(shopping_List, true);
+                } else {
+                    createOrder(shopping_List, false);
+                }
+
+            }
+
+
+        }
+        if (foodTimeList.size() == 0) {
+            Toast.makeText(this, "您还未选择餐品", Toast.LENGTH_SHORT).show();
+            return;
+        }
+    }
+
     /**
      * 创建件订单
      */
-    public void createOrder() {
+    public void createOrder(ArrayList<FoodModel> shopping_cart_List, boolean isLast) {
         Logout.d("创建订单");
         try {
             if (shopping_cart_List.size() == 0) {
@@ -613,17 +661,6 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 return;
             }
 
-//            HashMap<String, Object> dataMap= DataTools.readData(this);
-//            DeliveryAddressModel addressModel=null;
-//            if(dataMap.get(Constant.DEFAUIT_ADDRESS)!=null){
-//                 addressModel= (DeliveryAddressModel) dataMap.get(Constant.DEFAUIT_ADDRESS);
-//            }
-//
-//            if (addressModel==null) {//没有默认地址
-//                Intent intent = new Intent(OrderFooderActivity.this, AddressAtivity.class);
-//                startActivityForResult(intent, GETADDRESS);
-//                return;
-//            }
             if (addressModel == null) {
                 Intent intent = new Intent(OrderFooderActivity.this, AddressAtivity.class);
                 intent.putExtra("isFromCreatOrder", true);
@@ -632,11 +669,11 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             }
 
             Bundle param = new Bundle();
-            param.putString("isDistr", "1");
+            param.putString("isDistr", "1");//是否配送 1:是  0：否
             param.putString("addId", addressModel.id);
-            param.putString("channel", "1");
-            param.putString("isScope", isScope);
-            param.putString("mealTime", curMealTime);
+            param.putString("channel", "1");//渠道： 0：pad订餐  1：手机订餐
+            param.putString("isScope", isScope);//今天 明天 后天
+            param.putString("mealTime", shopping_cart_List.get(0).mealTime);//餐饮时间段
 
 
             JSONArray jsonArray = new JSONArray();
@@ -653,20 +690,37 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
             Log.d("ouou", "jsonArray.toString():" + jsonArray.toString());
             param.putString("list", URLEncoder.encode(jsonArray.toString(), "UTF-8"));
-            reqData("/data/placeDiet.json", param, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    dialog.dismiss();
-                    parserCreatOrder(response);
-//                parserGetDietData(response);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    dialog.dismiss();
-                    dataError(error);
-                }
-            }, this, false);
+            if (isLast) {
+                reqData("/data/placeDiet.json", param, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        dialog.dismiss();
+                        parserCreatOrder(response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
+                        dataError(error);
+                    }
+                }, this, false);
+
+            } else {
+                reqData("/data/placeDiet.json", param, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        dialog.dismiss();
+                        parserCreatOrder(response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
+                        dataError(error);
+                    }
+                }, this, false, false);
+
+            }
 
         } catch (Exception e) {
         }
@@ -740,7 +794,6 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             Log.d("ouou", "DietByCateIdModel:" + foodModel.rs.size());
             totleFoodList.clear();
             totleFoodList.addAll(foodModel.rs);
-
             initLeftListData(curFoodType);
 
             // String code = resultObj.getString("code");

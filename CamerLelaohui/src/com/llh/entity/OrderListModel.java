@@ -22,6 +22,7 @@ public class OrderListModel extends BaseModel {
     public String  isScope;//	int	0 今天 1 明天 2 后天	餐饮时间
     public String  cancel;//	int	1 可以取消 0不能取消 2已取消	取消状态
     public String  payStatus;//	int 	0 未支付 1 已支付	支付状态
+    public String  execTime;//  取餐日期
     public ArrayList<WapDietInfoModel> wapDietInfoList	=new  ArrayList<WapDietInfoModel>();// 餐饮详情
 
 

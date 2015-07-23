@@ -47,4 +47,9 @@ public class FoodModel {
 	 */
 	public int buyNum;
 
+	/**
+	 * 今天还是明天后天的餐
+	 */
+	public String isScope;
+
 }
