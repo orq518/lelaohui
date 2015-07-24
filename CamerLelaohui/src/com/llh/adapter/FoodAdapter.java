@@ -1,10 +1,12 @@
 package com.llh.adapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import com.ipcamer.app.MyApplication;
 import com.ipcamer.demo.R;
+import com.llh.camera.activity.Logout;
 import com.llh.camera.activity.OrderQueryAtivity;
 import com.llh.entity.FoodModel;
 import com.llh.net.NetManager;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FoodAdapter extends BaseAdapter {
 
@@ -87,12 +90,25 @@ public class FoodAdapter extends BaseAdapter {
         holder.food_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (isScope.equals(TODAY_FOOD) ) {
-//                    if(foodModel.mealTime.equals("1")&&){
-//                        return;
-//                    }
-//
-//                }
+
+                if (isScope.equals(TODAY_FOOD)) {
+                    Calendar calendar = Calendar.getInstance();
+                    int hour = calendar.get(Calendar.HOUR);//小时
+                    int minute = calendar.get(Calendar.MINUTE);//分
+                    Logout.d("hour:" + hour);
+                    Logout.d("minute:" + minute);
+                    if (foodModel.mealTime.equals("1") && hour > 6 || (hour == 6 && minute > 30)) {
+                        Toast.makeText(context, "已过早餐订餐时间", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else if (foodModel.mealTime.equals("2") && hour > 10|| (hour == 10 && minute > 30)) {
+                        Toast.makeText(context, "已过午餐订餐时间", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else if (foodModel.mealTime.equals("3") && hour > 16|| (hour == 16 && minute > 30)) {
+                        Toast.makeText(context, "已过午餐订餐时间", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                }
                 foodModel.buyNum++;
                 notifyDataSetChanged();
                 if (orderFoodInterface != null) {

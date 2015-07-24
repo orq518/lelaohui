@@ -1,5 +1,7 @@
 package com.llh.camera.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -262,21 +264,94 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                                        int position, long id) {
                 switch (position) {
                     case 0:
-                        cacheKey = CACHE_KEY.FOOT_TODAY_KEY;
-                        isScope = TODAY_FOOD;
+                        if(isScope!=TODAY_FOOD&&shopping_cart_List.size()>0) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(OrderFooderActivity.this);
+                            builder.setMessage("您有当日已选购的餐饮，是否要放弃？");
+                            builder.setTitle("提示");
+                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    shopping_cart_List.clear();
+                                    refreshShoppingList(null);
+                                    cacheKey = CACHE_KEY.FOOT_TODAY_KEY;
+                                    isScope = TODAY_FOOD;
+                                    reqData(isScope);
+                                }
+                            });
+                            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                            builder.create().show();
+                        }else{
+                            cacheKey = CACHE_KEY.FOOT_TODAY_KEY;
+                            isScope = TODAY_FOOD;
+                            reqData(isScope);
+                        }
+
                         break;
                     case 1:
-                        cacheKey = CACHE_KEY.FOOT_TOMORROW_KEY;
-                        isScope = TOMORROW_FOOD;
+                        if(isScope!=TOMORROW_FOOD&&shopping_cart_List.size()>0) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(OrderFooderActivity.this);
+                            builder.setMessage("您有当日已选购的餐饮，是否要放弃？");
+                            builder.setTitle("提示");
+                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    shopping_cart_List.clear();
+                                    refreshShoppingList(null);
+                                    cacheKey = CACHE_KEY.FOOT_TOMORROW_KEY;
+                                    isScope = TOMORROW_FOOD;
+                                    reqData(isScope);
+                                }
+                            });
+                            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                            builder.create().show();
+                        }else{
+                            cacheKey = CACHE_KEY.FOOT_TOMORROW_KEY;
+                            isScope = TOMORROW_FOOD;
+                            reqData(isScope);
+                        }
+
                         break;
                     case 2:
-                        cacheKey = CACHE_KEY.FOOT_AFTERTOMORROW_KEY;
-                        isScope = POSTNATAL_FOOD;
+                        if(isScope!=POSTNATAL_FOOD&&shopping_cart_List.size()>0) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(OrderFooderActivity.this);
+                            builder.setMessage("您有当日已选购的餐饮，是否要放弃？");
+                            builder.setTitle("提示");
+                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    shopping_cart_List.clear();
+                                    refreshShoppingList(null);
+                                    cacheKey = CACHE_KEY.FOOT_AFTERTOMORROW_KEY;
+                                    isScope = POSTNATAL_FOOD;
+                                    reqData(isScope);
+                                }
+                            });
+                            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                            builder.create().show();
+                        }else{
+                            cacheKey = CACHE_KEY.FOOT_AFTERTOMORROW_KEY;
+                            isScope = POSTNATAL_FOOD;
+                            reqData(isScope);
+                        }
+
                         break;
                 }
-                // Log.d("ouou", "setOnItemSelectedListener");
-                // initLeftListData("" + mealTime);
-                reqData(isScope);
+//                reqData(isScope);
             }
 
             @Override

@@ -220,7 +220,7 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
                 groupHolder.food = (TextView) convertView.findViewById(R.id.food);
                 groupHolder.order_status = (TextView) convertView.findViewById(R.id.order_status);
                 groupHolder.btn_cancel = (Button) convertView.findViewById(R.id.btn_cancel);
-                groupHolder.pick_food_time = (Button) convertView.findViewById(R.id.pick_food_time);
+                groupHolder.pick_food_time = (TextView) convertView.findViewById(R.id.pick_food_time);
                 convertView.setTag(groupHolder);
             } else {
                 groupHolder = (GroupHolder) convertView.getTag();
@@ -278,7 +278,7 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
             }
 
             groupHolder.amount.setText(orderListModel.proPrice);
-            groupHolder.date.setText("日期:"+orderListModel.addTime);
+            groupHolder.date.setText("订单日期:"+orderListModel.addTime);
             //1(早餐),2(午餐),3(晚餐),4(夜加餐)
             if (orderListModel.mealTime.equals("1")) {
                 groupHolder.food.setText("早餐");
