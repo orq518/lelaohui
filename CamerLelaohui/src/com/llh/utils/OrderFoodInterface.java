@@ -8,4 +8,5 @@ import com.llh.entity.FoodModel;
 public interface OrderFoodInterface {
     public void callBack();
     public void refreshShoppingList(FoodModel foodModel);
+    public void refreshFoodList();
 }

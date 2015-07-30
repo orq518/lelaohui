@@ -40,6 +40,7 @@
                 android:button="@null"
                 android:checked="true"
                 android:text="早餐"
+                android:textSize="@dimen/text_18"
                 android:textColor="@color/grgray"/>
 
             <Button
@@ -49,6 +50,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/order_button_pressed"
                 android:text="午餐"
+                android:textSize="@dimen/text_18"
                 android:textColor="@color/grgray"/>
 
             <Button
@@ -58,6 +60,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/order_button_pressed"
                 android:text="晚餐"
+                android:textSize="@dimen/text_18"
                 android:textColor="@color/grgray"/>
         </LinearLayout>
 
@@ -123,6 +126,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="70dp"
                     android:text="您购物车是空的"
+                    android:textSize="@dimen/text_18"
                     android:textColor="@android:color/white"/>
 
                 <Button
@@ -131,6 +135,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:background="#FFF63201"
+                    android:textSize="@dimen/text_18"
                     android:text="选好了"/>
             </RelativeLayout>
 
@@ -150,7 +155,7 @@
                 android:layout_marginTop="2dp"
                 android:text="0"
                 android:textColor="@android:color/white"
-                android:textSize="12dp"/>
+                android:textSize="@dimen/text_14"/>
         </RelativeLayout>
 
        <!-- <include layout="@layout/shopping_list_layout"

@@ -289,6 +289,8 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
             } else if (orderListModel.mealTime.equals("4")) {
                 groupHolder.food.setText("夜加餐");
             }
+Logout.d("配送地址："+orderListModel.orderAddress);
+            Logout.d("是否配送："+orderListModel.IsDistr);
 
 
             return convertView;

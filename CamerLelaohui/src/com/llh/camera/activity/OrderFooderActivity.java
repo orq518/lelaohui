@@ -22,6 +22,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -93,7 +95,6 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
     private ImageView msg_toast;
 
 
-
     private final static String BREAK_FOOD = "1";
     private final static String LUNCH_FOOD = "2";
     private final static String DINNER_FOOD = "3";
@@ -104,7 +105,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
     OrderFoodTypeAdapter leftListAdapter;
     FoodAdapter foodAdapter;
-    private int mealTime = 0;
+    private int mealTime = 1;
     private String cacheKey = CACHE_KEY.FOOT_TODAY_KEY;
 
     private final static String TODAY_FOOD = "0";
@@ -154,6 +155,11 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
     TextView food_num, address;
     TextView totle_price, delete_all;
     Button commit_button, change_address;
+    TextView rightlist_tips;
+    /**
+     * 是否配送  0：否  1：配送
+     */
+    int peisongfangshi = 0;
     //    /**
 //     * 订餐的地址ID
 //     */
@@ -205,11 +211,14 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         return R.layout.order_food_layout;
     }
 
+    String curDate;
+    RadioGroup rg_distribution;
+
     @Override
     public void initView() {
         getDate();
 //        reqData(TODAY_FOOD);
-
+        rightlist_tips = (TextView) findViewById(R.id.rightlist_tips);
         food_num = (TextView) findViewById(R.id.food_num);
         buy_list_Layout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.shopping_list_layout, null);// (RelativeLayout) findViewById(R.id.buy_list_Layout);
         commit_button = (Button) buy_list_Layout.findViewById(R.id.commit_button);
@@ -264,7 +273,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                                        int position, long id) {
                 switch (position) {
                     case 0:
-                        if(isScope!=TODAY_FOOD&&shopping_cart_List.size()>0) {
+                        if (isScope != TODAY_FOOD && shopping_cart_List.size() > 0) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(OrderFooderActivity.this);
                             builder.setMessage("您有当日已选购的餐饮，是否要放弃？");
                             builder.setTitle("提示");
@@ -285,7 +294,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                                 }
                             });
                             builder.create().show();
-                        }else{
+                        } else {
                             cacheKey = CACHE_KEY.FOOT_TODAY_KEY;
                             isScope = TODAY_FOOD;
                             reqData(isScope);
@@ -293,7 +302,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
                         break;
                     case 1:
-                        if(isScope!=TOMORROW_FOOD&&shopping_cart_List.size()>0) {
+                        if (isScope != TOMORROW_FOOD && shopping_cart_List.size() > 0) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(OrderFooderActivity.this);
                             builder.setMessage("您有当日已选购的餐饮，是否要放弃？");
                             builder.setTitle("提示");
@@ -314,7 +323,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                                 }
                             });
                             builder.create().show();
-                        }else{
+                        } else {
                             cacheKey = CACHE_KEY.FOOT_TOMORROW_KEY;
                             isScope = TOMORROW_FOOD;
                             reqData(isScope);
@@ -322,7 +331,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
                         break;
                     case 2:
-                        if(isScope!=POSTNATAL_FOOD&&shopping_cart_List.size()>0) {
+                        if (isScope != POSTNATAL_FOOD && shopping_cart_List.size() > 0) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(OrderFooderActivity.this);
                             builder.setMessage("您有当日已选购的餐饮，是否要放弃？");
                             builder.setTitle("提示");
@@ -343,7 +352,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                                 }
                             });
                             builder.create().show();
-                        }else{
+                        } else {
                             cacheKey = CACHE_KEY.FOOT_AFTERTOMORROW_KEY;
                             isScope = POSTNATAL_FOOD;
                             reqData(isScope);
@@ -392,6 +401,24 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         getDefaultDeliveryAdd();
 //        //测试的
 //        addTestData();
+        rg_distribution = (RadioGroup) buy_list_Layout.findViewById(R.id.rg_distribution);
+        rg_distribution.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.dining_room) {//食堂
+                    address.setVisibility(View.GONE);
+                    peisongfangshi = 0;
+                    change_address.setVisibility(View.GONE);
+                } else if (checkedId == R.id.kuaidi) {//快递
+                    address.setVisibility(View.VISIBLE);
+                    change_address.setVisibility(View.VISIBLE);
+                    peisongfangshi = 1;
+                }
+
+            }
+        });
+        RadioButton shitang = (RadioButton) buy_list_Layout.findViewById(R.id.dining_room);
+        shitang.setChecked(true);
     }
 
     public void refreshShopButton() {
@@ -510,7 +537,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
 
         ArrayList<FoodModel> data = sortFood(foodType.get(0), mealTime);
-        foodAdapter.setData(data,isScope);
+        foodAdapter.setData(data, isScope);
 
     }
 
@@ -525,7 +552,7 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 //            }
 //
 //        }
-        foodAdapter.setData(data,isScope);
+        foodAdapter.setData(data, isScope);
     }
 
     String[] dateStringArray = new String[3];
@@ -569,6 +596,12 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 break;
 
             case R.id.delete_all:
+
+                for (int i = 0; i < shopping_cart_List.size(); i++) {
+                    FoodModel foodModel = shopping_cart_List.get(i);
+                    foodModel.buyNum = 0;
+                }
+                foodAdapter.notifyDataSetChanged();
                 shopping_cart_List.clear();
                 shoppingAdapter.notifyDataSetChanged();
                 shoppingPopupWindow.dismiss();
@@ -592,6 +625,9 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 dinner_btn.setClickable(true);
                 this.mealTime = 1;
                 initRightListData("" + mealTime);
+                int index = Integer.parseInt(isScope);
+                rightlist_tips.setText(dateStringArray[index] + " 早餐");
+//                dateStringArray
                 break;
             case R.id.lunch_btn:
                 lunch_btn.setTextColor(getResources().getColor(R.color.color_white));
@@ -605,6 +641,8 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 dinner_btn.setClickable(true);
                 this.mealTime = 2;
                 initRightListData("" + mealTime);
+                index = Integer.parseInt(isScope);
+                rightlist_tips.setText(dateStringArray[index] + " 午餐");
                 break;
             case R.id.dinner_btn:
                 dinner_btn.setTextColor(getResources().getColor(R.color.color_white));
@@ -618,6 +656,8 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 dinner_btn.setClickable(false);
                 this.mealTime = 3;
                 initRightListData("" + mealTime);
+                index = Integer.parseInt(isScope);
+                rightlist_tips.setText(dateStringArray[index] + " 晚餐");
                 break;
             case R.id.shop_car_commit://选好了
                 showShopListPoP();
@@ -744,8 +784,10 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             }
 
             Bundle param = new Bundle();
-            param.putString("isDistr", "1");//是否配送 1:是  0：否
-            param.putString("addId", addressModel.id);
+            param.putString("isDistr", "" + peisongfangshi);//是否配送 1:是  0：否
+            if (peisongfangshi != 0) {
+                param.putString("addId", addressModel.id);
+            }
             param.putString("channel", "1");//渠道： 0：pad订餐  1：手机订餐
             param.putString("isScope", isScope);//今天 明天 后天
             param.putString("mealTime", shopping_cart_List.get(0).mealTime);//餐饮时间段
@@ -828,6 +870,11 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
                 return;
             } else {
                 ToastTool.showText(this, resultObj.getString("msg"));
+                for (int i = 0; i < shopping_cart_List.size(); i++) {
+                    FoodModel foodModel = shopping_cart_List.get(i);
+                    foodModel.buyNum = 0;
+                }
+                foodAdapter.notifyDataSetChanged();
                 shopping_cart_List.clear();
                 if (shoppingPopupWindow != null) {
                     shoppingPopupWindow.dismiss();
@@ -870,15 +917,21 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             totleFoodList.clear();
             totleFoodList.addAll(foodModel.rs);
             initLeftListData(curFoodType);
+            int index = Integer.parseInt(isScope);
 
-            // String code = resultObj.getString("code");
-            // String serial = resultObj.getString("serial");
-            // String msg = resultObj.getString("msg");
-            // JSONArray rs = resultObj.getJSONArray("rs");
-            // ArrayList<Map<String, Object>> data = ParserTools
-            // .parserCommonTools(rs, serial);
-            // cacheDataMap.put(serial, data);
-            // setLeftListData(cacheKey, mealTime);
+            switch (this.mealTime) {
+                case 1:
+                    rightlist_tips.setText(dateStringArray[index] + " 早餐");
+                    break;
+                case 2:
+                    rightlist_tips.setText(dateStringArray[index] + " 午餐");
+                    break;
+                case 3:
+                    rightlist_tips.setText(dateStringArray[index] + " 晚餐");
+                    break;
+            }
+//
+//
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -929,6 +982,11 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
 
     @Override
     public void callBack() {
+    }
+
+    @Override
+    public void refreshFoodList() {
+        foodAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -73,6 +73,7 @@ public class ShoppingAdapter extends BaseAdapter {
 				notifyDataSetChanged();
 				if (orderFoodInterface != null) {
 					orderFoodInterface.refreshShoppingList(foodModel);
+					orderFoodInterface.refreshFoodList();
 				}
 			}
 		});
@@ -86,6 +87,7 @@ public class ShoppingAdapter extends BaseAdapter {
 				notifyDataSetChanged();
 				if (orderFoodInterface != null) {
 					orderFoodInterface.refreshShoppingList(foodModel);
+					orderFoodInterface.refreshFoodList();
 				}
 			}
 		});

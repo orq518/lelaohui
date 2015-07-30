@@ -37,4 +37,6 @@ public class Util {
 		final float scale = getScreenDensity(context);
 		return (int) (px * scale + 0.5);
 	}
+
+
 }

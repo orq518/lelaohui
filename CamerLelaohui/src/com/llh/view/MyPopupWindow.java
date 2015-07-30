@@ -33,7 +33,8 @@ public class MyPopupWindow extends PopupWindow {
         //设置SelectPicPopupWindow弹出窗体的宽
         this.setWidth(LayoutParams.FILL_PARENT);
         //设置SelectPicPopupWindow弹出窗体的高
-        this.setHeight(800);
+       int height= context.getResources().getDisplayMetrics().heightPixels;
+        this.setHeight(height*3/4);
         //设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
         //设置SelectPicPopupWindow弹出窗体动画效果
