@@ -1,5 +1,6 @@
 package com.llh.camera.activity;
 
+import java.net.URLEncoder;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -43,8 +44,9 @@ public class SettingActivity extends BaseNetActivity {
 		Map<String, Object> map = SysVar.getInstance(this).getUserInfo();
 		String realName = String.valueOf(map.get("realName"));
 		String userName = String.valueOf(map.get("userName"));
-		LogTool.i("realName = " + realName);
+
 		LogTool.i("userName = " + userName);
+		LogTool.d("@@realName = " + realName);
 		if (!realName.equals("null")) {
 			my_name.setText(realName);
 		} else {

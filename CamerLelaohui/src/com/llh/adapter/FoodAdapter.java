@@ -109,7 +109,7 @@ public class FoodAdapter extends BaseAdapter {
                         Toast.makeText(context, "已过午餐订餐时间", Toast.LENGTH_SHORT).show();
                         return;
                     } else if (foodModel.mealTime.equals("3") && hour > 16 || (hour == 16 && minute > 30)) {
-                        Toast.makeText(context, "已过午餐订餐时间", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "已过晚餐订餐时间", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }

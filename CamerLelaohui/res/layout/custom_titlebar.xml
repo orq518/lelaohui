@@ -44,7 +44,7 @@
             android:layout_weight="1.0"
             android:background="@color/touming_se"
             android:gravity="center"
-            android:text="摄像头"
+            android:text="wifi设置"
             android:textColor="@color/color_white"
             android:textSize="@dimen/text_14"
             android:visibility="invisible"
