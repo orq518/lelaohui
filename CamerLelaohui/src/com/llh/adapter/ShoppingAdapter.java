@@ -63,7 +63,16 @@ public class ShoppingAdapter extends BaseAdapter {
 		}
 
 		final FoodModel foodModel = array.get(position);
-		holder.food_name.setText(foodModel.proName);
+		if(foodModel.mealTime.equals("1")){
+			holder.food_name.setText("(早)"+foodModel.proName);
+		}else if(foodModel.mealTime.equals("2")){
+			holder.food_name.setText("(中)"+foodModel.proName);
+		}else if(foodModel.mealTime.equals("3")){
+			holder.food_name.setText("(晚)"+foodModel.proName);
+		}else{
+			holder.food_name.setText(foodModel.proName);
+		}
+//		holder.food_name.setText(foodModel.proName);
 		holder.food_price.setText("¥" + foodModel.proPrice + "元");
 		holder.food_num.setText(foodModel.buyNum + "");
 		holder.food_add.setOnClickListener(new View.OnClickListener() {

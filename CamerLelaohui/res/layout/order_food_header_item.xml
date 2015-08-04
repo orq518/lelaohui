@@ -13,5 +13,6 @@
             android:height="30dp"
             android:gravity="center_vertical"
             android:layout_marginLeft="5dp"
+            android:textSize="@dimen/text_12"
             android:textColor="@android:color/black"/>
 </LinearLayout>

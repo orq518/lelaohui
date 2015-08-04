@@ -6,21 +6,26 @@ import java.util.HashMap;
 
 import com.ipcamer.app.MyApplication;
 import com.ipcamer.demo.R;
+import com.llh.base.BaseActivity;
 import com.llh.camera.activity.Logout;
+import com.llh.camera.activity.OrderFooderActivity;
 import com.llh.camera.activity.OrderQueryAtivity;
 import com.llh.entity.FoodModel;
 import com.llh.net.NetManager;
 import com.llh.utils.ImageManager;
 import com.llh.utils.OrderFoodInterface;
 import com.llh.utils.utils;
+import com.llh.view.MyPopupWindow;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,21 +98,20 @@ public class FoodAdapter extends BaseAdapter {
 
                 if (isScope.equals(TODAY_FOOD)) {
                     Calendar calendar = Calendar.getInstance();
-                    int hour = calendar.get(Calendar.HOUR);//小时
+                    int hour = calendar.get(Calendar.HOUR_OF_DAY );//小时
                     int minute = calendar.get(Calendar.MINUTE);//分
                     Logout.d("hour:" + hour);
                     Logout.d("minute:" + minute);
                     if (foodModel.mealTime.equals("1") && hour > 6 || (hour == 6 && minute > 30)) {
                         Toast.makeText(context, "已过早餐订餐时间", Toast.LENGTH_SHORT).show();
                         return;
-                    } else if (foodModel.mealTime.equals("2") && hour > 10|| (hour == 10 && minute > 30)) {
+                    } else if (foodModel.mealTime.equals("2") && hour > 10 || (hour == 10 && minute > 30)) {
                         Toast.makeText(context, "已过午餐订餐时间", Toast.LENGTH_SHORT).show();
                         return;
-                    } else if (foodModel.mealTime.equals("3") && hour > 16|| (hour == 16 && minute > 30)) {
+                    } else if (foodModel.mealTime.equals("3") && hour > 16 || (hour == 16 && minute > 30)) {
                         Toast.makeText(context, "已过午餐订餐时间", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                 }
                 foodModel.buyNum++;
                 notifyDataSetChanged();
@@ -145,6 +149,30 @@ public class FoodAdapter extends BaseAdapter {
         } else {
             holder.food_im.setImageResource(R.drawable.waimai);
         }
+        holder.food_im.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MyPopupWindow foodDetailPOP;
+
+                ImageView imageView = new ImageView(context);
+                foodDetailPOP = new MyPopupWindow((BaseActivity)context, imageView, 1);
+                ImageManager.getInstance(context).getBitmap(NetManager.Ip + foodModel.proPic, new ImageManager.ImageCallBack() {
+                    @Override
+                    public void loadImage(ImageView imageView, Bitmap bitmap) {
+                        if (bitmap != null && imageView != null) {
+                            imageView.setImageBitmap(bitmap);
+                            imageView
+                                    .setScaleType(ImageView.ScaleType.FIT_XY);
+                        } else {
+                            imageView.setImageResource(R.drawable.waimai);
+                        }
+                    }
+                },imageView);
+                //显示窗口
+                foodDetailPOP.showAtLocation(((BaseActivity) context).getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+            }
+        });
         return convertView;
     }
 

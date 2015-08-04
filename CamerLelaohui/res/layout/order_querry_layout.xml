@@ -19,21 +19,21 @@
                   android:paddingBottom="5dp"
                   android:paddingTop="5dp"
                   android:text="商品名"
-                  android:textSize="14sp"/>
+                  android:textSize="@dimen/text_12"/>
         <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
                   android:layout_weight="1"
                   android:gravity="center"
                   android:paddingBottom="5dp"
                   android:paddingTop="5dp"
                   android:text="金额"
-                  android:textSize="14sp"/>
+                  android:textSize="@dimen/text_12"/>
         <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
                   android:layout_weight="1"
                   android:gravity="center"
                   android:paddingBottom="5dp"
                   android:paddingTop="5dp"
                   android:text="类型"
-                  android:textSize="14sp"/>
+                  android:textSize="@dimen/text_12"/>
     </LinearLayout>
     <View android:layout_width="fill_parent"
           android:layout_height="1dp"

@@ -18,21 +18,21 @@
                   android:paddingBottom="5dp"
                   android:paddingTop="5dp"
                   android:text="收件人"
-                  android:textSize="14sp"/>
+                  android:textSize="@dimen/text_12"/>
         <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
                   android:layout_weight="0.4"
                   android:gravity="center"
                   android:paddingBottom="5dp"
                   android:paddingTop="5dp"
                   android:text="地址"
-                  android:textSize="14sp"/>
+                  android:textSize="@dimen/text_12"/>
         <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
                   android:layout_weight="1"
                   android:gravity="center"
                   android:paddingBottom="5dp"
                   android:paddingTop="5dp"
                   android:text="操作"
-                  android:textSize="14sp"/>
+                  android:textSize="@dimen/text_12"/>
 
     </LinearLayout>
     <ExpandableListView

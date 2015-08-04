@@ -1,6 +1,7 @@
 package com.llh.camera.activity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -258,12 +259,12 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
         foodAdapter.registerCallBack(this);
 
         //将可选内容与ArrayAdapter连接
-        ArrayAdapter typeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dateStringArray);
-
+//        ArrayAdapter typeAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, dateStringArray);
+        SpinnerAdapter spinnerAdapter=new SpinnerAdapter(this,  dateStringArray);
         //设置下拉列表的风格
-        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //将adapter添加到m_Spinner中
-        spnner.setAdapter(typeAdapter);
+        spnner.setAdapter(spinnerAdapter);
 
 
         spnner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -1005,7 +1006,18 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             }
         }
         if (!isAdded && foodModel != null) {
-            shopping_cart_List.add(foodModel);
+            boolean isAdded2 = false;
+            for (int i = 0; i < shopping_cart_List.size(); i++) {
+                FoodModel tempFoodModel = shopping_cart_List.get(i);
+                if (tempFoodModel.mealTime.equals(foodModel.mealTime)) {
+                    shopping_cart_List.add(foodModel);
+                    isAdded2 = true;
+                    break;
+                }
+            }
+            if (!isAdded2) {
+                shopping_cart_List.add(foodModel);
+            }
         }
 
         int num = 0;
@@ -1119,5 +1131,44 @@ public class OrderFooderActivity extends BaseNetActivity implements OrderFoodInt
             }
 
         }
+    }
+    public class SpinnerAdapter extends ArrayAdapter<String> {
+        private Context mContext;
+        private String [] mStringArray;
+        public SpinnerAdapter(Context context, String[] stringArray) {
+            super(context, R.layout.spinner_layout, stringArray);
+            mContext = context;
+            mStringArray=stringArray;
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            //修改Spinner展开后的字体颜色
+            if (convertView == null) {
+                LayoutInflater inflater = LayoutInflater.from(mContext);
+                convertView = inflater.inflate(R.layout.spinner_layout, parent,false);
+            }
+
+//            //此处text1是Spinner默认的用来显示文字的TextView
+            TextView tv = (TextView) convertView.findViewById(R.id.spinner_tv);
+            tv.setText(mStringArray[position]);
+            return convertView;
+
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // 修改Spinner选择后结果的字体颜色
+            if (convertView == null) {
+                LayoutInflater inflater = LayoutInflater.from(mContext);
+                convertView = inflater.inflate(R.layout.spinner_layout_default, parent, false);
+            }
+
+            //此处text1是Spinner默认的用来显示文字的TextView
+            TextView tv = (TextView) convertView.findViewById(R.id.spinner_tv);
+            tv.setText(mStringArray[position]);
+            return convertView;
+        }
+
     }
 }
