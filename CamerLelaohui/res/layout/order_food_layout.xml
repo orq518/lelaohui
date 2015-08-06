@@ -91,6 +91,8 @@
                     android:id="@+id/rightlist_tips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:padding="5dp"
                     android:text="今天 早餐"
                     android:textSize="@dimen/text_14"

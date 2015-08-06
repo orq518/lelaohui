@@ -132,7 +132,7 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
             String code = obj.getString("code");
             serial = obj.getString("serial");
             if (!RESPONSE_CODE.SUCCESS_CODE.equals(code)) {
-                ToastTool.showText(OrderQueryAtivity.this, obj.getString("msg"));
+//                ToastTool.showText(OrderQueryAtivity.this, obj.getString("msg"));
                 return;
             }
             Gson gson = new Gson();

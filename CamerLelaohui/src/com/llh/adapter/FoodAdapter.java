@@ -102,13 +102,13 @@ public class FoodAdapter extends BaseAdapter {
                     int minute = calendar.get(Calendar.MINUTE);//分
                     Logout.d("hour:" + hour);
                     Logout.d("minute:" + minute);
-                    if (foodModel.mealTime.equals("1") && hour > 6 || (hour == 6 && minute > 30)) {
+                    if (foodModel.mealTime.equals("1") &&(hour > 6 || (hour == 6 && minute > 30))) {
                         Toast.makeText(context, "已过早餐订餐时间", Toast.LENGTH_SHORT).show();
                         return;
-                    } else if (foodModel.mealTime.equals("2") && hour > 10 || (hour == 10 && minute > 30)) {
+                    } else if (foodModel.mealTime.equals("2") && (hour > 10 || (hour == 10 && minute > 30))) {
                         Toast.makeText(context, "已过午餐订餐时间", Toast.LENGTH_SHORT).show();
                         return;
-                    } else if (foodModel.mealTime.equals("3") && hour > 16 || (hour == 16 && minute > 30)) {
+                    } else if (foodModel.mealTime.equals("3") && (hour > 16 || (hour == 16 && minute > 30))) {
                         Toast.makeText(context, "已过晚餐订餐时间", Toast.LENGTH_SHORT).show();
                         return;
                     }
