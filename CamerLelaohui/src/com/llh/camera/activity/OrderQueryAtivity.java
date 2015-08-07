@@ -74,6 +74,7 @@ public class OrderQueryAtivity extends BaseNetActivity implements View.OnClickLi
         addressList = (ExpandableListView) findViewById(R.id.address_list);
         adapter = new MyExpandableListViewAdapter(this);
         addressList.setAdapter(adapter);
+        addressList.setDividerHeight(25);
     }
 
     public void querryorder() {
